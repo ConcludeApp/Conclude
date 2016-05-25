@@ -1,0 +1,48 @@
+.pre-auth
+  height 100%
+  padding 0
+  .columns
+    display flex
+    height 100%
+    margin-top 0
+    .l-col,
+    .r-col
+      flex-grow 1
+      padding $padding
+      height 100%
+      width 100%
+  .auth-form
+    align-items center
+    display flex
+    flex-direction column
+    justify-content center
+    form
+      clear both
+      margin-top ($padding * 2)
+      max-width 350px
+      width 100%
+      .error-message
+        background-color rgba(#DE4A31, 0.2)
+        // border 1px solid #DE4A31
+        border-radius 2px
+        color #DE4A31
+        font-size 13px
+        line-height 40px
+        padding 0 ($padding / 2)
+        text-align center
+      .form-action
+        margin-top ($padding + 10)
+      .btn-google
+        background-color #DE4A31
+      .forgot
+        color $c-gray
+        display block
+        font-size 10px
+        margin-top ($padding / 2)
+        text-align center
+        text-decoration underline
+        &:hover
+          color darken($c-gray, 20%)
+  .has-background
+    background $c-gray url("/assets/images/auth.png") no-repeat center right
+    background-size cover

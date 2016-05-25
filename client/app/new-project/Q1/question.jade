@@ -1,0 +1,49 @@
+.new-project
+  header.header
+    .header-action: span.icon.ti-menu
+    .header-title Start a New Project
+    .header-nav: ul
+      li(ng-show="NewProject.project") Test
+      li &nbsp;
+        //- span.icon.ti-trash
+  ui-view
+    .container
+      form(name="NewProject")
+        #question-1
+          span.question What category, subcategory, and/or product will we cover with this research?
+          hr
+          .row
+            .col.l-col
+              .input-group(data-label="CATEGORY")
+                input.form-control.tr-title(type="text", 
+                  placeholder="Category...",
+                  ng-model="category_search",
+                  uib-typeahead="category as category.pretty for category in $categories | filter: category_search | limitTo: 8",
+                  typeahead-on-select="$project.taxonomy.category = category_search._id",
+                  ng-required="!($project.taxonomy.category.length || $project.taxonomy.subcategory.length || $project.taxonomy.product.length)")
+              .input-group(data-label="SUBCATEGORY")
+                input.form-control.tr-title(type="text",
+                  placeholder="Subcategory...",
+                  ng-model="subcategory_search",
+                  uib-typeahead="subcategory as subcategory.pretty for subcategory in $subcategories | filter: subcategory_search | limitTo: 8",
+                  typeahead-on-select="$project.taxonomy.subcategory = subcategory_search._id",
+                  ng-required="!($project.taxonomy.category.length || $project.taxonomy.subcategory.length || $project.taxonomy.product.length)")
+              .input-group(data-label="PRODUCT")
+                input.form-control.tr-title(type="text",
+                  placeholder="Product...",
+                  ng-model="product_search",
+                  uib-typeahead="product as product.title for product in $products | filter: product_search | limitTo: 8",
+                  typeahead-on-select="$project.taxonomy.product = product_search._id",
+                  ng-required="!($project.taxonomy.category.length || $project.taxonomy.subcategory.length || $project.taxonomy.product.length)")
+            .col.r-col: .related
+              span.title RELATED RESEARCH
+              ul.list-bullet
+                li XYZ Usability Study
+                  span.date LAST UPDATED - 02/18/2016
+                li XYZ Usability Study
+                  span.date LAST UPDATED - 02/18/2016
+                li XYZ Usability Study
+                  span.date LAST UPDATED - 02/18/2016
+        footer.new-project-footer
+          a.btn.btn-base(style="opacity: 0.25") BACK
+          button.btn.pull-right(ui-sref=".Q2", ng-class="{'btn-primary': NewProject.$valid}", ng-disabled="NewProject.$invalid", type="submit") NEXT

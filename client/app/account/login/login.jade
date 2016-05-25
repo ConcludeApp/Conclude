@@ -1,0 +1,29 @@
+//- 
+  p
+    | Accounts are reset on server restart from
+    code server/config/seed.js
+    | . Default account is
+    code test@example.com
+    | /
+    code test
+  p
+    | Admin account is
+    code admin@example.com
+    | /
+    code admin
+.pre-auth
+  .columns
+    .l-col.auth-form
+      img(src="/assets/images/logo_vert.png")
+      form(name="form", ng-submit="vm.login(form)", novalidate="true")
+        .input-group(ng-show='(form.email.$error.required && form.password.$error.required && vm.submitted) || vm.errors.other')
+          .error-message(ng-hide="vm.errors.other") Please fix any errors and try again.
+          .error-message(ng-show="vm.errors.other") {{ vm.errors.other }}
+        .input-group: input.form-control(type="text", placeholder="Email Address", ng-model="vm.user.email")
+        .input-group: input.form-control(type="password", placeholder="Password", ng-model="vm.user.password")
+        .flex-row.form-action
+          .col
+            oauth-buttons(classes='btn-block')
+          .col: button.btn.btn-primary(type="submit") SIGN IN
+        a.forgot(href="#") Forgot Password?
+    .r-col.has-background

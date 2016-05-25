@@ -1,0 +1,58 @@
+//
+// App-wide Styles
+//
+.unsupported-browser
+  background #ccc
+  color #000
+  margin 0.2em 0
+  padding 0.2em 0
+
+// Responsive: Portrait tablets and up
+// @media screen and (min-width: 768px)
+  // .container
+    // max-width 730px
+      
+
+@import '../assets/styles/_vars'
+@import '../assets/styles/_utilities'
+@import '../assets/styles/_auth'
+@import '../assets/styles/_forms'
+@import '../assets/styles/_header'
+
+/* inject:styl */
+@import 'admin/admin';
+@import 'main/main';
+@import 'new-project/new-project';
+@import 'project/project';
+@import '../components/footer/footer';
+/* endinject */
+
+*
+  box-sizing border-box
+  
+html,
+body,
+[ui-view]
+  height 100%
+  
+body
+  color $c-copy
+  font-family $fn-primary
+  
+[ng-click]
+  cursor pointer
+  
+.card
+  background white
+  border 1px solid $c-light-gray
+  box-shadow 0 1px 4px rgba(#3F4E5A, 0.1)
+  border-radius 2px
+  
+.page-fade
+  background linear-gradient(rgba(white, 0), white)
+  bottom 40px
+  height 15%
+  left 0
+  pointer-events none
+  position fixed
+  width 100%

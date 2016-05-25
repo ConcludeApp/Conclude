@@ -1,0 +1,271 @@
+header.header
+  .header-action: span.icon.ti-menu
+  .header-title {{$prjct.project.title}}
+  .header-nav: ul.icons
+    li: a(href="#"): span.ti-pencil-alt
+    li(ng-class="{active: $prjct.share}")
+      a(ng-click="$prjct.share = !$prjct.share", ng-class="{active: $prjct.share}"): span.ti-share
+      .hidden-menu(ng-click="$event.stopPropagation()"): div(share:project)
+    li: a(href="#"): span.ti-bell
+    li: a(href="#"): span.ti-info-alt
+    li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-plus
+
+nav.project-nav
+  ul
+    li(data-section="0", x-project-menu, ng-class="{complete: $prjct.project.title && $prjct.project.summary}"): a(href="#section-0", du-smooth-scroll) Overview
+    li(data-section="1", x-project-menu, ng-class="{complete: $prjct.project.overview}"): a(href="#section-1", du-smooth-scroll) Summary &amp; Background
+    li(data-section="2", x-project-menu, ng-class="{complete: $prjct.project.goals.length}"): a(href="#section-2", du-smooth-scroll) Project Goals
+    li(data-section="3", x-project-menu, ng-class="{complete: $prjct.project.questions.length}"): a(href="#section-3", du-smooth-scroll) Questions Considered
+    li(data-section="4", x-project-menu, ng-class="{complete: $prjct.project.findings.length}"): a(href="#section-4", du-smooth-scroll) Key Findings
+    li(data-section="5", x-project-menu, ng-class="{complete: $prjct.project.quotes.length}"): a(href="#section-5", du-smooth-scroll) Direct Quotes
+    li(data-section="6", x-project-menu, ng-class="{complete: $prjct.project.personas.length}"): a(href="#section-6", du-smooth-scroll) Personas
+    li(data-section="7", x-project-menu, ng-class="{complete: $prjct.project.decisions.length}"): a(href="#section-7", du-smooth-scroll) Decisions
+    li(data-section="8", x-project-menu, ng-class="{complete: $prjct.project.implications.length}"): a(href="#section-8", du-smooth-scroll) Implications
+
+.container
+  .project-content
+    .card.progress-card: .flex-row
+      .item.main
+        .progress-bar
+          .pb_label 30% Complete
+          .pb_meter: .pb_meter_progress(style="width: 30%")
+      .item
+        .badge 12
+        span.ti-files
+        .title Resources
+      .item
+        .badge 3
+        span.ti-check-box
+        .title Tasks
+    .project-title#section-0
+      p.project-cat USABILITY PROJECT
+      h1 {{$prjct.project.title}}
+      br
+      p {{$prjct.project.summary}}
+      br
+      ul.attachments
+        li: a(href="#")
+          i.icon.icon-recording
+          | Complete Research
+        li: a(href="#")
+          i.icon.icon-document
+          | Customer Calls Recordings
+        li: a(href="#")
+          i.icon.icon-pdf
+          | Call Scripts
+      hr
+    section.project-content_section#section-1
+      h2 Summary &amp; Background
+      p {{$prjct.project.overview}}
+    section.project-content_section.project-goal#section-2
+      h2 Project Goals
+      .content: ul
+        li(ng-repeat="goal in $prjct.project.goals")
+          .item-label.primary(data-content="{{goal.primary ? 'P' : 'S'}}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
+          p {{goal.description}}
+    section.project-content_section.questions-considered#section-3
+      h2 Questions Considered
+      .content: ul
+        li(ng-repeat="q in $prjct.project.questions")
+          .item-label: span.icon.ti-angle-down
+          h3 {{q.question}}
+          p {{q.description}}
+          p.note LAST UPDATED - {{q.timestamp.updatedAt | date: 'MM/dd/yyyy'}}
+    section.project-content_section.key-findings#section-4(ng-class="{'empty': !$prjct.project.findings.length}")
+      h2 Key Findings
+      .content(ng-show="$prjct.project.findings.length"): ul
+        li(ng-repeat="f in $prjct.project.findings")
+          .item-label(data-content="JD"): .item-description John Doe
+          h3 {{f.title}}
+          p {{f.description}}
+          p.note LAST UPDATED - {{f.updated | date: 'MM/dd/yyyy'}}}}
+      .content(ng-hide="$prjct.project.findings.length")
+        ul
+          li
+            .item-label
+            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+            p.note: span(style="height: 8px; width: 15%")
+          li
+            .item-label
+            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+            p.note: span(style="height: 8px; width: 15%")
+          li
+            .item-label
+            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+            p.note: span(style="height: 8px; width: 15%")
+        .add: .overlay: a.btn.btn-sm.btn-primary ADD KEY FINDINGS
+    section.project-content_section.key-findings#section-5(ng-class="{empty: !$prjct.project.quotes.length}")
+      h2 Direct Quotes
+      .content(ng-show="$prjct.project.quotes.length")
+        .quote(ng-repeat="quote in $prjct.project.quotes")
+          i.icon.ti-quote-left
+          .quote-meta {{quote.source}}
+          .quote-content {{quote.quote}}
+          .quote-author
+            .qa-photo(style="background-image: url({{quote.author.photo}})")
+            .qa-content 
+              .qa-name {{quote.author.name}}
+              .qa-title {{quote.author.title}}
+      .content(ng-hide="$prjct.project.quotes.length")
+        .quote
+          i.icon.ti-quote-left
+          .quote-meta
+            span(style="height: 8px; display: inline-block; width: 10%; margin-right: 5px")
+            span(style="height: 8px; display: inline-block; width: 10%")
+          .quote-content
+            span(style="height: 8px; display: block; width: 100%; margin-bottom: 8px")
+            span(style="height: 8px; display: block; width: 80%; margin-bottom: 8px")
+            span(style="height: 8px; display: block; width: 60%; margin-bottom: 8px")
+          .quote-author
+            .qa-photo(style="background-image: url({{quote.author.photo}})")
+            .qa-content 
+              .qa-name: span(style="height: 12px; display: inline-block; width: 20%")
+              .qa-title: span(style="height: 8px; display: inline-block; width: 10%")
+        .add: .overlay: a.btn.btn-sm.btn-primary ADD DIRECT QUOTES
+    section.project-content_section.personas#section-6
+      h2 Personas
+      .content.group
+        .persona.primary(ng-repeat="persona in $prjct.project.personas")
+          .persona-header(style="background-image: url({{persona.photo}})")
+            .persona-header_tag(ng-show="persona.primary") PRIMARY
+            .persona-header_name {{persona.name}}
+            .persona-header_title {{persona.title}}
+          .persona-content {{persona.description|limitTo:150}}{{persona.description.length > 150 ? '...' : null}}
+    section.project-content_section.decisions#section-7(ng-class="{empty: !$prjct.project.decisions.length}")
+      h2 Decisions
+      .content(ng-show="$prjct.project.decisions.length")
+        ul
+          li(ng-repeat="d in $prjct.project.decisions")
+            .item-label: span.icon.zmdi-check
+            h3 {{d.title}}
+            p {{d.description}}
+            p.note LAST UPDATED - {{d.updated | date: 'MM/dd/yyyy'}}}}
+      .content(ng-hide="$prjct.project.decisions.length")
+        ul
+          li
+            .item-label
+            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+            p.note: span(style="height: 8px; width: 15%")
+          li
+            .item-label
+            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+            p.note: span(style="height: 8px; width: 15%")
+          li
+            .item-label
+            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+            p.note: span(style="height: 8px; width: 15%")
+        .add: .overlay: a.btn.btn-sm.btn-primary ADD DECISIONS
+    section.project-content_section.implications.empty#section-8
+      h2 Implications
+      .content(ng-hide="$pjct.project.implications.length"): .wrap
+        ul.nav
+          li Sales
+          li Support
+          li Design
+          li Product
+          li Marketing
+        .tab
+          strong(style="margin-bottom: 15px;"): .group
+            //- span.icon.ti-headphone-alt
+            span.icon
+            //- | Support Implications
+            span(style="height: 14px; width: 40%; margin-left: 35px; margin-top: 4px")
+          p
+            span(style="height: 8px; width: 100%; margin-bottom: 10px")
+            span(style="height: 8px; width: 100%; margin-bottom: 10px")
+            span(style="height: 8px; width: 60%; margin-bottom: 10px")
+          p
+            span(style="height: 8px; width: 100%; margin-bottom: 10px")
+            span(style="height: 8px; width: 100%; margin-bottom: 10px")
+            span(style="height: 8px; width: 60%; margin-bottom: 20px")
+          .add: .overlay: a.btn.btn-sm.btn-primary ADD IMPLICATIONS
+    .page-fade(style="bottom: 0")
+
+//-
+  - Sidebar
+  - @TODO: Move to Module, import from there
+aside.sidebar#sidebar(ng-class="{show: $prjct.ShowSidebar}", onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';")
+  .sidebar_section  
+    h4 The Basics
+    .sc_row
+      p.label STATUS
+      .flex-row(style="margin-top: 10px")
+        .status.past
+          .status-bar
+          .status-label Planning
+        .status.active
+          .status-bar
+          .status-label In Progress
+        .status
+          .status-bar
+          .status-label Complete
+    .sc_row
+      p.label CONDUCTED BY
+      .select.input-group
+        i.angle-down
+        select(disabled)
+          option John Doe - UX Researcher
+          option John Doe - UX Researcher
+          option John Doe - UX Researcher
+      .flex-row
+        .input-block
+          p.label LAST UPDATED
+          span {{$prjct.project.timestamp.updatedAt | date: 'MMM d, yyyy'}}
+        .input-block
+          p.label CREATED
+          span {{$prjct.project.timestamp.createdAt | date: 'MMM d, yyyy'}}
+  .sidebar_section
+    h4 Resources / Files
+    .sc_row
+      ul
+        li: a(href="#") Complete Research
+        li: a(href="#") Customer Calls Recording
+        li: a(href="#") Call Scripts
+  .sidebar_section
+    h4 Tags
+    .sc_row
+      p.label CATEGORY
+      input(type="text", ng-model="$prjct.project.taxonomy.category.pretty", disabled)
+    .sc_row
+      p.label SUBCATEGORY
+      input(type="text", ng-model="$prjct.project.taxonomy.subcategory.pretty", disabled)
+    .sc_row
+      p.label TAGS
+      .tags-row
+        span.tag(ng-repeat="tag in $prjct.project.taxonomy.tags") {{tag.pretty}}
+        span(ng-show="$prjct.project.taxonomy.tags.length <= 0"): small(style="display: block; padding: 0 5px") No tags to show.
+  .sidebar_section
+    h4 Methodologies
+    .sc_row
+      ul.list-bullet
+        li Contextual Task Analysis
+        li Usability Testing
+        li User Experience Modeling
+  .sidebar_section
+    h4 Links
+    .sc_row
+      ul.list-links
+        li: a(href="#") 15 Usability Best Practices for Popup Modals in Enterprise Applications
+        li: a(href="#") Case Study: How Turbo Tax Tricks Users Into Completing Complex Flows
+  .sidebar_section
+    h4 Retrospective
+    .sc_row
+      textarea(rows=4)
+      .group
+        input.pull-right(type="submit", value="ADD COMMENT")
+    .sc_row.comments
+      .input-block.comment
+        p One of the things we could have done better was tweaking the script a bit in advance to be more contextually relevant to our specific project.
+        span.name Jenni Pedersen

@@ -1,0 +1,52 @@
+.container
+  form#question-2(name="q2")
+    span.question When do you need your research insights by?
+    hr
+    .row
+      .col.l-col
+        .date-picker.flex-row
+          .m
+            label MONTH
+            .select
+              span.ti-angle-down
+              ui-select(ng-model="$project.endDate.month", class="form-control", title="Month", theme="bootstrap", ng-required="$project.endDate")
+                ui-select-match(placeholder="Month...") {{$select.selected.label}}
+                ui-select-choices(repeat="month.value as month in months | filter: {label: $select.search}")
+                  p {{month.label}}
+              //- select.form-control
+                option December
+              //- ul.dropdown-menu
+                li December
+                li November
+          .d
+            label DAY
+            .select
+              span.ti-angle-down
+              ui-select(ng-model="$project.endDate.day", class="form-control", title="Month", theme="bootstrap", ng-required="$project.endDate")
+                ui-select-match(placeholder="Day...") {{$select.selected.label}}
+                ui-select-choices(repeat="day.value as day in days | filter: {label: $select.search}")
+                  p {{day.label}}
+          .y
+            label YEAR
+            .select
+              span.ti-angle-down
+              input(type="hidden", ng-model="$project.endDate.year", ng-required="$project.endDate.year")
+              ui-select(ng-model="$project.endDate.year", class="form-control", title="Month", theme="bootstrap")
+                ui-select-match(placeholder="Year...") {{$select.selected.label}}
+                ui-select-choices(repeat="year.label as year in years | filter: {label: $select.search}")
+                  p {{year.label}}
+      .col.r-col: .related
+        span.title RELATED RESEARCH
+        ul.list-bullet
+          li XYZ Usability Study
+            span.date LAST UPDATED - 02/18/2016
+          li XYZ Usability Study
+            span.date LAST UPDATED - 02/18/2016
+          li XYZ Usability Study
+            span.date LAST UPDATED - 02/18/2016
+    footer.new-project-footer
+      a.btn.btn-base(ui-sref="^.") BACK
+      button.btn.pull-right(ui-sref="^.Q3",
+      ng-class="{'btn-primary': ($project.endDate.month && $project.endDate.day && $project.endDate.year)}",
+      ng-disabled="!($project.endDate.month && $project.endDate.day && $project.endDate.year)",
+      type="submit") NEXT

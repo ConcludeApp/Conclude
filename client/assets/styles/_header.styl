@@ -1,0 +1,135 @@
+.header
+  background white
+  border-bottom 1px solid $c-light-gray
+  display flex
+  height 40px
+  left 0
+  position fixed
+  top 0
+  width 100%
+  z-index 10
+  .header-action,
+  .header-title,
+  .header-nav,
+  .header-filter
+    line-height 36px
+    flex 1
+  .header-action, .header-nav
+    width 0
+  .header-action
+    height 40px
+    width 40px
+    span.icon
+      border-right 1px solid $c-light-gray
+      color $c-icons
+      display block
+      height 40px
+      line-height 40px
+      text-align center
+      width 40px
+  .header-title,
+  .header-filter
+    flex-grow 2
+    font-size 12px
+    text-align center
+  .header-nav
+    text-align right
+    ul
+      list-style none
+      margin 0
+      // padding 0 10px
+      li
+        color darken($c-icons, 20%)
+        display inline-block
+        height 40px
+        line-height 36px
+        text-align center
+        vertical-align middle
+        span
+          vertical-align middle
+        & > a
+          border-radius 28px
+          color inherit
+          display inline-block
+          font-size 14px
+          height 28px
+          line-height 26px
+          text-decoration none
+          transition color 300ms ease, background 300ms ease
+          vertical-align middle
+          width 28px
+          &:hover
+            color darken($c-icons, 40%)
+          &.active
+            animation ActiveMenuItem 200ms 1
+            background $c-teal
+            color white
+      &.icons li
+        width 40px
+      &:not(.icons)
+        padding-right ($padding / 2)
+        li
+          font-size 12px
+          span.icon
+            display inline-block
+  .menu-button
+    border-left 1px solid transparent
+    border-right 1px solid $c-light-gray
+    cursor pointer
+    height 40px
+    position relative
+    width 40px
+    i
+      absolute top 0 left 0 bottom 0 right 0
+      background $c-gray
+      height 2px
+      margin auto
+      width 18px
+      &:before,
+      &:after
+        absolute left 0 right 0
+        background $c-gray
+        content ""
+        height 2px
+        margin auto
+        width 18px
+      &:before
+        top -6px
+      &:after
+        top 6px
+  &.filter
+    .header-action
+      flex-grow 0
+    .header-filter
+      display flex
+      input,
+      select
+        appearance none
+        background transparent
+        border 0
+        box-shadow 0
+        height 40px
+        outline 0
+        padding 0 $padding
+        width 100%
+      .search
+        min-width 400px
+        padding-left 10px
+        span.icon
+          left 10px
+      select
+        min-width 200px
+      .tags-row
+        margin 0
+        padding 0 ($padding - 5)
+        .tag
+          margin-bottom 0
+          vertical-align middle
+        
+@keyframes ActiveMenuItem
+  0%
+    box-shadow 0 0 0 0 rgba($c-teal, 0)
+  60%
+    box-shadow 0 0 0 3px $c-teal
+  100%
+    box-shadow 0 0 0 8px rgba($c-teal, 0)

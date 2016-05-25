@@ -1,0 +1,260 @@
+.form-control
+  appearance none
+  background white
+  border 1px solid $c-border
+  border-radius 2px
+  box-shadow 0
+  font normal 13px/40px $fn-primary
+  height 40px
+  letter-spacing 0.025em
+  line-height 40px
+  outline 0
+  padding 0 ($padding - 5)
+  transition border 200ms ease, box-shadow 200ms ease
+  width 100%
+  &:hover
+    border 1px solid #8CA0B3
+  &:focus
+    border 1px solid #8CA0B3
+    box-shadow 0 0 5px rgba($c-blue, 0.3)
+  &.has-error,
+  &.ng-touched.ng-invalid
+    border 1px solid #DE4A31
+    &:focus
+      box-shadow 0 0 5px rgba(#DE4A31, 0.2)
+      
+.select
+  position relative
+  span.ti-angle-down
+    absolute
+    border-color $c-copy
+    bottom 0
+    display table
+    font-size 12px
+    margin auto
+    pointer-events none
+    right 15px
+    top 0
+
+.input-group
+  margin 0 0 ($padding / 2)
+  
+.ui-select-container
+  background transparent !important
+  border 0 !important
+  font-size inherit
+  height 20px !important
+  line-height 20px !important
+  outline 0 !important
+  padding 0
+  .btn,
+  .form-control
+    background transparent !important
+    border 0 !important
+    box-shadow none !important
+    color inherit !important
+    font-size 18px !important
+    font-weight 400 !important
+    height 20px
+    letter-spacing 0 !important
+    line-height 20px !important
+    outline 0 !important
+    padding 0 !important
+    width 100%
+    &:hover
+      border 0 !important
+  ul.dropdown-menu
+    left initial !important
+    // right -50% !important
+    // top 100% !important
+    li
+      padding 0 !important
+      &:hover
+        background transparent !important
+  .btn-default-focus
+    background transparent !important
+    box-shadow none !important
+    outline 0 !important
+  .ui-select-placeholder
+    border 0 !important
+    opacity 0.5 !important
+.ui-select-bootstrap .ui-select-choices-row > a
+  background transparent !important
+  color $c-copy !important
+  line-height inherit
+  padding 0 $padding
+  p
+    margin 0 !important
+  &.active
+    background transparent !important
+  &:hover
+    background rgba($c-blue, 0.1) !important
+.ui-select-choices-row:hover
+  background transparent !important
+
+ul.dropdown-menu,
+tags-input .autocomplete
+  background white
+  border 1px solid $c-light-gray
+  box-shadow 0 3px 10px rgba(#3F4E5A, 0.1)
+  border-radius 2px
+  font-size 12px
+  margin 0
+  padding ($padding / 2) 0
+  position absolute
+  right 0
+  left 0
+  list-style none
+  top 110%
+  transition all 300ms ease
+  z-index 2
+  li,
+  li.suggestion-item
+    font normal 13px $fn-primary
+    line-height 32px
+    padding 0 $padding
+    strong,
+    em
+      font normal 13px $fn-primary
+      text-decoration underline
+    &.selected
+      background transparent
+      color inherit
+    &:hover
+      background rgba($c-blue, 0.1)
+      color inherit
+    &.selected em
+      background transparent !important
+      color inherit
+      font normal 13px $fn-primary
+  a
+    color inherit
+    text-decoration none
+  .ng-invalid
+    background red
+.input-group-horizontal
+  border-right 1px solid $c-light-gray
+  &.has-icon
+    position relative
+    span.icon
+      bottom 0
+      line-height 40px
+      margin auto
+      position absolute
+      top 0
+    &.icon-left 
+      input,
+      select
+        padding-left ($padding * 2)
+      span.icon
+        left 20px
+    &.icon-right
+      input,
+      select
+        padding-right ($padding * 3)
+      span.icon
+        right 20px
+  &:last-of-type
+    border-right 0
+.btn
+  appearance none
+  background $c-gray
+  border 0
+  border-radius 2px
+  color white
+  cursor pointer
+  display block
+  height 40px
+  font-size 12px
+  font-weight 600
+  letter-spacing 0.15em
+  line-height 40px
+  outline 0
+  padding 0 $padding
+  text-align center
+  text-decoration none
+  transition background 200ms ease
+  width 100%
+  &.btn-sm
+    font-size 10px
+    height 30px
+    line-height 30px
+    width 100%
+  &.btn-primary
+    background $c-blue
+    &:hover
+      background darken($c-blue, 10%)
+  &.btn-outline
+    background transparent
+    border 1px solid $c-blue
+    color $c-blue
+    &:hover
+      background rgba($c-blue, 0.1)
+  &.btn-disabled,
+  &[disabled]
+    background #DCE6E9
+    cursor not-allowed
+    
+tags-input
+  .host
+    appearance none
+  .tags
+    appearance none
+    background-color white
+    border 1px solid $c-border
+    border-radius 2px
+    font normal 13px/40px $fn-primary
+    height 40px
+    line-height 40px
+    box-shadow none
+    cursor text
+    // height 100%
+    padding 0 5px
+    overflow hidden
+    word-wrap break-word
+    &:focus,
+    &.focused
+      border 1px solid #8CA0B3
+      box-shadow 0 0 5px rgba($c-blue, 0.3)
+    &:hover
+      border 1px solid #8CA0B3
+    .input
+      font normal 13px/32px $fn-primary
+      height 34px
+      line-height 34px
+    ul.tag-list
+      li.tag-item
+        background #EFF1F4
+        border 1px solid #E1E6EC
+        border-radius 2px
+        color $c-gray
+        padding 0 10px
+        position relative
+        top 4px
+        a.remove-button
+          color inherit
+          font-weight 300
+        &.selected
+          background red
+          border 1px solid transparent
+          color white
+  &.ng-invalid .tags
+    border 1px solid #DE4A31
+    box-shadow 0 0 5px rgba(#DE4A31, 0.2)
+    &:focus
+      box-shadow 0 0 5px rgba(#DE4A31, 0.2)
+.tags-row
+  margin-left -($padding / 4)
+  margin-right -($padding / 4)
+  margin-top ($padding / 2)
+  .tag
+    background #EFF1F4
+    border 1px solid $c-border
+    border-radius 2px
+    display inline-block
+    font normal 12px/24px $fn-primary 
+    margin 0 ($padding / 4) ($padding / 2)
+    padding 0 ($padding / 2)
+    span.ti-close
+      font-size 8px
+      margin-left 5px

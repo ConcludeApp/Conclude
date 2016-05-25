@@ -1,0 +1,44 @@
+.container
+  form#question-3(name="q3")
+    span.question What phase is your project in?
+    hr
+    pre {{project}}
+    .row
+      .col.l-col: .phase-picker
+        .input-group
+          label(for="1")
+            input(type="radio", id="1", value="Planning, Scoping, and Definition", ng-model="$project.phase")
+            span.title Planning, Scoping, and Definition
+            span.description Exploring and defining the parameters of your project.
+        .input-group
+          label(for="2")
+            input(type="radio", id="2", value="Exploration, Synthesis, and Design Implications", ng-model="$project.phase")
+            span.title Exploration, Synthesis, and Design Implications
+            span.description Characterized by immersive research that leads to direct implications for designs.
+        .input-group
+          label(for="3")
+            input(type="radio", id="3", value="Concept Generation &amp; Early Prototyp", ng-model="$project.phase")
+            span.title Concept Generation &amp; Early Prototype Iteration
+            span.description This phase involves generative and participatory design activites.
+        .input-group
+          label(for="4")
+            input(type="radio", id="4", value="Evaluation, Refinement, and Production", ng-model="$project.phase")
+            span.title Evaluation, Refinement, and Production
+            span.description Characterized by iterative testing and feedback.
+        .input-group
+          label(for="5")
+            input(type="radio", id="5", value="Launch &amp; Monitor", ng-model="$project.phase")
+            span.title Launch &amp; Monitor
+            span.description Characterized by quality assurance testing to ensure readiness for market, and ongoing review and analysis to course-correct when necessary.
+      .col.r-col: .related
+        span.title RELATED RESEARCH
+        ul.list-bullet
+          li XYZ Usability Study
+            span.date LAST UPDATED - 02/18/2016
+          li XYZ Usability Study
+            span.date LAST UPDATED - 02/18/2016
+          li XYZ Usability Study
+            span.date LAST UPDATED - 02/18/2016
+    footer.new-project-footer
+      a.btn.btn-base(ui-sref="^.Q2") BACK
+      button.btn.pull-right(ui-sref="^.Q4", ng-class="{'btn-primary': $project.phase}", ng-disabled="!$project.phase", type="submit") NEXT

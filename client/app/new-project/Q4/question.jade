@@ -1,0 +1,50 @@
+.container
+  form(name="CreateProject", ng-submit="q4.createProject($project)")
+    #question-4
+      span.question Recommended Research Method
+        small Based on the parameters of your project, the following research method is likely the best fit.
+      .method-card(ng-repeat="method in q4.methods", ng-show="method.recommended", ng-class="{active: $project.method === method._id}", ng-click="$project.method = method._id")
+        span RECOMMENDED METHOD
+        br
+        strong {{method.title}}
+        p {{method.description}}
+        .meta.flex-row
+          .effort
+            span EFFORT
+            p {{method.effort}}
+          .cost
+            span COST
+            p {{method.cost}}
+          .data.tr-title
+            span DATA
+            p {{method.dataType}}
+          .time
+            span TIME
+            p {{method.duration}}
+          .location
+            span LOCATION
+            p.tr-title {{method.location}}
+      span.alternate-methods ALTERNATE METHODS
+      .method-card(ng-repeat="method in q4.methods", ng-hide="method.recommended", ng-class="{active: $project.method === method._id}", ng-click="$project.method = method._id")
+        strong {{method.title}}
+        p {{method.description}}
+        .meta.flex-row
+          .effort
+            span EFFORT
+            p {{method.effort}}
+          .cost
+            span COST
+            p {{method.cost}}
+          .data.tr-title
+            span DATA
+            p.tr-title {{method.dataType}}
+          .time
+            span TIME
+            p {{method.duration}}
+          .location
+            span LOCATION
+            p.tr-title {{method.location}}
+    .page-fade
+    footer.new-project-footer
+      a.btn.btn-base(ui-sref="^.Q3") BACK
+      button.btn.pull-right(type="submit", ng-class="{'btn-primary': $project.method}", ng-disabled="!$project.method") NEXT

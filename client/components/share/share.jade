@@ -1,0 +1,43 @@
+.share
+  .share_to
+    input(type="text", placeholder="Enter a name or email...", ng-model="invite")
+  .share_list
+    .sl_item(ng-hide="project.users.length > 1")
+      .avatar(data-initials="{{share.me.name | initials}}", ng-class="{'has-photo': share.me.photo}", style="background-image: url({{share.me.photo}})")
+      .sli_content Only you have access to this project.
+    .sl_item(ng-repeat="user in users track by $index", ng-hide="user.permissions === 0 || invite || invitees.length", id="user-{{user.id}}")
+      .avatar(data-initials="{{user.initials}}", ng-class="{'has-photo': user.photo}", style="background-image: url({{user.photo}})")
+      .sli_content
+        span.name {{user.name}}
+        span.email {{user.email}}
+        span.controls(ng-click="editMode(user.id)", ng-class="{'edit-mode': edit === user.id}")
+          span.controls_status(ng-show="user.permissions === 1") CAN EDIT
+          span.controls_status(ng-show="user.permissions === 2 || user.permissions === 0") CAN VIEW
+          ul.controls_dropdown
+            li(ng-class="{active: user.permissions === 1}", ng-click="user.permissions = 1") CAN EDIT
+            li(ng-class="{active: user.permissions === 2}", ng-click="user.permissions = 2") CAN VIEW
+            li(ng-click="removeUser($index)") REMOVE
+    .sl_item.result(ng-show="invite", id="user-0", ng-click="queueInvite({'email': invite})")
+      .avatar(data-initials="?")
+      .sli_content {{invite}}
+        span.controls(ng-click="editMode(0); $event.stopPropagation()", ng-class="{'edit-mode': edit === 0}")
+          span.controls_status(ng-show="user.permissions === 1") CAN EDIT
+          span.controls_status(ng-show="user.permissions != 1") CAN VIEW
+          ul.controls_dropdown
+            li(ng-class="{active: user.permissions === 1}", ng-click="user.permissions = 1") CAN EDIT
+            li(ng-class="{active: user.permissions === 2}", ng-click="user.permissions = 2") CAN VIEW
+    .sl_item.result(ng-repeat="user in contacts | filter: invite", ng-show="user.permissions === 0 && invite", id="user-{{user.id}}", ng-click="queueInvite(user)")
+      .avatar(data-initials="{{user.initials}}", ng-class="{'has-photo': user.photo}", style="background-image: url({{user.photo}})")
+      .sli_content 
+        span.name {{user.name}}
+        span.email {{user.email}}
+        span.controls(ng-click="editMode(user.id); $event.stopPropagation()", ng-class="{'edit-mode': edit === user.id}")
+          span.controls_status CAN VIEW
+          ul.controls_dropdown
+            li(ng-class="{active: user.permissions === 1}", ng-click="user.permissions = 1") CAN EDIT
+            li(ng-class="{active: user.permissions === 2}", ng-click="user.permissions = 2") CAN VIEW
+  .share_invitees(ng-show="invitees.length")
+    .invitee(ng-repeat="user in invitees", ng-click="removeInvitee($index)") {{user.email}}
+  .share_footer.clearfix: .flex-row
+    input(type="text", placeholder="Enter a custom message...")
+    a.btn.btn-primary.btn-sm.pull-right(href="#") INVITE

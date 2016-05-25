@@ -1,0 +1,55 @@
+.container
+  margin 0 auto
+  max-width 750px
+  &.large
+    max-width 1200px
+    padding 0 $padding
+
+hr
+  background $c-border
+  border 0
+  height 1px
+
+.pull-right
+  float right !important
+.pull-left
+  float left !important
+.text-left
+  text-align left !important
+.text-right
+  text-align right !important
+    
+.tr-up
+  text-transform uppercase
+.tr-title
+  text-transform capitalize
+
+::selection
+  background #CEF3EC
+  
+.group
+  clear both
+  content ""
+  display table
+  width 100%
+  
+.flex-row
+  display flex
+  margin-left -($padding / 4)
+  margin-right -($padding / 4)
+  &.tags
+    flex-wrap wrap
+  & > *
+    flex-grow 1
+    margin 0 ($padding / 4)
+    width 100%
+    
+placeholder()
+  &::-webkit-input-placeholder
+      {block}
+  &:-moz-placeholder
+      {block}
+  &::-moz-placeholder
+      {block}
+  &:-ms-input-placeholder
+      {block}

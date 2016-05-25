@@ -1,0 +1,137 @@
+header.header
+  .header-action: span.icon.ti-menu
+  .header-title Start a New Project
+  .header-nav: ul
+    li Last updated {{NewProject.project.timestamp.updatedAt | timeAgo}} &nbsp;
+      span.icon.ti-trash(ng-click="NewProject.deleteProject()")
+.container.large
+  form(name="NewProjectWizard", ng-submit="NewProject.updateProject()")
+    .wizard-header: .flex-row
+      .project-title
+        span PROJECT NAME
+        input(type="text", ng-model="NewProject.project.title", placeholder="Enter a title for your project...", name="title", required, novalidate)
+      .meta-item
+        span START DATE
+        input(type="text", ng-model="NewProject.project.timestamp.startAt", mask="39/39/9999", restrict="reject", placeholder="01/10/2016", name="start_date", required, novalidate)
+      .meta-item
+        span END DATE
+        input(type="text", ng-model="NewProject.project.timestamp.endAt", mask="39/39/9999", restrict="reject", placeholder="01/11/2016", name="end_date", required, novalidate)
+      .meta-item(ng-show="NewProject.project.taxonomy.subcategory")
+        span CATEGORY
+        .tr-title {{NewProject.project.taxonomy.category.pretty}}
+      .meta-item(ng-show="NewProject.project.taxonomy.subcategory")
+        span SUBCATEGORY
+        .tr-title {{NewProject.project.taxonomy.subcategory.pretty}}
+      .meta-item(ng-show="NewProject.project.taxonomy.products.length")
+        span PRODUCT
+        .tr-title {{NewProject.project.taxonomy.products[0].title}}
+    .wizard-container
+      .input-group(ng-class="{complete: NewProjectWizard.description.$valid && focus != 'description', active: focus === 'description'}")
+        .status: span.ti-check
+        .question SHORT DESCRIPTION
+          .description Provide a few words that describe the high level purpose of the project.
+        textarea.form-control(rows=2,
+          placeholder="Enter description here...",
+          ng-model="NewProject.project.summary",
+          name="description",
+          ng-focus="NewProject.setFocus('description')",
+          ng-blur="NewProject.clearFocus()",
+          required, novalidate)
+
+      .input-group(ng-class="{complete: NewProjectWizard.overview.$valid && focus != 'overview', active: focus === 'overview'}")
+        .status: span.ti-check
+        .question SUMMARY &amp; BACKGROUND
+          .description Provide a general overview of the project and what compelled this research.
+        textarea.form-control(rows=3,
+          placeholder="Enter summary and background here…",
+          ng-model="NewProject.project.overview",
+          name="overview",
+          ng-focus="NewProject.setFocus('overview')",
+          ng-blur="NewProject.clearFocus()",
+          required, novalidate)
+
+      .input-group(ng-class="{complete: NewProjectWizard.goal_0.$valid && focus != 'goal', active: focus === 'goal'}")
+        .status: span.ti-check
+        .question PROJECT GOALS
+          .description Provide a general overview of the project and what compelled this research.
+        ol.fields
+          li(ng-repeat="goal in NewProject.project.goals")
+            textarea.form-control(rows=2,
+              placeholder="Enter {{$index < 1 ? 'primary' : 'secondary'}} research goal here…",
+              ng-model="NewProject.project.goals[$index].description",
+              ng-required="$index < 1",
+              ng-focus="NewProject.setFocus('goal')",
+              ng-blur="NewProject.clearFocus()",
+              name="goal_{{$index}}")
+            input(type="hidden", ng-model="NewProject.project.goals[$index].primary", value="{{$index < 1 ? 0 : 1}}")
+            span.icon.ti-close(ng-show="$index >= 1", ng-click="NewProject.project.goals.splice($index)")
+        span.add(ng-click="NewProject.project.goals.push({})")
+          span.ti-plus
+          | Add Secondary Goal
+
+      .input-group(ng-class="{complete: NewProjectWizard.question_q_0.$valid && NewProjectWizard.question_a_0.$valid && focus != 'question', active: focus === 'question'}")
+        .status: span.ti-check
+        .question QUESTIONS CONSIDERED
+          .description Provide a general overview of the project and what compelled this research.
+        ol.fields
+          li(ng-repeat="goal in NewProject.project.questions")
+            textarea.form-control(rows=1,
+              placeholder="Enter a title for the {{$index < 1 ? 'primary' : 'secondary'}} question considered here…",
+              ng-model="NewProject.project.questions[$index].question",
+              ng-required="$index < 1",
+              ng-focus="NewProject.setFocus('question')",
+              ng-blur="NewProject.clearFocus()",
+              name="question_q_{{$index}}")
+            textarea.form-control(rows=2, 
+              placeholder="Enter a description {{$index < 1 ? 'primary' : 'secondary'}} question considered here…",
+              ng-model="NewProject.project.questions[$index].description",
+              ng-required="$index < 1",
+              ng-focus="NewProject.setFocus('question')",
+              ng-blur="NewProject.clearFocus()",
+              name="question_a_{{$index}}")
+            input(type="hidden", ng-model="NewProject.project.questions[$index].primary", value="{{$index < 1 ? 0 : 1}}")
+            span.icon.ti-close(ng-show="$index >= 1", ng-click="NewProject.project.questions.splice($index)")
+        span.add(ng-click="NewProject.project.questions.push({})")
+          span.ti-plus
+          | Add Secondary Goal
+
+      .input-group(ng-class="{complete: NewProjectWizard.persona_0.$valid && focus != 'personas', active: focus === 'personas'}")
+        .status: span.ti-check
+        .question PERSONAS
+          .description Select at least one persona the research is targeted at. You may add additional secondary personas.
+        ol.fields
+          li(ng-repeat="persona in NewProject.project.personas")
+            input.form-control(rows=1,
+              placeholder="Enter {{$index < 1 ? 'primary' : 'secondary'}} persona here…",
+              ng-model="NewProject.persona_search[$index]",
+              uib-typeahead="persona as persona.name for persona in NewProject.personas | filter: NewProject.persona_search[$index] | limitTo: 8",
+              typeahead-on-select="NewProject.project.personas[$index] = NewProject.persona_search[$index]._id",
+              typeahead-editable="false",
+              ng-required="$index <= 0",
+              ng-focus="NewProject.setFocus('personas')",
+              ng-blur="NewProject.clearFocus()",
+              name="persona_{{$index}}")
+            span.icon.ti-close(ng-show="$index >= 1", ng-click="NewProject.project.personas.splice($index)")
+        span.add(ng-click="NewProject.project.personas.push({})")
+          span.ti-plus
+          | Add Secondary Persona
+
+      .input-group(ng-class="{complete: NewProjectWizard.tags.$valid && NewProjectWizard.tags.$touched && focus != 'tags', active: focus === 'tags'}", style="margin-bottom: 200px")
+        .status: span.ti-check
+        .question TAGS
+          .description Add tags to your research to make it easier to find by others looking for insights when you’re done. Seperate tags with commas.
+        tags-input(ng-model="NewProject.project.taxonomy.tags",
+          key-property="_id", display-property="pretty",
+          name="tags",
+          ng-required="NewProjectWizard.tags.$touched",
+          ng-focus="NewProject.setFocus('tags')",
+          ng-blur="NewProject.clearFocus()",
+          min-length=1,
+          add-from-autocomplete-only=1,
+          novalidate)
+          auto-complete(source="NewProject.loadTags()")
+
+    .page-fade
+    footer.new-project-footer
+      a.btn.btn-base(ui-sref="^.Q4") BACK
+      button.btn.pull-right(ng-class="{'btn-primary': NewProjectWizard.$valid}", ng-disabled="NewProjectWizard.$invalid", type="submit") NEXT
