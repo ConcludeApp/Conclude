@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('concludeApp', ['concludeApp.auth', 'concludeApp.admin', 'concludeApp.constants', 'ngTagsInput',
-    'ngCookies', 'ngResource', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'validation.match', 'ui.select', 'ngMask', 'duScroll', 'yaru22.angular-timeago', 'puElasticInput', 'slickCarousel'
+angular.module('concludeApp', ['concludeApp.auth', 'concludeApp.admin', 'concludeApp.constants', 'ngTagsInput', 'slickCarousel',
+    'ngCookies', 'ngResource', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'validation.match', 'ui.select', 'ngMask', 'duScroll', 'yaru22.angular-timeago', 'puElasticInput'
   ]).config(function($urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
     $locationProvider.html5Mode(true);
