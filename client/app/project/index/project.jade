@@ -1,271 +1,507 @@
-header.header
-  .header-action: span.icon.ti-menu
-  .header-title {{$prjct.project.title}}
-  .header-nav: ul.icons
-    li: a(href="#"): span.ti-pencil-alt
-    li(ng-class="{active: $prjct.share}")
-      a(ng-click="$prjct.share = !$prjct.share", ng-class="{active: $prjct.share}"): span.ti-share
-      .hidden-menu(ng-click="$event.stopPropagation()"): div(share:project)
-    li: a(href="#"): span.ti-bell
-    li: a(href="#"): span.ti-info-alt
-    li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-plus
+ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
+  header.header
+    .header-action: span.icon.ti-menu
+    .header-title(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.title}}
+    .header-title(ng-show="$prjct.show === 'EditProject'") Last updated {{$prjct.project.updatedAt | timeAgo}}
+    .header-nav(ng-show="$prjct.show == 'EditProject'"): ul.icons
+      li.button: button.btn.btn-sm.btn-secondary(ng-click="$prjct.cancelEdits()") CANCEL
+      li.button: button.btn.btn-sm.btn-primary(ng-click="$prjct.saveProject()") SAVE CHANGES
+    .header-nav(ng-hide="$prjct.show == 'EditProject'"): ul.icons
+      li(ng-class="{active: $prjct.show === 'EditProject'}")
+        a(ng-click="$prjct.showMenuItem('EditProject')", ng-class="{active: $prjct.show === 'EditProject'}"): span.ti-pencil-alt
+      li(ng-class="{active: $prjct.show === 'ShowShare'}")
+        a(ng-click="$prjct.showMenuItem('ShowShare')", ng-class="{active: $prjct.show === 'ShowShare'}"): span.ti-share
+        .hidden-menu(ng-click="$event.stopPropagation()"): div(share:project, project="{{$prjct.project}}")
+      li(ng-class="{active: $prjct.show === 'ShowNotifications'}")
+        a(ng-click="$prjct.showMenuItem('ShowNotifications')", ng-class="{active: $prjct.show === 'ShowNotifications'}"): span.ti-bell
+        .hidden-menu(ng-click="$event.stopPropagation()"): .notifications
+          label
+            input(type="checkbox")
+            p Send me notifications when this project is updated.
+      li: a(ng-class="{active: $prjct.show === 'ShowSidebar'}", ng-click="$prjct.showMenuItem('ShowSidebar')"): span.ti-info-alt
+      li: a(ui-sref="new"): span.ti-plus
+      li: a(ng-click="$prjct.sendNotifications()"): span.ti-bell
+  .loading(ng-class="{active: loading}")
+  nav.project-nav
+    ul
+      li(data-section="0", x-project-menu, ng-class="{complete: $prjct.project.title && $prjct.project.summary}"): a(href="#section-0", du-smooth-scroll, du-scrollspy) Overview
+      li(data-section="1", x-project-menu, ng-class="{complete: $prjct.project.overview}"): a(href="#section-1", du-smooth-scroll, du-scrollspy) Summary &amp; Background
+      li(data-section="2", x-project-menu, ng-class="{complete: $prjct.project.goals.length}"): a(href="#section-2", du-smooth-scroll, du-scrollspy) Project Goals
+      li(data-section="3", x-project-menu, ng-class="{complete: $prjct.project.questions.length}"): a(href="#section-3", du-smooth-scroll, du-scrollspy) Questions Considered
+      li(data-section="4", x-project-menu, ng-class="{complete: $prjct.project.findings.length}"): a(href="#section-4", du-smooth-scroll, du-scrollspy) Key Findings
+      li(data-section="5", x-project-menu, ng-class="{complete: $prjct.project.quotes.length}"): a(href="#section-5", du-smooth-scroll, du-scrollspy) Direct Quotes
+      li(data-section="6", x-project-menu, ng-class="{complete: $prjct.project.personas.length}"): a(href="#section-6", du-smooth-scroll, du-scrollspy) Personas
+      li(data-section="7", x-project-menu, ng-class="{complete: $prjct.project.decisions.length}"): a(href="#section-7", du-smooth-scroll, du-scrollspy) Decisions
+      li(data-section="8", x-project-menu, ng-class="{complete: $prjct.project.implications.length}"): a(href="#section-8", du-smooth-scroll, du-scrollspy) Implications
 
-nav.project-nav
-  ul
-    li(data-section="0", x-project-menu, ng-class="{complete: $prjct.project.title && $prjct.project.summary}"): a(href="#section-0", du-smooth-scroll) Overview
-    li(data-section="1", x-project-menu, ng-class="{complete: $prjct.project.overview}"): a(href="#section-1", du-smooth-scroll) Summary &amp; Background
-    li(data-section="2", x-project-menu, ng-class="{complete: $prjct.project.goals.length}"): a(href="#section-2", du-smooth-scroll) Project Goals
-    li(data-section="3", x-project-menu, ng-class="{complete: $prjct.project.questions.length}"): a(href="#section-3", du-smooth-scroll) Questions Considered
-    li(data-section="4", x-project-menu, ng-class="{complete: $prjct.project.findings.length}"): a(href="#section-4", du-smooth-scroll) Key Findings
-    li(data-section="5", x-project-menu, ng-class="{complete: $prjct.project.quotes.length}"): a(href="#section-5", du-smooth-scroll) Direct Quotes
-    li(data-section="6", x-project-menu, ng-class="{complete: $prjct.project.personas.length}"): a(href="#section-6", du-smooth-scroll) Personas
-    li(data-section="7", x-project-menu, ng-class="{complete: $prjct.project.decisions.length}"): a(href="#section-7", du-smooth-scroll) Decisions
-    li(data-section="8", x-project-menu, ng-class="{complete: $prjct.project.implications.length}"): a(href="#section-8", du-smooth-scroll) Implications
+  .container
+    .project-content(ng-class="{faded: loading}")
+      .card.progress-card: .flex-row
+        .item.main
+          .progress-bar
+            .pb_label 30% Complete
+            .pb_meter: .pb_meter_progress(style="width: 30%")
+        .item
+          .badge 12
+          span.ti-files
+          .title Resources
+        .item
+          .badge 3
+          span.ti-check-box
+          .title Tasks
+      .project-title#section-0
+        p.project-cat {{$prjct.project.taxonomy.category.pretty}} 
+          span(ng-show="$prjct.project.taxonomy.subcategory.pretty") // {{$prjct.project.taxonomy.subcategory.pretty}}
+          i.icon-audio
+        h1
+          span(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.title}}
+          span(ng-show="$prjct.show === 'EditProject'")
+            input.form-control(type="text", ng-model="$prjct.project.title", placeholder="Project title...") 
+        br
+        p
+          span(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.summary}}
+          span(ng-show="$prjct.show === 'EditProject'")
+            textarea.form-control(type="text", ng-model="$prjct.project.summary", rows=2, placeholder="Project summary...")
+        br
+        ul.attachments
+          li(ng-repeat="file in $prjct.project.featuredFiles")
+            a(href="{{file.url}}", ng-hide="$prjct.show === 'EditProject'", target="_blank")
+              i(class="file-{{file.fileType}}")
+              |  {{file.name}}
+            .flex-row(ng-show="$prjct.show === 'EditProject'")
+              .select
+                select.form-control(ng-model="file.fileType")
+                  option(value="", selected, disabled) File Type
+                  option(ng-repeat="option in fileTypes", value="{{option.value}}") {{option.label}}
+                span.ti-angle-down.icon-right
+              input.form-control(ng-model="file.name", placeholder="File Name")
+              input.form-control(ng-model="file.url", placeholder="File URL")
+              span.icon.ti-close(ng-click="$prjct.project.featuredFiles.splice($index, 1)")
+          li.add(ng-show="$prjct.show === 'EditProject' && $prjct.project.featuredFiles.length < 3", ng-click="$prjct.project.featuredFiles.push({})")
+            i.icon.ti-plus
+            |  Add Featured File
+        hr
+      section.project-content_section#section-1
+        h2 Summary &amp; Background
+        p
+          span(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.overview}}
+          span(ng-show="$prjct.show === 'EditProject'")
+            textarea.form-control(type="text", ng-model="$prjct.project.overview", rows=2, placeholder="Project overview...")
+      section.project-content_section.project-goal#section-2
+        h2 Project Goals
+        .content(ng-hide="$prjct.show === 'EditProject'"): ul
+          li(ng-repeat="goal in $prjct.project.goals")
+            .item-label(data-content="{{goal.primary ? 'P' : 'S'}}", ng-class="{primary: goal.primary, secondary: !goal.primary}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
+            p {{goal.description}}
+        .content(ng-show="$prjct.show === 'EditProject'")
+          ul: li(ng-repeat="goal in $prjct.project.goals")
+            .item-label(data-content="{{goal.primary ? 'P' : 'S'}}", ng-class="{primary: goal.primary, secondary: !goal.primary}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
+            textarea.form-control(ng-model="goal.description",
+              rows=2,
+              placeholder="Enter {{$index < 1 ? 'primary' : 'secondary'}} research goal here…")
+            input(type="hidden",
+              ng-model="goal.primary",
+              value="{{$index < 1 ? 0 : 1}}")
+            span.icon.ti-close(ng-show="$index >= 1",
+              ng-click="$prjct.project.goals.splice($index, 1)")
+          span.add(ng-click="$prjct.project.goals.push({})")
+            span.ti-plus
+            |  Add Secondary Goal
+      section.project-content_section.questions-considered#section-3
+        h2 Questions Considered
+        h1 {{viewQuestion}}
+        .content(ng-hide="$prjct.show === 'EditProject'"): ul
+          li(ng-repeat="q in $prjct.project.questions", ng-class="{open: !viewQuestion_$index}", ng-init="viewQuestion_$index = true")
+            .item-label(ng-click="viewQuestion_$index = !viewQuestion_$index")
+              span.icon.ti-angle-down(ng-show="viewQuestion_$index")
+              span.icon.ti-angle-up(ng-hide="viewQuestion_$index")
+            h3 {{q.question}}
+            p(uib-collapse="viewQuestion_$index") {{q.description}}
+            p.note LAST UPDATED - {{q.timestamp.updatedAt | date: 'MM/dd/yyyy'}}
+        .content(ng-show="$prjct.show === 'EditProject'")
+          ul: li(ng-repeat="question in $prjct.project.questions")
+            .item-label(data-content="{{$index < 1 ? 'P' : 'S'}}", ng-class="{primary: $index < 1, secondary: $index > 1}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
+            input.form-control(type="text",
+              placeholder="Enter a title for the {{$index < 1 ? 'primary' : 'secondary'}} question considered here…",
+              ng-model="question.question",
+              ng-required="$index < 1")
+            textarea.form-control(rows=2, 
+              placeholder="Enter a description {{$index < 1 ? 'primary' : 'secondary'}} question considered here…",
+              ng-model="question.description",
+              ng-required="$index < 1",)
+            input(type="hidden", ng-model="question.primary", ng-value="{{$index < 1 ? 1 : 0}}")
+            span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.questions.splice($index, 1)")
+          span.add(ng-click="$prjct.project.questions.push({})")
+            span.ti-plus
+            | Add Question
+      section.project-content_section.key-findings#section-4(ng-class="{'empty': !$prjct.project.findings.length}")
+        h2 Key Findings
+        .content(ng-show="$prjct.project.findings.length && $prjct.show != 'EditProject'"): ul
+          li(ng-repeat="f in $prjct.project.findings")
+            .item-label(data-content="{{f.author ? (f.author | initials) : ''}}"): .item-description {{f.author}}
+            h3 {{f.title}}
+            p {{f.description}}
+            //- p.note LAST UPDATED - {{f.updated | date: 'MM/dd/yyyy'}}}}
+        .content(ng-show="$prjct.show === 'EditProject'")
+          ul: li(ng-repeat="finding in $prjct.project.findings")
+            .item-label(data-content="{{finding.author ? (finding.author | initials) : ''}}"): .item-description {{finding.author}}
+            input.form-control(type="text",
+              placeholder="Enter a title for your finding...",
+              ng-model="finding.title",
+              ng-required="$index < 1")
+            textarea.form-control(rows=2, 
+              placeholder="Enter a description for your finding...",
+              ng-model="finding.description",
+              ng-required="$index < 1")
+            span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.findings.splice($index, 1)")
+          span.add(ng-click="$prjct.project.findings.push({author: $prjct.me.name})", ng-show="$prjct.project.findings[0].title.length && $prjct.project.findings[0].description.length")
+            span.ti-plus
+            | Add Key Finding
+        .content(ng-hide="$prjct.project.findings.length || ($prjct.project.findings.length && $prjct.show === 'EditProject')")
+          ul
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+          .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addKeyFindings()") ADD KEY FINDINGS
+      section.project-content_section.key-findings.direct-quotes#section-5(ng-class="{empty: !$prjct.project.quotes.length}")
+        h2 Direct Quotes
+        .content(ng-show="$prjct.project.quotes.length && $prjct.show != 'EditProject'")
+          slick(settings='slickConfig', ng-if="!loading")
+            .quote(ng-repeat="quote in $prjct.project.quotes")
+              i.icon.ti-quote-left
+              .quote-meta {{quote.source}}
+              .quote-content {{quote.quote}}
+              .quote-author
+                .qa-photo(style="background-image: url({{quote.author.photo}})", ng-show="quote.author.photo")
+                .qa-content 
+                  .qa-name {{quote.author.name}}
+                  .qa-title {{quote.author.title}}
+        .content(ng-show="$prjct.project.quotes.length && $prjct.show === 'EditProject'")
+          .quote(ng-repeat="quote in $prjct.project.quotes")
+            i.icon.ti-quote-left
+            input.form-control(type="text",
+              placeholder="Enter the source of the quote...",
+              ng-model="quote.source",
+              ng-required="$index < 1")
+            textarea.form-control(rows=2, 
+              placeholder="Enter the quote...",
+              ng-model="quote.quote",
+              ng-required="$index < 1")
+            .flex-row
+              .input
+                input.form-control(type="text",
+                  placeholder="Enter a Author's name...",
+                  ng-model="quote.author.name",
+                  ng-required="$index < 1")
+              .input
+                input.form-control(type="text",
+                  placeholder="Enter the Author's title...",
+                  ng-model="quote.author.title",
+                  ng-required="$index < 1")
+            span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.quotes.splice($index, 1)")
+          span.add(ng-click="$prjct.project.quotes.push({})", ng-show="$prjct.project.quotes[0].source.length && $prjct.project.quotes[0].quote.length && $prjct.project.quotes[0].author.name.length")
+            span.ti-plus
+            | Add Another Quote
+        .content(ng-hide="$prjct.project.quotes.length")
+          .quote
+            i.icon.ti-quote-left
+            .quote-meta
+              span(style="height: 8px; display: inline-block; width: 10%; margin-right: 5px")
+              span(style="height: 8px; display: inline-block; width: 10%")
+            .quote-content
+              span(style="height: 8px; display: block; width: 100%; margin-bottom: 8px")
+              span(style="height: 8px; display: block; width: 80%; margin-bottom: 8px")
+              span(style="height: 8px; display: block; width: 60%; margin-bottom: 8px")
+            .quote-author
+              .qa-photo(style="background-image: url({{quote.author.photo}})")
+              .qa-content 
+                .qa-name: span(style="height: 12px; display: inline-block; width: 20%")
+                .qa-title: span(style="height: 8px; display: inline-block; width: 10%")
+          .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addDirectQuotes()") ADD DIRECT QUOTES
+      section.project-content_section.personas#section-6
+        h2 Personas
+        .content.group(ng-hide="$prjct.show === 'EditProject'")
+          .persona.primary(ng-repeat="persona in $prjct.project.personas")
+            .persona-header(style="background-image: url({{persona.photo}})")
+              .persona-header_tag(ng-show="persona.primary") PRIMARY
+              .persona-header_name {{persona.name}}
+              .persona-header_title {{persona.title}}
+            .persona-content {{persona.description|limitTo:150}}{{persona.description.length > 150 ? '...' : null}}
+        .content.group(ng-show="$prjct.show === 'EditProject'")
+          .input-group(ng-repeat="persona in $prjct.project.personas")
+            input.form-control(rows=1,
+              placeholder="Select persona...",
+              ng-model="persona_search[$index]",
+              ng-value="$prjct.project.personas[$index].name",
+              uib-typeahead="persona as persona.name for persona in personas | filter: persona_search[$index] | limitTo: 8",
+              typeahead-on-select="$prjct.project.personas[$index] = persona_search[$index]._id",
+              ng-required="$index <= 0")
+            span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.personas.splice($index, 1)")
+          span.add(ng-click="$prjct.project.personas.push({})")
+            span.ti-plus
+            | Add Persona
+      section.project-content_section.decisions#section-7(ng-class="{empty: !$prjct.project.decisions.length}")
+        h2 Decisions
+        .content(ng-show="$prjct.project.decisions.length && $prjct.show != 'EditProject'")
+          ul
+            li(ng-repeat="d in $prjct.project.decisions")
+              .item-label: i.ti-check
+              h3 {{d.title}}
+              p {{d.description}}
+              p.note(ng-show="d.updated") LAST UPDATED - {{d.updated | date: 'MM/dd/yyyy'}}
+        .content(ng-show="$prjct.project.decisions.length && $prjct.show === 'EditProject'")
+          ul
+            li(ng-repeat="decision in $prjct.project.decisions")
+              .item-label: i.ti-check
+              input.form-control(type="text",
+                placeholder="Enter a title for your decision...",
+                ng-model="decision.title",
+                ng-required="$index < 1")
+              textarea.form-control(rows=2, 
+                placeholder="Describe your decision...",
+                ng-model="decision.description",
+                ng-required="$index < 1")
+              span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.decisions.splice($index, 1)")
+          span.add(ng-click="$prjct.project.decisions.push({})", ng-show="$prjct.project.decisions[0].title.length && $prjct.project.decisions[0].description.length")
+            span.ti-plus
+            | Add Another Decision
+        .content(ng-hide="$prjct.project.decisions.length")
+          ul
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+          .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addDecisions()") ADD DECISIONS
+      section.project-content_section.implications.empty#section-8
+        h2 Implications
+        .content(ng-show="$prjct.project.implications.length"): .wrap
+          ul.nav
+            li(ng-repeat="i in $prjct.project.implications",
+              ng-class="{active: $prjct.implicationsTab === i.implicationType}",
+              ng-click="$prjct.setTab(i.implicationType)") {{i.implicationType}}
+          .tab(ng-repeat="t in $prjct.project.implications", ng-show="$prjct.implicationsTab === t.implicationType")
+            strong
+              span.icon.ti-shopping-cart(ng-show="t.implicationType == 'Sales'")
+              span.icon.ti-headphone-alt(ng-show="t.implicationType == 'Support'")
+              span.icon.ti-palette(ng-show="t.implicationType == 'Design'")
+              span.icon.ti-layout(ng-show="t.implicationType == 'Product'")
+              span.icon.ti-pie-chart(ng-show="t.implicationType == 'Marketing'")
+              | {{t.implicationType}} Implications
+            div(ng-hide="$prjct.show === 'EditProject'")
+              p(ng-show="t.description.length") {{t.description}}
+              .placeholder(ng-hide="t.description.length")
+                p
+                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
+                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
+                  span(style="height: 8px; width: 60%; margin-bottom: 10px")
+                p
+                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
+                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
+                  span(style="height: 8px; width: 60%; margin-bottom: 20px")
+            div(ng-show="$prjct.show === 'EditProject'")
+              textarea.form-control(rows=4,
+                ng-model="t.description",
+                placeholder="Enter {{t.implicationType}} implications...")
+        .content(ng-hide="$prjct.project.implications.length"): .wrap
+          ul.nav
+            li Sales
+            li Support
+            li Design
+            li Product
+            li Marketing
+          .tab
+            strong(style="margin-bottom: 15px;"): .group
+              //- span.icon.ti-headphone-alt
+              span.icon
+              //- | Support Implications
+              span(style="height: 14px; width: 40%; margin-left: 35px; margin-top: 4px")
+            p
+              span(style="height: 8px; width: 100%; margin-bottom: 10px")
+              span(style="height: 8px; width: 100%; margin-bottom: 10px")
+              span(style="height: 8px; width: 60%; margin-bottom: 10px")
+            p
+              span(style="height: 8px; width: 100%; margin-bottom: 10px")
+              span(style="height: 8px; width: 100%; margin-bottom: 10px")
+              span(style="height: 8px; width: 60%; margin-bottom: 20px")
+            .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addImplications()") ADD IMPLICATIONS
+      .page-fade(style="bottom: 0")
 
-.container
-  .project-content
-    .card.progress-card: .flex-row
-      .item.main
-        .progress-bar
-          .pb_label 30% Complete
-          .pb_meter: .pb_meter_progress(style="width: 30%")
-      .item
-        .badge 12
-        span.ti-files
-        .title Resources
-      .item
-        .badge 3
-        span.ti-check-box
-        .title Tasks
-    .project-title#section-0
-      p.project-cat USABILITY PROJECT
-      h1 {{$prjct.project.title}}
-      br
-      p {{$prjct.project.summary}}
-      br
-      ul.attachments
-        li: a(href="#")
-          i.icon.icon-recording
-          | Complete Research
-        li: a(href="#")
-          i.icon.icon-document
-          | Customer Calls Recordings
-        li: a(href="#")
-          i.icon.icon-pdf
-          | Call Scripts
-      hr
-    section.project-content_section#section-1
-      h2 Summary &amp; Background
-      p {{$prjct.project.overview}}
-    section.project-content_section.project-goal#section-2
-      h2 Project Goals
-      .content: ul
-        li(ng-repeat="goal in $prjct.project.goals")
-          .item-label.primary(data-content="{{goal.primary ? 'P' : 'S'}}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
-          p {{goal.description}}
-    section.project-content_section.questions-considered#section-3
-      h2 Questions Considered
-      .content: ul
-        li(ng-repeat="q in $prjct.project.questions")
-          .item-label: span.icon.ti-angle-down
-          h3 {{q.question}}
-          p {{q.description}}
-          p.note LAST UPDATED - {{q.timestamp.updatedAt | date: 'MM/dd/yyyy'}}
-    section.project-content_section.key-findings#section-4(ng-class="{'empty': !$prjct.project.findings.length}")
-      h2 Key Findings
-      .content(ng-show="$prjct.project.findings.length"): ul
-        li(ng-repeat="f in $prjct.project.findings")
-          .item-label(data-content="JD"): .item-description John Doe
-          h3 {{f.title}}
-          p {{f.description}}
-          p.note LAST UPDATED - {{f.updated | date: 'MM/dd/yyyy'}}}}
-      .content(ng-hide="$prjct.project.findings.length")
-        ul
-          li
-            .item-label
-            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-            p.note: span(style="height: 8px; width: 15%")
-          li
-            .item-label
-            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-            p.note: span(style="height: 8px; width: 15%")
-          li
-            .item-label
-            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-            p.note: span(style="height: 8px; width: 15%")
-        .add: .overlay: a.btn.btn-sm.btn-primary ADD KEY FINDINGS
-    section.project-content_section.key-findings#section-5(ng-class="{empty: !$prjct.project.quotes.length}")
-      h2 Direct Quotes
-      .content(ng-show="$prjct.project.quotes.length")
-        .quote(ng-repeat="quote in $prjct.project.quotes")
-          i.icon.ti-quote-left
-          .quote-meta {{quote.source}}
-          .quote-content {{quote.quote}}
-          .quote-author
-            .qa-photo(style="background-image: url({{quote.author.photo}})")
-            .qa-content 
-              .qa-name {{quote.author.name}}
-              .qa-title {{quote.author.title}}
-      .content(ng-hide="$prjct.project.quotes.length")
-        .quote
-          i.icon.ti-quote-left
-          .quote-meta
-            span(style="height: 8px; display: inline-block; width: 10%; margin-right: 5px")
-            span(style="height: 8px; display: inline-block; width: 10%")
-          .quote-content
-            span(style="height: 8px; display: block; width: 100%; margin-bottom: 8px")
-            span(style="height: 8px; display: block; width: 80%; margin-bottom: 8px")
-            span(style="height: 8px; display: block; width: 60%; margin-bottom: 8px")
-          .quote-author
-            .qa-photo(style="background-image: url({{quote.author.photo}})")
-            .qa-content 
-              .qa-name: span(style="height: 12px; display: inline-block; width: 20%")
-              .qa-title: span(style="height: 8px; display: inline-block; width: 10%")
-        .add: .overlay: a.btn.btn-sm.btn-primary ADD DIRECT QUOTES
-    section.project-content_section.personas#section-6
-      h2 Personas
-      .content.group
-        .persona.primary(ng-repeat="persona in $prjct.project.personas")
-          .persona-header(style="background-image: url({{persona.photo}})")
-            .persona-header_tag(ng-show="persona.primary") PRIMARY
-            .persona-header_name {{persona.name}}
-            .persona-header_title {{persona.title}}
-          .persona-content {{persona.description|limitTo:150}}{{persona.description.length > 150 ? '...' : null}}
-    section.project-content_section.decisions#section-7(ng-class="{empty: !$prjct.project.decisions.length}")
-      h2 Decisions
-      .content(ng-show="$prjct.project.decisions.length")
-        ul
-          li(ng-repeat="d in $prjct.project.decisions")
-            .item-label: span.icon.zmdi-check
-            h3 {{d.title}}
-            p {{d.description}}
-            p.note LAST UPDATED - {{d.updated | date: 'MM/dd/yyyy'}}}}
-      .content(ng-hide="$prjct.project.decisions.length")
-        ul
-          li
-            .item-label
-            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-            p.note: span(style="height: 8px; width: 15%")
-          li
-            .item-label
-            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-            p.note: span(style="height: 8px; width: 15%")
-          li
-            .item-label
-            h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-            p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-            p.note: span(style="height: 8px; width: 15%")
-        .add: .overlay: a.btn.btn-sm.btn-primary ADD DECISIONS
-    section.project-content_section.implications.empty#section-8
-      h2 Implications
-      .content(ng-hide="$pjct.project.implications.length"): .wrap
-        ul.nav
-          li Sales
-          li Support
-          li Design
-          li Product
-          li Marketing
-        .tab
-          strong(style="margin-bottom: 15px;"): .group
-            //- span.icon.ti-headphone-alt
-            span.icon
-            //- | Support Implications
-            span(style="height: 14px; width: 40%; margin-left: 35px; margin-top: 4px")
-          p
-            span(style="height: 8px; width: 100%; margin-bottom: 10px")
-            span(style="height: 8px; width: 100%; margin-bottom: 10px")
-            span(style="height: 8px; width: 60%; margin-bottom: 10px")
-          p
-            span(style="height: 8px; width: 100%; margin-bottom: 10px")
-            span(style="height: 8px; width: 100%; margin-bottom: 10px")
-            span(style="height: 8px; width: 60%; margin-bottom: 20px")
-          .add: .overlay: a.btn.btn-sm.btn-primary ADD IMPLICATIONS
-    .page-fade(style="bottom: 0")
-
-//-
-  - Sidebar
-  - @TODO: Move to Module, import from there
-aside.sidebar#sidebar(ng-class="{show: $prjct.ShowSidebar}", onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';")
-  .sidebar_section  
-    h4 The Basics
-    .sc_row
-      p.label STATUS
-      .flex-row(style="margin-top: 10px")
-        .status.past
-          .status-bar
-          .status-label Planning
-        .status.active
-          .status-bar
-          .status-label In Progress
-        .status
-          .status-bar
-          .status-label Complete
-    .sc_row
-      p.label CONDUCTED BY
-      .select.input-group
-        i.angle-down
-        select(disabled)
-          option John Doe - UX Researcher
-          option John Doe - UX Researcher
-          option John Doe - UX Researcher
-      .flex-row
-        .input-block
-          p.label LAST UPDATED
-          span {{$prjct.project.timestamp.updatedAt | date: 'MMM d, yyyy'}}
-        .input-block
-          p.label CREATED
-          span {{$prjct.project.timestamp.createdAt | date: 'MMM d, yyyy'}}
-  .sidebar_section
-    h4 Resources / Files
-    .sc_row
-      ul
-        li: a(href="#") Complete Research
-        li: a(href="#") Customer Calls Recording
-        li: a(href="#") Call Scripts
-  .sidebar_section
-    h4 Tags
-    .sc_row
-      p.label CATEGORY
-      input(type="text", ng-model="$prjct.project.taxonomy.category.pretty", disabled)
-    .sc_row
-      p.label SUBCATEGORY
-      input(type="text", ng-model="$prjct.project.taxonomy.subcategory.pretty", disabled)
-    .sc_row
-      p.label TAGS
-      .tags-row
-        span.tag(ng-repeat="tag in $prjct.project.taxonomy.tags") {{tag.pretty}}
-        span(ng-show="$prjct.project.taxonomy.tags.length <= 0"): small(style="display: block; padding: 0 5px") No tags to show.
-  .sidebar_section
-    h4 Methodologies
-    .sc_row
-      ul.list-bullet
-        li Contextual Task Analysis
-        li Usability Testing
-        li User Experience Modeling
-  .sidebar_section
-    h4 Links
-    .sc_row
-      ul.list-links
-        li: a(href="#") 15 Usability Best Practices for Popup Modals in Enterprise Applications
-        li: a(href="#") Case Study: How Turbo Tax Tricks Users Into Completing Complex Flows
-  .sidebar_section
-    h4 Retrospective
-    .sc_row
-      textarea(rows=4)
-      .group
-        input.pull-right(type="submit", value="ADD COMMENT")
-    .sc_row.comments
-      .input-block.comment
-        p One of the things we could have done better was tweaking the script a bit in advance to be more contextually relevant to our specific project.
-        span.name Jenni Pedersen
+  //-
+    - Sidebar
+    - @TODO: Move to Module, import from there
+  aside.sidebar#sidebar(ng-class="{show: $prjct.show === 'ShowSidebar' || $prjct.show === 'EditProject'}", prevent:scroll)
+    .sidebar_section  
+      h4 The Basics
+      .sc_row
+        p.label STATUS
+        .flex-row(style="margin-top: 10px")
+          .status.past
+            .status-bar
+            .status-label Planning
+          .status.active
+            .status-bar
+            .status-label In Progress
+          .status
+            .status-bar
+            .status-label Complete
+      .sc_row
+        p.label CONDUCTED BY
+        .input-group
+          i.angle-down
+          input(type="text",
+            placeholder="Researcher",
+            ng-model="researcher",
+            ng-disabled="$prjct.show != 'EditProject'",
+            ng-value="$prjct.project.researcher.name",
+            uib-typeahead="researcher as researcher.name for researcher in $users | filter: researcher | limitTo: 8",
+            typeahead-on-select="$prjct.project.researcher = researcher._id")
+        .flex-row
+          .input-block
+            p.label CREATED
+            span {{$prjct.project.createdAt | date: 'MMM d, yyyy'}}
+          .input-block
+            p.label LAST UPDATED
+            span {{$prjct.project.updatedAt | date: 'MMM d, yyyy'}}
+    .sidebar_section
+      h4 Resources / Files
+      .sc_row
+        ul.attachments.items
+          li(ng-repeat="file in $prjct.project.resources", style="padding: 0")
+            a(href="{{file.url}}", ng-hide="$prjct.show === 'EditProject'")
+              i(class="file-{{file.fileType}}")
+              | {{file.name}}
+            span.input-group.group(ng-show="$prjct.show === 'EditProject'")
+              .flex-row
+                .select
+                  select.form-control.ctrl-sm(ng-model="file.fileType")
+                    option(value="", selected, disabled) File Type
+                    option(ng-repeat="option in fileTypes", value="{{option.value}}") {{option.label}}
+                  span.ti-angle-down.icon-right
+                input.form-control.ctrl-sm(ng-model="file.name", placeholder="File Name")
+              input.form-control.ctrl-sm(ng-model="file.url", placeholder="File URL")
+              span.icon.ti-close(ng-click="$prjct.project.resources.splice($index, 1)")
+          li(ng-show="$prjct.show === 'EditProject'", style="padding: 0", ng-click="$prjct.project.resources.push({})"): span.add(style="display: block;")
+            i.ti-plus
+            |  Add File
+          li(ng-show="$prjct.project.resources.length <= 0 && $prjct.show != 'EditProject'", style="padding: 0"): span(style="display: block;") No files added yet.
+    .sidebar_section
+      h4 Tags
+      .sc_row
+        p.label CATEGORY
+        input(type="text",
+          placeholder="Category...",
+          ng-model="category_search",
+          ng-disabled="$prjct.show != 'EditProject'",
+          ng-value="$prjct.project.taxonomy.category.pretty",
+          uib-typeahead="category as category.pretty for category in $categories | filter: category_search | limitTo: 8",
+          typeahead-on-select="$prjct.project.taxonomy.category = category_search._id")
+      .sc_row
+        p.label SUBCATEGORY
+        input(type="text",
+          placeholder="Subcategory...",
+          ng-model="subcategory_search",
+          ng-disabled="$prjct.show != 'EditProject'",
+          ng-value="$prjct.project.taxonomy.subcategory.pretty",
+          uib-typeahead="subcategory as subcategory.pretty for subcategory in $subcategories | filter: subcategory_search | limitTo: 8",
+          typeahead-on-select="$prjct.project.taxonomy.subcategory = subcategory_search._id")
+      .sc_row
+        p.label PRODUCT
+        input(type="text",
+          placeholder="Product...",
+          ng-model="product_search",
+          ng-disabled="$prjct.show != 'EditProject'",
+          ng-value="$prjct.project.taxonomy.products[0].title",
+          uib-typeahead="product as product.title for product in $products | filter: product_search | limitTo: 8",
+          typeahead-on-select="$prjct.project.taxonomy.products[0] = product_search._id")
+      .sc_row
+        p.label TAGS
+        .tags-row(ng-show="$prjct.show === 'EditProject'")
+          tags-input(ng-model="$prjct.project.taxonomy.tags",
+            display-property="pretty",
+            name="tags",
+            on-tag-added='$prjct.createTag($tag)',
+            add-from-autocomplete-only=0
+            novalidate)
+            auto-complete(source="loadTags($query)"
+              min-length=1,
+              max-results-to-show="4")
+        .tags-row(style='margin-left: -5px; margin-right: -5px', ng-hide="$prjct.show === 'EditProject'")
+          span.tag(ng-repeat="tag in $prjct.project.taxonomy.tags") {{tag.pretty}}
+          span(ng-show="$prjct.project.taxonomy.tags.length <= 0"): small(style="display: block; padding: 0 5px") No tags to show.
+    .sidebar_section
+      h4 Methodologies
+      .sc_row(ng-hide="$prjct.show === 'EditProject'")
+        ul.list-bullet.items
+          li(ng-show="$prjct.project.researchMethod.length", ng-repeat="method in $prjct.project.researchMethod") {{method.title}}
+          li(ng-hide="$prjct.project.researchMethod.length"): span No methodologies added yet.
+      .sc_row(ng-show="$prjct.show === 'EditProject'")
+        ul.attachments.items
+          li(ng-show="$prjct.project.researchMethod.length", ng-repeat="link in $prjct.project.researchMethod", style="padding: 0")
+            input(type="text",
+              placeholder="Search by Research Method...",
+              ng-model="method_search[$index]",
+              ng-disabled="$prjct.show != 'EditProject'",
+              ng-value="$prjct.project.researchMethod[$index].title",
+              uib-typeahead="method as method.title for method in $methods | filter: method_search[$index] | limitTo: 8",
+              typeahead-on-select="$prjct.project.researchMethod[$index] = method_search[$index]._id")
+            span.icon.ti-close(ng-click="$prjct.project.researchMethod.splice($index, 1)")
+          li(style="padding: 0", ng-click="$prjct.project.researchMethod.push({})"): span.add(style="display: block;")
+            i.ti-plus
+            |  Add Methodology
+    .sidebar_section
+      h4 Links
+      .sc_row(ng-hide="$prjct.show === 'EditProject'")
+        ul.list-links.items
+          li(ng-show="$prjct.project.links.length", ng-repeat="link in $prjct.project.links")
+            a(href="{{link.url}}") {{link.title}}
+          li(ng-hide="$prjct.project.links.length"): span No links added yet.
+      .sc_row(ng-show="$prjct.show === 'EditProject'")
+        ul.attachments.items
+          li(ng-show="$prjct.project.links.length", ng-repeat="link in $prjct.project.links", style="padding: 0")
+            .input-group
+              input.form-control.ctrl-sm(ng-model="link.title", placeholder="Link Title")
+              input.form-control.ctrl-sm(ng-model="link.url", placeholder="Link URL")
+            span.icon.ti-close(ng-click="$prjct.project.links.splice($index, 1)")
+          li(style="padding: 0", ng-click="$prjct.project.links.push({})"): span.add(style="display: block;")
+            i.ti-plus
+            |  Add Link
+    .sidebar_section
+      h4 Retrospective
+      .sc_row: form(name="addComment", ng-submit="$prjct.addComment()")
+        textarea(rows=4, ng-model="$prjct.comment", ng-class="{'has-error': $prjct.NoComment}", placeholder="Placeholder...")
+        .group
+          input.pull-right(type="submit", value="ADD COMMENT")
+      .sc_row.comments
+        .input-block.comment(ng-repeat="comment in $prjct.project.comments | orderBy: 'createdAt':true")
+          p {{comment.comment}}
+          span.name {{comment.user}}
+          span.icon.ti-close(ng-click="$prjct.project.comments.splice($index, 1)", ng-show="$prjct.show === 'EditProject'")

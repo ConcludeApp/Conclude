@@ -2,7 +2,7 @@
   form#question-2(name="q2")
     span.question When do you need your research insights by?
     hr
-    .row
+    .row.question-body: .group
       .col.l-col
         .date-picker.flex-row
           .m
@@ -45,8 +45,8 @@
           li XYZ Usability Study
             span.date LAST UPDATED - 02/18/2016
     footer.new-project-footer
-      a.btn.btn-base(ui-sref="^.") BACK
-      button.btn.pull-right(ui-sref="^.Q3",
+      .pull-left: a.btn.btn-outline(ui-sref="^.") BACK
+      .pull-right: button.btn(ui-sref="^.Q3",
       ng-class="{'btn-primary': ($project.endDate.month && $project.endDate.day && $project.endDate.year)}",
       ng-disabled="!($project.endDate.month && $project.endDate.day && $project.endDate.year)",
       type="submit") NEXT

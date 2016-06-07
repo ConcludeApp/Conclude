@@ -1,0 +1,32 @@
+.fade-content
+  .input-group(prevent:scroll)
+    .modal-header.text-center Add Decisions
+    .description Provide a general overview of the project and what compelled this research.
+    ol.fields
+      li(ng-repeat="quote in project.quotes")
+        input.form-control.ctrl-sm(type="text",
+          placeholder="Enter the source of the quote...",
+          ng-model="project.quotes[$index].source",
+          ng-required="$index < 1")
+        textarea.form-control.ctrl-sm(rows=2, 
+          placeholder="Enter the quote...",
+          ng-model="project.quotes[$index].quote",
+          ng-required="$index < 1")
+        .flex-row
+          .input
+            input.form-control.ctrl-sm(type="text",
+              placeholder="Enter a Author's name...",
+              ng-model="project.quotes[$index].author.name",
+              ng-required="$index < 1")
+          .input
+            input.form-control.ctrl-sm(type="text",
+              placeholder="Enter the Author's title...",
+              ng-model="project.quotes[$index].author.title",
+              ng-required="$index < 1")
+        span.icon.ti-close(ng-show="$index >= 1", ng-click="project.quotes.splice($index, 1)")
+    span.add(ng-click="project.quotes.push({})", ng-show="project.quotes[0].source.length && project.quotes[0].quote.length && project.quotes[0].author.name.length")
+      span.ti-plus
+      | Add Another Quote
+    .btn-group.flex-row
+      a.btn.btn-secondary(ng-click="close()") CANCEL
+      a.btn.btn-primary(ng-click="save()") SAVE

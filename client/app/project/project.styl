@@ -114,12 +114,12 @@
     padding $padding
     
 .quote
-  padding-left ($padding + 30)
+  padding-left ($padding * 2)
   position relative
   i
     color #F04533
     font-size 18px
-    left 0
+    left 6px
     position absolute
     top -2px
     vertical-align bottom
@@ -176,8 +176,10 @@
       margin-bottom ($padding / 2)
   hr
     margin ($padding + 10) auto ($padding * 3)
+  .attachments li
+    display inline-block
 .project-content
-  padding 80px 0 0
+  padding 80px 0 65%
   .project-content_section
     margin 0 auto 80px
     p,
@@ -194,22 +196,24 @@
       text-transform uppercase
       & + p
         margin ($padding - 10) auto 0
-    .content
-      margin ($padding + 10) 0 0
     p
       font normal 14px/24px $fn-primary
-    ul
-      list-style none
-      margin 0
-      padding-left ($padding + 20)
-      li
-        position relative
-        p + p.note
-          color $c-gray
-          font normal 10px/22px $fn-primary
-          letter-spacing 0.075em
-        &:nth-child(n+2)
-          margin-top 40px
+      word-wrap break-word
+      white-space pre-line
+    .content
+      margin ($padding + 10) 0 0
+      ul
+        list-style none
+        margin 0
+        padding-left ($padding + 20)
+        li
+          position relative
+          p.note
+            color $c-gray
+            font normal 10px/22px $fn-primary
+            letter-spacing 0.075em
+          &:nth-child(n+2)
+            margin-top 40px
     &.project-goal
       ul > li > .item-label
         background-color #A0AEBB
@@ -217,17 +221,31 @@
           background-color $c-blue
     &.questions-considered
       ul > li
+        p
+          overflow hidden
+          transition height 300ms ease
         & > .item-label
           background transparent
           border 1px solid #9FAEBB
           color #9FAEBB
+          transition all 200ms ease
+          i.ti-angle-down
+            position relative
+            top 2px
+          i.ti-angle-up
+            position relative
+            top -3px
+          &:hover
+            background $c-blue
+            border 1px solid $c-blue
+            color white
         &.open
           & > .item-label
             border 1px solid $c-blue
-          i.angle-down
-            color $c-blue
-            left -1px
-            transform rotate(-45deg)
+            span
+              color $c-blue
+              left -1px
+              transform rotate(-45deg)
     &.key-findings
       ul > li > .item-label
         background transparent
@@ -235,6 +253,8 @@
         color $c-blue
         font 600 10px/24px $fn-primary
     &.implications
+      // min-height 300px
+      // padding-bottom 100%
       .wrap
         background white
         border 1px solid $c-light-gray
@@ -245,6 +265,7 @@
         border-bottom 1px solid $c-light-gray
         list-style none
         margin 0
+        padding-left $padding
         & > li
           cursor pointer
           display inline-block
@@ -266,6 +287,7 @@
               right 0
               width 100%
       .tab
+        white-space pre-line
         padding ($padding + 10) 0 0
         position relative
         strong
@@ -274,13 +296,15 @@
           font-weight 600
           line-height 36px
           margin-bottom 5px
-          span.icon
+          [class*='ti']
+            background transparent
             color $c-blue
             display inline-block
             font-size 22px
-            margin-bottom 3px
+            // margin-bottom 3px
+            line-height 32px
             margin-right 10px
-            vertical-align middle
+            vertical-align bottom
         p
           font-size 14px
           line-height 22px
@@ -288,10 +312,14 @@
     &.decisions
       ul > li > .item-label
         background transparent
-        border 0
+        border 1px solid $c-border
         i
-          color #A0AEBB
-          font-size 22px
+          color $c-blue
+          font-size 24px
+          left 2px
+          position relative
+          text-shadow 0 1px 0 white, 0 2px 0 white, 0 3px 0 white, 0 4px 0 white, 0 5px 0 white, 0 -1px 0 white, 0 -2px 0 white, 0 -3px 0 white, 0 -4px 0 white, 0 -5px 0 white
+          top -4px
           vertical-align bottom
     &.empty
       position relative
@@ -349,10 +377,10 @@
   transition right 400ms ease
   // transform translateX(100%)
   width 320px
-  z-index 9
+  z-index 11
   &.show
     animation ShowSidebar 200ms 1
-    right -20px
+    right -15px
   .sidebar_section
     margin-bottom $padding
     .sc_row
@@ -376,8 +404,9 @@
         vertical-align bottom
     .comments
       .input-block.comment
-        margin 0 0 ($padding / 10)
+        margin 0 0 ($padding / 2)
         padding $padding
+        position relative
         p
           font-size 12px
           line-height 16px
@@ -388,11 +417,20 @@
           letter-spacing 0.15em
           text-transform uppercase
           vertical-align bottom
-    ul
+        .ti-close
+          left 103%
+          top 0
+    ul.dropdown-menu
+      max-width 245px
+      li
+        line-height 32px
+        margin 0
+        text-decoration none
+    ul.items
       list-style none
       margin 0
       padding 0
-      li
+      & > li
         display block
         font-size 12px
         font-weight 500
@@ -401,26 +439,29 @@
         padding-left $padding
         position relative
       &[class*="list"] li:before
-        absolute left 0 top 0
         font-family "themify"
         -webkit-font-smoothing antialiased
         -moz-osx-font-smoothing grayscale
         font-style normal
         font-variant normal
         font-weight normal
+        left 0
         line-height 16px
+        position absolute
         text-decoration none
         text-transform none
+        top 0
         vertical-align middle
       &.list-links li:before
         content "\e62d"
       &.list-bullet
         li:before,
         li:after
-          absolute top 0 bottom 0
+          bottom 0
           line-height 16px
           margin auto
-      
+          position absolute
+          top 0
     a
       color inherit
       display inline-block
@@ -429,8 +470,7 @@
       text-decoration underline
     input[type="text"],
     input[disabled],
-    textarea,
-    select
+    textarea
       appearance none
       background white
       border 1px solid $c-border
@@ -440,10 +480,10 @@
       margin-top ($padding / 4)
       outline 0
       padding 0 ($padding / 2)
+      transition border 200ms ease, box-shadow 200ms ease
       width 100%
     input[type="text"],
-    input[disabled],
-    select
+    input[disabled]
       height 32px
     input[disabled]
       background #EFF1F4
@@ -454,10 +494,19 @@
       font 600 10px/24px $fn-primary
       letter-spacing 0.15em
       margin-top ($padding / 2)
+      outline 0
       padding 0 ($padding / 2)
+      transition background 200ms ease
+      &:hover,
+      &:focus
+        background darken($c-teal, 20%)
     textarea
       padding-bottom ($padding / 2)
       padding-top ($padding / 2)
+      &.has-error
+        border 1px solid #DE4A31
+        &:focus
+          box-shadow 0 0 5px rgba(#DE4A31, 0.2)
       
 
   .status
@@ -507,6 +556,8 @@
         vertical-align middle
         &:hover
           color darken(#9FACB9, 20%)
+        &.active
+          color darken(#9FACB9, 60%)
       &:before
         background $c-light-gray
         border 3px solid white
@@ -539,7 +590,22 @@
         &:after
           background $c-teal
           z-index 2
-          
+.notifications
+  background-color #FFFFFF
+  border 1px solid #EEF1F5
+  border-radius 0 2px
+  color $c-gray
+  font-size 13px
+  line-height 13px
+  padding 20px
+  input
+    margin-right 5px
+  p
+    display inline-block
+    margin 0
+    em
+      color $c-blue
+      font-style normal
 .share
   background-color #FFFFFF
   border 1px solid #EEF1F5
@@ -598,6 +664,19 @@
       line-height 40px
       outline 0
       width 100%
+    .clear
+      cursor pointer
+      font-size 16px
+      font-weight 400
+      line-height 60px
+      opacity 0
+      padding 0 20px 0 10px
+      position absolute
+      right 0
+      top 1px
+      transition opacity 200ms ease
+      &.in
+        opacity 1
   .share_list
     padding 5px 0
     .sl_item
@@ -606,6 +685,7 @@
       height 50px
       padding 0 $padding
       position relative
+      transition opacity 200ms ease, top 200ms ease
       width 100%
       .avatar
         flex-grow 0
@@ -614,6 +694,16 @@
           border 0
       .sli_content
         flex-grow 2
+      .select
+        .form-control
+          font-size 10px
+          font-weight 500
+          letter-spacing 0.05em
+          padding 0 10px
+          text-align center
+        .icon
+          position absolute
+          right 5px
       span.name,
       span.email
         display block
@@ -697,6 +787,10 @@
         cursor pointer
         &:hover
           background-color rgba($c-blue, 0.1)
+      &.invalid
+        opacity 0.5
+      &.invitee
+        animation NewInvite 200ms 1
   .share_invitees
     clearfix()
     font-size 12px
@@ -728,6 +822,12 @@
     a.btn
       float right
       width auto
+      &.btn-secondary
+        background transparent
+        border 1px solid transparent
+        color $c-gray
+        &:hover
+          color darken($c-gray, 20%)
       
 .progress-card
   margin-bottom ($padding * 2)
@@ -810,7 +910,46 @@
     top 39px
     visibility visible
     z-index 11
-    
+.grid
+  margin 20px -20px
+  .grid-item
+    padding 0 ($padding / 2) ($padding / 2)
+    float left
+    width 33.3333%  
+  .project-card
+    background white
+    border 1px solid $c-light-gray
+    border-radius 2px
+    color $c-copy
+    margin 0
+    transition box-shadow 200ms ease
+    .pc_content,
+    .pc_meta
+      padding $padding
+    .pc_meta
+      border-top 1px solid $c-light-gray
+    span,
+    strong
+      display block
+    strong
+      font-weight 500
+      margin 5px 0
+    span
+      color $c-gray
+      font-size 10px
+      font-weight 400
+      letter-spacing 0.15em
+      text-transform uppercase
+      &.status
+        color $c-gray
+        span
+          color $c-copy
+          font normal 14px/18px $fn-primary
+          text-transform initial
+    &:hover
+      border 1px solid $c-light-gray
+      box-shadow 0 1px 4px rgba(#3F4E5A, 0.1)
+
 @keyframes ShowSidebar
   0%
     right -100%
@@ -818,3 +957,106 @@
     right 0px
   100%
     right -10px
+@keyframes NewInvite
+  0%
+    opacity 0
+  100%
+    opacity 1
+    
+/* Edit State */
+.edit
+  .project-title .attachments li
+    display block
+  .project-content
+    span.add
+      display block
+      margin-top $padding
+      padding-left 0
+    .project-content_section ul li:nth-child(n+2)
+      margin-top ($padding / 2)
+    .project-content_section .quote:nth-child(n+2)
+      margin-top $padding
+    .content ul li span.icon,
+    .content .quote .ti-close,
+    .personas .ti-close
+      color $c-gray
+      position absolute
+      left 102%
+      top 0
+      &:hover
+        color $c-copy
+    input + textarea
+      margin-top ($padding / 2)
+    ul.dropdown
+      padding 0
+.attachments li
+  display inline-block
+  margin-bottom ($padding / 2)
+  .select
+    flex 1
+    span
+      color $c-copy
+      position absolute
+  input
+    flex 2
+  .add
+    cursor pointer
+.sidebar
+  .ti-close
+    color $c-copy
+    cursor pointer
+    flex 0
+    position absolute
+    width 14px
+    z-index 2
+    &:hover
+      color red
+  .tags-row
+    margin 10px 0 0
+  .tags
+    height auto
+    padding 2px
+    input[type="text"]
+      border 0
+      height 28px
+      line-height 28px
+      outline 0
+      margin 1px
+      padding 0 0 0 5px
+      vertical-align middle
+    ul.tag-list
+      li.tag-item
+        font-size 12px
+        height 20px
+        line-height 18px !important
+        margin 1px 2px 4px 5px
+        padding 0 4px
+        a
+          text-decoration none
+  .attachments li
+    color $c-copy
+    display block
+    a
+      font-weight 400
+      text-decoration none
+      i
+        margin-right 5px
+    .flex-row
+      padding 0
+    .select,
+    input
+      flex 1
+      & + input
+        margin-top 5px
+    select,
+    input
+      padding 0 10px
+    .flex-row + input
+      margin-top 10px
+    .ti-close
+      left 103%
+      top 0
+  span.add
+    padding-left 0
+.faded
+  display none

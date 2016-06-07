@@ -3,7 +3,7 @@
     span.question What phase is your project in?
     hr
     pre {{project}}
-    .row
+    .question-body.row: .group
       .col.l-col: .phase-picker
         .input-group
           label(for="1")
@@ -40,5 +40,5 @@
           li XYZ Usability Study
             span.date LAST UPDATED - 02/18/2016
     footer.new-project-footer
-      a.btn.btn-base(ui-sref="^.Q2") BACK
-      button.btn.pull-right(ui-sref="^.Q4", ng-class="{'btn-primary': $project.phase}", ng-disabled="!$project.phase", type="submit") NEXT
+      .pull-left: a.btn.btn-outline(ui-sref="^.Q2") BACK
+      .pull-right: button.btn(ui-sref="^.Q4", ng-class="{'btn-primary': $project.phase}", ng-disabled="!$project.phase", type="submit") NEXT

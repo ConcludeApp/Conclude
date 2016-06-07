@@ -12,7 +12,7 @@
         #question-1
           span.question What category, subcategory, and/or product will we cover with this research?
           hr
-          .row
+          .question-body.row: .group
             .col.l-col
               .input-group(data-label="CATEGORY")
                 input.form-control.tr-title(type="text", 
@@ -44,6 +44,6 @@
                   span.date LAST UPDATED - 02/18/2016
                 li XYZ Usability Study
                   span.date LAST UPDATED - 02/18/2016
-        footer.new-project-footer
-          a.btn.btn-base(style="opacity: 0.25") BACK
-          button.btn.pull-right(ui-sref=".Q2", ng-class="{'btn-primary': NewProject.$valid}", ng-disabled="NewProject.$invalid", type="submit") NEXT
+          footer.new-project-footer.group
+            .pull-left: a.btn.btn-outline(style="opacity: 0.25") BACK
+            .pull-right: button.btn(ui-sref=".Q2", ng-class="{'btn-primary': NewProject.$valid}", ng-disabled="NewProject.$invalid", type="submit") NEXT

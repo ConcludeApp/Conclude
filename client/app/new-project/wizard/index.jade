@@ -2,7 +2,7 @@ header.header
   .header-action: span.icon.ti-menu
   .header-title Start a New Project
   .header-nav: ul
-    li Last updated {{NewProject.project.timestamp.updatedAt | timeAgo}} &nbsp;
+    li Last updated {{NewProject.project.updatedAt | timeAgo}} &nbsp;
       span.icon.ti-trash(ng-click="NewProject.deleteProject()")
 .container.large
   form(name="NewProjectWizard", ng-submit="NewProject.updateProject()")
@@ -12,10 +12,10 @@ header.header
         input(type="text", ng-model="NewProject.project.title", placeholder="Enter a title for your project...", name="title", required, novalidate)
       .meta-item
         span START DATE
-        input(type="text", ng-model="NewProject.project.timestamp.startAt", mask="39/39/9999", restrict="reject", placeholder="01/10/2016", name="start_date", required, novalidate)
+        input(type="text", ng-model="NewProject.project.timestamp.startAt", mask="19/39/9999", clean="true", placeholder="01/10/2016", name="start_date", required, novalidate)
       .meta-item
         span END DATE
-        input(type="text", ng-model="NewProject.project.timestamp.endAt", mask="39/39/9999", restrict="reject", placeholder="01/11/2016", name="end_date", required, novalidate)
+        input(type="text", ng-model="NewProject.project.timestamp.endAt", mask="19/39/9999", clean="true", placeholder="01/11/2016", name="end_date", required, novalidate)
       .meta-item(ng-show="NewProject.project.taxonomy.subcategory")
         span CATEGORY
         .tr-title {{NewProject.project.taxonomy.category.pretty}}
@@ -120,16 +120,18 @@ header.header
         .status: span.ti-check
         .question TAGS
           .description Add tags to your research to make it easier to find by others looking for insights when you’re done. Seperate tags with commas.
-        tags-input(ng-model="NewProject.project.taxonomy.tags",
-          key-property="_id", display-property="pretty",
+        tags-input(ng-model="NewProject.project.tags",
+          display-property="pretty",
           name="tags",
           ng-required="NewProjectWizard.tags.$touched",
           ng-focus="NewProject.setFocus('tags')",
           ng-blur="NewProject.clearFocus()",
-          min-length=1,
-          add-from-autocomplete-only=1,
+          on-tag-added='NewProject.createTag($tag)',
+          add-from-autocomplete-only=0
           novalidate)
-          auto-complete(source="NewProject.loadTags()")
+          auto-complete(source="NewProject.loadTags($query)"
+            min-length=1,
+            max-results-to-show="4")
 
     .page-fade
     footer.new-project-footer

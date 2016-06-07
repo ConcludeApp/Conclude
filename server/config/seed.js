@@ -17,6 +17,7 @@ import Persona from '../api/persona/persona.model'
 import Tag from '../api/tag/tag.model'
 import File from '../api/file/file.model'
 
+/*
 File.find({}).remove()
   .then(() =>{
     File.create({
@@ -61,33 +62,28 @@ Tag.find({}).remove()
   .then(() =>{
     Tag.create({
       "_id": "573f42a7134454087bed4e49",
-      "pretty": "non",
-      "namespace": "tag:non"
+      "pretty": "my",
+      "namespace": "tag:my"
     },
     {
       "_id": "573f42a7929b0ade79968eb1",
-      "pretty": "sunt",
-      "namespace": "tag:sunt"
+      "pretty": "tags",
+      "namespace": "tag:tags"
     },
     {
       "_id": "573f42a78d71f5a258a021f5",
-      "pretty": "consectetur",
-      "namespace": "tag:consectetur"
+      "pretty": "are",
+      "namespace": "tag:are"
     },
     {
       "_id": "573f42a7dbca18d419a85090",
-      "pretty": "nulla",
-      "namespace": "tag:nulla"
-    },
-    {
-      "_id": "573f42a7e24d1ef78eb1a0b6",
-      "pretty": "nulla",
-      "namespace": "tag:nulla"
+      "pretty": "the",
+      "namespace": "tag:the"
     },
     {
       "_id": "573f42a78904a3a294f51430",
-      "pretty": "sint",
-      "namespace": "tag:sint"
+      "pretty": "best",
+      "namespace": "tag:best"
     })
   })
 
@@ -95,11 +91,11 @@ Persona.find({}).remove()
   .then(() =>{
     Persona.create({
       "_id": "573e8120b6368b86852d84a3",
-      "name": "Bauer Ellison",
-      "title": "do anim dolor",
-      "quote": "Cillum duis dolore dolor excepteur non elit commodo sit do cupidatat sunt veniam esse. Enim reprehenderit ipsum officia nisi do ad ullamco deserunt fugiat aliquip officia adipisicing pariatur.",
-      "description": "Elit magna quis consectetur dolore reprehenderit nisi. Sint quis commodo exercitation ea Lorem mollit occaecat tempor et mollit dolor id nulla qui. Nisi eu irure enim cupidatat qui.\r\n",
-      "photo": "http://unsplash.it/500?random",
+      "name": "Olivia",
+      "title": "Email Marketing Manager",
+      "quote": "I am a hero when I become an expert and improve the efficiency of our email channel processes and KPIs.",
+      "description": "Olivia is the gatekeeper and project manager for the email channel. She makes sure everything runs smoothly. She manages the overall processes and her team of Email Marketing Specialists, who produce and deploy the company campaigns.",
+      "photo": "http://f.cl.ly/items/2s161U2x2o1o1T270H0q/Olivia.png",
       "goals": [],
       "challenges": [],
       "whatMatters": "Aliquip nisi non Lorem officia ullamco do sunt consectetur exercitation in anim. Lorem amet aliquip reprehenderit minim cillum esse aute eiusmod non deserunt labore. Elit non esse occaecat excepteur sit officia ex dolore do.",
@@ -107,134 +103,39 @@ Persona.find({}).remove()
     },
     {
       "_id": "573e8120cb818c06779e533d",
-      "name": "Vance Mccormick",
-      "title": "reprehenderit sit irure",
+      "name": "Ian",
+      "title": "Email Marketing Specialist",
       "quote": "Eu non laborum officia exercitation irure. Et id pariatur laboris enim cillum deserunt quis incididunt commodo dolore magna quis proident.",
-      "description": "Veniam ullamco dolore do amet anim eiusmod quis culpa mollit exercitation excepteur officia. Sit officia incididunt irure nostrud et proident labore minim excepteur tempor nulla pariatur. Aliqua nisi non aute eiusmod nulla occaecat sint deserunt duis aliquip nulla sit. Sunt aliquip enim sit excepteur magna duis incididunt sint.\r\n",
-      "photo": "http://unsplash.it/500?random",
-      "goals": [
-        {
-          "title": "Nostrud et cillum sint officia duis fugiat duis tempor laborum tempor veniam elit id.",
-          "description": "Aliqua commodo ad Lorem id tempor esse deserunt ullamco velit reprehenderit amet duis. Adipisicing exercitation aliquip pariatur eu culpa fugiat tempor dolor commodo aliquip proident. Labore veniam consectetur cupidatat nisi cillum mollit et proident fugiat proident minim cillum consectetur consequat."
-        }
-      ],
-      "challenges": [
-        {
-          "title": "Exercitation ad veniam amet aute minim eu anim mollit sunt consectetur adipisicing dolor.",
-          "description": "Esse in do Lorem amet elit cupidatat laborum. Consectetur officia ullamco id deserunt eu est nulla amet in. Quis commodo ex laborum ea."
-        },
-        {
-          "title": "Exercitation aliquip dolor consequat consequat irure Lorem sit et.",
-          "description": "Excepteur in laborum nisi ad aliqua esse nulla ad enim nulla. Voluptate magna in esse consectetur aute nostrud irure eiusmod minim anim sunt fugiat. Est pariatur culpa minim tempor do voluptate velit ullamco laborum Lorem sunt."
-        }
-      ],
+      "description": "Ian coordinates the campaign production by pulling together creative, lists, data files, quality assurance, and tests. He sends the campaigns through their ESP. Afterwards, he monitors, reports and shares the campaign's performance.",
+      "photo": "http://f.cl.ly/items/391C1r0E061k1M020O0c/Ian.png",
+      "goals": [],
+      "challenges": [],
       "whatMatters": "Dolore labore et ex velit ad ea mollit. Enim eiusmod sunt sint ullamco ipsum minim anim Lorem proident. Culpa dolore qui excepteur ipsum Lorem pariatur eu incididunt officia aliqua nisi sunt officia.",
       "link": "exercitation.com"
     },
     {
       "_id": "573e8120e45114111bfbc4a6",
-      "name": "Jacobs Gay",
-      "title": "irure duis consequat",
+      "name": "Steve",
+      "title": "VP Marketing",
       "quote": "Id qui eu irure magna deserunt. Non proident enim eu sit quis sunt amet consectetur eiusmod irure excepteur elit consequat.",
-      "description": "Quis anim ea consequat duis. Elit elit anim adipisicing ex eu quis occaecat pariatur aliqua aliquip. Est eu deserunt eu aute eu commodo tempor culpa duis in ipsum deserunt excepteur.\r\n",
-      "photo": "http://unsplash.it/500?random",
-      "goals": [
-        {
-          "title": "Ipsum cupidatat id voluptate duis irure ea ex occaecat eiusmod aliquip esse reprehenderit velit.",
-          "description": "Irure proident labore eu mollit deserunt duis eu in voluptate sunt excepteur adipisicing non nisi. Do mollit aute duis eu pariatur excepteur pariatur aliqua pariatur duis culpa do nostrud. Incididunt sint labore excepteur aliqua laborum laborum laborum occaecat elit laborum."
-        },
-        {
-          "title": "Aliqua occaecat quis consequat fugiat et anim non id in.",
-          "description": "Reprehenderit dolore voluptate officia esse esse magna dolor officia ullamco. Lorem minim ullamco cillum culpa amet elit proident duis dolor ullamco eu eu. Exercitation tempor occaecat ut occaecat tempor nostrud Lorem irure dolore ipsum laboris exercitation aute."
-        },
-        {
-          "title": "Sit exercitation ex elit culpa duis enim cupidatat eu adipisicing in culpa.",
-          "description": "Consequat anim consectetur dolor qui. Sit irure adipisicing in anim do exercitation aute. In ullamco magna amet in pariatur nulla amet amet excepteur magna eiusmod deserunt incididunt ut."
-        }
-      ],
+      "description": "Steve is the decision maker and strategist who determines where the business should be focusing their efforts. He needs to weigh executive decisions, the company's goals, marketing's forecast, and the competitive landscape.",
+      "photo": "http://f.cl.ly/items/0j1h173F0V3S0n3B052u/Steve.png",
+      "goals": [],
       "challenges": [],
       "whatMatters": "Duis aute nisi velit aliqua. Ad consequat consectetur dolore cupidatat fugiat aliqua ullamco mollit occaecat reprehenderit ipsum culpa. Non sunt eiusmod cillum laboris minim duis irure sint dolore amet commodo elit.",
       "link": "irure.com"
     },
     {
       "_id": "573e8120916fcff01cf2dd51",
-      "name": "Byrd Reed",
-      "title": "adipisicing quis aliquip",
+      "name": "Leah",
+      "title": "Digital Marketing Director",
       "quote": "Commodo incididunt nisi magna ipsum id tempor deserunt adipisicing do amet est consectetur dolor. Nulla in elit officia fugiat.",
-      "description": "Sit minim quis est tempor veniam consequat. Veniam laborum quis in elit ullamco. Mollit reprehenderit nulla aliqua nisi laboris consequat ex quis laborum voluptate voluptate nostrud elit est. Id voluptate aliqua occaecat amet dolor cillum ullamco sit fugiat. Ex deserunt qui cupidatat deserunt deserunt ut.\r\n",
-      "photo": "http://unsplash.it/500?random",
-      "goals": [
-        {
-          "title": "Commodo fugiat et fugiat adipisicing irure aute aliquip.",
-          "description": "Ullamco incididunt incididunt elit cupidatat adipisicing ipsum pariatur pariatur mollit nostrud. Incididunt ut dolore adipisicing eiusmod ea sint ullamco pariatur magna. Aliquip voluptate minim officia excepteur cupidatat."
-        },
-        {
-          "title": "Adipisicing veniam est voluptate labore.",
-          "description": "Aute cupidatat consectetur in incididunt cupidatat eiusmod occaecat incididunt sint irure cillum do ipsum amet. Sunt non minim veniam eiusmod incididunt anim ut. Ex voluptate ea exercitation veniam pariatur id consequat quis velit in mollit ex irure pariatur."
-        },
-        {
-          "title": "Elit aute ad eu labore enim deserunt.",
-          "description": "Nostrud in ipsum exercitation commodo eiusmod officia sit exercitation anim cupidatat ad qui pariatur. Consequat non nisi consectetur fugiat proident. Ipsum officia sunt pariatur ad id adipisicing pariatur."
-        }
-      ],
-      "challenges": [
-        {
-          "title": "Officia aute aute non velit est in.",
-          "description": "Aliquip esse aute magna laboris nostrud fugiat quis. Commodo sunt duis minim ipsum consequat quis magna enim est dolor enim sit. Enim nostrud id amet ex."
-        },
-        {
-          "title": "Proident nisi et sunt aliqua sint fugiat laboris tempor proident minim quis.",
-          "description": "Id aliquip nisi minim labore nostrud sunt culpa. Ex eu officia commodo dolor in elit fugiat nostrud. Incididunt do cillum reprehenderit do ea exercitation sunt minim sint."
-        }
-      ],
+      "description": "Leah is an advocate for a coordinated marketing effort. She is the spark and force that moves her team towards greater marketing sophistication. She keeps her team focused on targeted, relevant, and automated marketing across digital channels.",
+      "photo": "http://f.cl.ly/items/442U131A0d1F3H0V3I2f/Leah.png",
+      "goals": [],
+      "challenges": [],
       "whatMatters": "Officia sint ut tempor incididunt dolore est consequat excepteur ea enim. Incididunt consequat incididunt commodo nulla cupidatat eiusmod aliquip exercitation aliquip. Pariatur eiusmod dolor proident officia nostrud in duis.",
       "link": "laboris.com"
-    },
-    {
-      "_id": "573e8120b4ca0b9217c11551",
-      "name": "Georgina Jenkins",
-      "title": "laboris reprehenderit do",
-      "quote": "Irure nostrud quis eu nulla aliqua ipsum irure nostrud eu. Aliquip ad nostrud eu commodo proident laborum labore officia nisi dolore et.",
-      "description": "Id ea ipsum enim sunt laboris. Deserunt aliquip ad aute duis irure do consectetur tempor cillum non amet. Non pariatur fugiat sint voluptate occaecat do eu proident nisi. Anim laborum pariatur excepteur consectetur Lorem laboris incididunt.\r\n",
-      "photo": "http://unsplash.it/500?random",
-      "goals": [
-        {
-          "title": "Eu proident deserunt officia dolor commodo officia enim reprehenderit.",
-          "description": "Velit proident minim id eiusmod anim occaecat nulla et irure sint occaecat. Pariatur cupidatat excepteur pariatur tempor Lorem aliqua aliquip fugiat nulla veniam pariatur exercitation dolor anim. Minim occaecat dolore adipisicing anim est id esse in cillum elit."
-        },
-        {
-          "title": "Elit incididunt labore proident nisi amet duis sint enim anim occaecat sunt ullamco.",
-          "description": "Eu magna cupidatat nulla cillum. Consequat ex deserunt exercitation minim culpa anim tempor consequat Lorem incididunt sunt. Nisi adipisicing commodo dolore dolore velit reprehenderit incididunt dolore elit."
-        },
-        {
-          "title": "Incididunt ex sint fugiat ex pariatur amet.",
-          "description": "Proident minim aliquip irure do ad. Dolore esse sit voluptate veniam reprehenderit enim fugiat eiusmod. Culpa in labore mollit tempor elit ad nostrud sit exercitation anim pariatur."
-        }
-      ],
-      "challenges": [],
-      "whatMatters": "Ad eu velit est ea non laboris do consequat et nisi. Cupidatat sint cupidatat enim et culpa elit mollit aliquip et deserunt est. Amet do magna magna ex est excepteur aliquip pariatur deserunt tempor.",
-      "link": "est.com"
-    },
-    {
-      "_id": "573e8120fbb46bf85a4539be",
-      "name": "Schroeder Bailey",
-      "title": "officia laborum Lorem",
-      "quote": "Cillum sit est non irure excepteur et amet reprehenderit irure in qui et id. Veniam officia aliquip tempor quis do eiusmod.",
-      "description": "Consectetur irure aliquip reprehenderit dolore deserunt. Amet dolor elit fugiat nisi culpa cillum et. Quis esse nostrud excepteur non enim. Tempor quis mollit elit dolore ad sunt.\r\n",
-      "photo": "http://unsplash.it/500?random",
-      "goals": [
-        {
-          "title": "Sint labore nulla officia labore consectetur dolore veniam.",
-          "description": "Reprehenderit consequat et officia esse consequat anim proident mollit amet minim irure. Cillum proident nisi minim qui irure et cupidatat exercitation mollit. Duis et amet sit et deserunt amet id pariatur nisi voluptate culpa."
-        },
-        {
-          "title": "Adipisicing ullamco nulla quis culpa velit veniam enim sint incididunt commodo officia aliquip.",
-          "description": "Occaecat in occaecat id pariatur. Sunt in officia reprehenderit officia ea culpa non ullamco ex esse mollit tempor. Ex ea est anim ipsum velit eu officia consequat ullamco dolore ex laborum in."
-        }
-      ],
-      "challenges": [],
-      "whatMatters": "Qui ea amet enim laborum elit excepteur. Adipisicing duis aliquip officia voluptate adipisicing. Sunt magna ipsum labore enim anim minim esse laborum magna reprehenderit reprehenderit adipisicing ipsum eiusmod.",
-      "link": "incididunt.com"
     });
   });
 
@@ -242,91 +143,99 @@ ResearchMethod.find({}).remove()
   .then(() => {
     ResearchMethod.create({
       "_id": "573e1953a134100952531328",
-      "title": "commodo qui reprehenderit elit aute cillum magna non consequat",
-      "description": "Aute sint Lorem id pariatur non consequat occaecat laboris proident anim ipsum mollit dolore. Nulla laboris cillum voluptate pariatur. Irure aute do enim id minim commodo aliqua fugiat Lorem nulla. Deserunt ex commodo anim occaecat culpa et.",
-      "effort": "3/hrs - 7/hrs",
-      "cost": "$22.00 - $299.00",
-      "dataType": "qualitative",
+      "title": "Automated Remote Research",
+      "description": "Automated remote research is a method that can reveal statically relevant data about what people are doing in our application, to help identify the usability enhancements with the biggest impact.",
+      "effort": "Easy",
+      "cost": "Low",
+      "dataType": "Quantitative",
       "duration": "2/wks - 6/wks",
-      "location": "remote"
+      "location": "Remote"
     },
     {
       "_id": "573e1953e73234f5adf8e1d1",
-      "title": "dolore laborum eiusmod occaecat minim cupidatat cillum culpa quis",
-      "description": "Ea consequat consectetur Lorem dolore excepteur magna nulla do do tempor fugiat ut. Non id fugiat id dolore est duis ea anim deserunt nostrud non magna. Veniam quis veniam sit incididunt proident aliqua fugiat. Incididunt sit consectetur occaecat ad cupidatat esse laboris reprehenderit aliquip.",
-      "effort": "4/hrs - 8/hrs",
-      "cost": "$4.00 - $178.00",
-      "dataType": "qualitative",
-      "duration": "2/wks - 6/wks",
-      "location": "remote"
+      "title": "Behavior Mapping",
+      "description": "Behavioral mapping is used to systematically document location-based observations of human activity, using annotated maps, plans, video, or time-lapse photography.",
+      "effort": "Intermediate",
+      "cost": "Medium - Expensive",
+      "dataType": "Qualitative",
+      "duration": "> 2/wks",
+      "location": "Field"
     },
     {
       "_id": "573e1953abab10da28f329bd",
-      "title": "sint cillum aute laboris consectetur commodo incididunt aliquip eiusmod",
-      "description": "Consectetur reprehenderit in labore elit sit velit et aute occaecat anim voluptate. Laboris enim deserunt exercitation mollit dolor officia duis. Laborum anim ea consectetur et voluptate esse cupidatat commodo incididunt culpa adipisicing. Commodo veniam in mollit sit id Lorem occaecat deserunt ad proident sunt.",
-      "effort": "4/hrs - 5/hrs",
-      "cost": "$10.00 - $312.00",
-      "dataType": "quantitative",
-      "duration": "3/wks - 5/wks",
-      "location": "remote"
+      "title": "Design Ethnography",
+      "description": "Design ethnography approximates the immersion methods of traditional ethnography, to deeply experience and understand the user’s world for design empathy and insight.",
+      "effort": "Intermediate",
+      "cost": "Medium - Expensive",
+      "dataType": "Qualitative",
+      "duration": "> 4/wks",
+      "location": "Field"
     },
     {
       "_id": "573e19539f3892ef8e35f51d",
-      "title": "magna tempor cillum amet elit ad adipisicing veniam velit",
-      "description": "Culpa qui excepteur amet fugiat ut nostrud aute anim id irure mollit. Nostrud excepteur adipisicing pariatur ea pariatur excepteur enim veniam quis elit aute. Sit laboris sunt deserunt deserunt ipsum. Ex cupidatat magna elit mollit fugiat eu magna qui sit.",
-      "effort": "4/hrs - 10/hrs",
-      "cost": "$16.00 - $342.00",
-      "dataType": "quantitative",
-      "duration": "2/wks - 6/wks",
-      "location": "remote"
+      "title": "Usability Testing",
+      "description": "Usability testing is an evaluative method that allows teams to observe an individual’s experience with a digital application as he or she walks through the steps of a given task (or set of tasks).",
+      "effort": "Easy - Intermediate",
+      "cost": "Low",
+      "dataType": "Quantitative",
+      "duration": "2/hrs - 40/hrs",
+      "location": "Remote/Field"
     },
     {
       "_id": "573e1953fb1e991cbd5d31bf",
-      "title": "sunt culpa in ullamco esse dolor tempor labore nisi",
-      "description": "Ullamco ut velit adipisicing exercitation aute aute commodo incididunt. Amet sint et id esse ullamco ut quis ex est proident pariatur voluptate qui veniam. Ut duis culpa anim ea consectetur reprehenderit et reprehenderit culpa sint nisi ea Lorem. Eiusmod labore ullamco ut anim reprehenderit cupidatat ea pariatur laborum excepteur esse in esse amet.",
+      "title": "Value Opportunity Analysis",
+      "description": "Value opportunity analysis maps the extent to which a product’s aspirational qualities align to people’s idealized lifestyle or fantasy version of themselves.",
       "effort": "4/hrs - 9/hrs",
       "cost": "$41.00 - $277.00",
-      "dataType": "quantitative",
+      "dataType": "Qualitative",
       "duration": "3/wks - 6/wks",
-      "location": "remote"
+      "location": "Remote"
     },
     {
       "_id": "573e1953b13695e784d8e664",
-      "title": "officia ipsum cillum adipisicing voluptate minim ut nostrud cupidatat",
-      "description": "Laborum eiusmod sit exercitation non laboris esse non nulla. Ex est magna elit veniam anim ullamco anim non esse consectetur duis id ea. Consectetur mollit ex sit est. Sint incididunt est aliqua cillum.",
-      "effort": "5/hrs - 10/hrs",
-      "cost": "$44.00 - $337.00",
-      "dataType": "quantitative",
-      "duration": "1/wks - 4/wks",
-      "location": "remote"
-    });
+      "title": "Heuristic Evaluation",
+      "description": "An agreed-upon set of usability best practices can help detect usability problems before actual users are brought in to further evaluate an interface.",
+      "effort": "2/hrs - 12/hrs",
+      "cost": "Nominal",
+      "dataType": "Qualitative",
+      "duration": "< 1/wk",
+      "location": "Remote"
+    })
   });
 
 Product.find({}).remove()
   .then(() => {
     Product.create({
       "_id": "573e163e5917a8317f19d7ba",
-      "title": "minim"
+      "title": "Inbox Monitor"
     },
     {
       "_id": "573e163e50d2a1978f92dc9d",
-      "title": "sit"
+      "title": "Reputation Monitor"
     },
     {
       "_id": "573e163e715301a59ff5018d",
-      "title": "nisi"
+      "title": "Inbox Preview"
     },
     {
       "_id": "573e163e7b6b3d9a74badbdf",
-      "title": "cillum"
+      "title": "ESP Connect"
     },
     {
       "_id": "573e163efae9be95dcc89400",
-      "title": "velit"
+      "title": "Email Client Monitor"
     },
     {
       "_id": "573e163e32918931c9e991f8",
-      "title": "ad"
+      "title": "Inbox Insights"
+    },
+    {
+      "_id": "57485af9d3bde831b1dfffab",
+      "title": "Coin Sorter"
+    },
+    {
+      "_id": "57485af98c47d23d2d32154a",
+      "title": "Mission Control"
     });
   });
 
@@ -334,106 +243,117 @@ Category.find({}).remove()
   .then(() => {
     Category.create({
       "_id": "573e155ac9acb2cd74e74007",
-      "pretty": "excepteur",
-      "namespace": "category:excepteur"
+      "pretty": "Identification",
+      "namespace": "category:identification"
     },
     {
       "_id": "573e155a2ac1bf20de141dbf",
-      "pretty": "duis",
-      "namespace": "category:duis"
+      "pretty": "Channels",
+      "namespace": "category:channels"
     },
     {
       "_id": "573e155a9216b5e3d0119669",
-      "pretty": "reprehenderit",
-      "namespace": "category:reprehenderit"
+      "pretty": "Tools",
+      "namespace": "category:tools"
     },
     {
       "_id": "573e155aa6f24b3aea0dcfd7",
-      "pretty": "ut",
-      "namespace": "category:ut"
+      "pretty": "Future Growth",
+      "namespace": "category:future growth"
     },
     {
       "_id": "573e155a723876cc4db42431",
-      "pretty": "aliqua",
-      "namespace": "category:aliqua"
+      "pretty": "Teams",
+      "namespace": "category:teams"
     },
     {
       "_id": "573e155a2537a2e00fb339dd",
-      "pretty": "non",
-      "namespace": "category:non"
+      "pretty": "Strategy",
+      "namespace": "category:strategy"
     },
     {
       "_id": "573e155a0d6b705190c1644d",
-      "pretty": "qui",
-      "namespace": "category:qui"
+      "pretty": "Testing",
+      "namespace": "category:testing"
     },
     {
       "_id": "573e155ad4c1d3226c8b54f3",
-      "pretty": "enim",
-      "namespace": "category:enim"
+      "pretty": "Data",
+      "namespace": "category:data"
     },
     {
       "_id": "573e155af59ae3c15062eaa9",
-      "pretty": "non",
-      "namespace": "category:non"
+      "pretty": "Programs",
+      "namespace": "category:programs"
+    },
+    {
+      "_id": "574856592786a1e64a161847",
+      "pretty": "Targeting",
+      "namespace": "category:targeting"
+    },
+    {
+      "_id": "57485659869f4205a9fb0b77",
+      "pretty": "Goals",
+      "namespace": "category:goals"
     });
   });
 
-Subcategory.find({}).remove()
+Subcategory.find().remove()
   .then(() => {
     Subcategory.create({
-      "_id": "573e1528afdac1f0de865670",
-      "pretty": "commodo",
-      "namespace": "subcategory:commodo"
+      "_id": "5748565975018f4e9f16756d",
+      "pretty": "ESP",
+      "namespace": "category:esp"
     },
     {
-      "_id": "573e15282e7dc62a3b7a9c32",
-      "pretty": "laborum",
-      "namespace": "subcategory:laborum"
+      "_id": "574856590c6a7e66e8537629",
+      "pretty": "Analytics",
+      "namespace": "category:analytics"
     },
     {
-      "_id": "573e1528c1a760acffa77283",
-      "pretty": "in",
-      "namespace": "subcategory:in"
+      "_id": "574856599ed4c908d0d8cfde",
+      "pretty": "CRM",
+      "namespace": "category:crm"
     },
     {
-      "_id": "573e1528c41ef8d4056f162a",
-      "pretty": "tempor",
-      "namespace": "subcategory:tempor"
+      "_id": "574856595eac1d9e11bcb18d",
+      "pretty": "Marketing Strategy",
+      "namespace": "category:marketing strategy"
     },
     {
-      "_id": "573e152875354fe1a9de064a",
-      "pretty": "mollit",
-      "namespace": "subcategory:mollit"
+      "_id": "57485659b9b041c18b95c48d",
+      "pretty": "Return Path",
+      "namespace": "category:return path"
     },
     {
-      "_id": "573e152861aaf11346820f55",
-      "pretty": "dolor",
-      "namespace": "subcategory:dolor"
+      "_id": "57485659bd744499e2ff76e4",
+      "pretty": "Inhouse",
+      "namespace": "category:inhouse"
     },
     {
-      "_id": "573e1528afbeb919f09276b7",
-      "pretty": "labore",
-      "namespace": "subcategory:labore"
+      "_id": "574856592c5d6a1d0101fee4",
+      "pretty": "Vendors",
+      "namespace": "category:vendors"
     },
     {
-      "_id": "573e15287b1af3b175ce25be",
-      "pretty": "ipsum",
-      "namespace": "subcategory:ipsum"
-    },
-    {
-      "_id": "573e15287770d59e252968d5",
-      "pretty": "labore",
-      "namespace": "subcategory:labore"
+      "_id": "574856591cb1984e9cc862e8",
+      "pretty": "Personalization",
+      "namespace": "category:personalization"
     });
   });
-
-Project.find({}).remove()
+*/
+Project.find().remove()
   .then(() => {
     Project.create({
       "_id": "573e1fc2bb7939dff1551faf",
       "title": "sit veniam voluptate nostrud voluptate anim id reprehenderit eu occaecat",
       "overview": "Lorem cupidatat esse labore consequat anim incididunt dolore nulla labore consectetur dolor mollit adipisicing. Eiusmod laborum consequat qui qui elit officia cupidatat ullamco. Elit qui anim incididunt nulla do irure. Est sit officia excepteur elit.",
+      "taxonomy": {
+        "category": "573e155ac9acb2cd74e74007",
+        "subcategory": "574856590c6a7e66e8537629",
+        "products": ["573e163e715301a59ff5018d"],
+        "tags": ["573f42a78904a3a294f51430"]
+      },
       "goals": [
         {
           "primary": false,
@@ -467,111 +387,31 @@ Project.find({}).remove()
           }
         }
       ],
-      "personas": [],
+      "users": ["574dd661768100ae0eb63613"],
+      "personas": ["573e8120b6368b86852d84a3"],
       "files": [],
       "timestamp": {
-        "endDate": "05/07/2016",
-        "updated": "05/19/2016"
-      }
-    },
-    {
-      "_id": "573e1fc2ad8b84b8d936cd4b",
-      "title": "et officia cillum duis cupidatat exercitation eu quis occaecat ipsum",
-      "overview": "Consequat qui mollit veniam irure ullamco do eiusmod ex minim. Ut sint fugiat qui aliquip ipsum laboris magna occaecat. Quis magna nulla commodo ad ut nisi esse qui. Sit aliqua pariatur tempor amet eu.",
-      "goals": [
-        {
-          "primary": false,
-          "description": "Minim minim nulla laborum amet aliquip. Eu excepteur et pariatur aliqua ut sit exercitation proident do Lorem velit eu sint nisi."
-        },
-        {
-          "primary": false,
-          "description": "Ad esse aute ut proident irure non dolor occaecat minim ad ex veniam. Laboris adipisicing cupidatat eu quis deserunt eu labore quis qui sunt esse do in nulla."
-        }
-      ],
-      "questions": [
-        {
-          "primary": false,
-          "question": "Anim sint tempor laboris dolor tempor in pariatur quis veniam nostrud incididunt.?",
-          "answer": "Veniam anim duis commodo amet amet. Nulla nisi proident consequat amet est esse ipsum irure ex velit id ex excepteur consectetur."
-        },
-        {
-          "primary": false,
-          "question": "Proident sint qui dolor officia veniam voluptate.?",
-          "answer": "Cillum culpa qui in anim cillum voluptate aliqua aliqua. Quis ad ex irure aliquip cillum labore fugiat magna aliquip."
-        }
-      ],
-      "quotes": [
-        {
-          "source": "Article - 08/03/2015",
-          "quote": "Vivamus quis sapien eu tortor sollicitudin congue sit amet ac tortor. Nam et nunc a ex feugiat convallis quis ac nibh. Sed feugiat ultricies eros nec consectetur.",
-          "author": {
-            "photo": "http://unsplash.it/500?random",
-            "title": "CEO - Time",
-            "name": "John Doe" 
-          } 
-        }
-      ],
-      "personas": [],
-      "files": [],
-      "taxonomy": {
-        "category": "573e155ac9acb2cd74e74007",
-        "subcategory": "573e1528afdac1f0de865670"
-      },
-      "timestamp": {
-        "endDate": "04/10/2014",
-        "updated": "05/19/2016"
-      }
-    },
-    {
-      "_id": "573e1fc2672026d7147ab984",
-      "title": "consequat aute deserunt culpa eu commodo quis ex et exercitation",
-      "overview": "Aute nostrud magna incididunt nulla ullamco ad veniam consequat officia pariatur dolor. Eiusmod ea laboris laboris consequat eu non aliqua sint magna Lorem magna aliquip. Excepteur pariatur aute anim exercitation ut voluptate. Occaecat adipisicing voluptate exercitation labore do.",
-      "goals": [
-        {
-          "primary": false,
-          "description": "Officia laboris nisi elit nisi. Officia proident Lorem laboris cupidatat aliqua nisi enim velit qui fugiat non exercitation nostrud voluptate."
-        }
-      ],
-      "questions": [
-        {
-          "primary": false,
-          "question": "Ea exercitation velit consectetur veniam magna laborum et deserunt est adipisicing labore.?",
-          "answer": "Nisi sunt voluptate labore nulla reprehenderit nisi tempor. Sit culpa sit esse aute eiusmod ut Lorem veniam magna occaecat."
-        },
-        {
-          "primary": false,
-          "question": "Elit Lorem qui aliqua sunt ad esse nostrud occaecat eiusmod ullamco.?",
-          "answer": "Do dolor ullamco Lorem irure fugiat nostrud fugiat fugiat veniam minim veniam aute proident. Eu qui do proident anim commodo ipsum qui labore consequat nulla laborum ea."
-        },
-        {
-          "primary": false,
-          "question": "Elit velit eiusmod culpa cupidatat magna veniam proident amet exercitation cupidatat ipsum reprehenderit.?",
-          "answer": "Aliquip tempor pariatur non eiusmod nulla sint nostrud exercitation. Irure ut ea ad elit nulla ut enim ullamco."
-        }
-      ],
-      "quotes": [],
-      "personas": [],
-      "files": [],
-      "timestamp": {
-        "endDate": "02/08/2015",
-        "updated": "05/19/2016"
+        "endDate": Date.now(),
+        "updated": Date.now()
       }
     });
   });
-
-
+/*
 User.find({}).remove()
   .then(() => {
     User.create({
+      _id: '574dd661768100ae0eb63613',
       provider: 'local',
       name: 'Daniel Price',
       email: 'dan@example.com',
       password: 'test'
     }, {
+      _id: '574df8228376390c2aa635e1',
       provider: 'local',
       role: 'admin',
-      name: 'Admin',
-      email: 'admin@example.com',
-      password: 'admin'
+      name: 'Jon Bell',
+      email: 'jon@example.com',
+      password: 'test'
     });
   });
+*/

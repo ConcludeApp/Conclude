@@ -12,21 +12,12 @@ class Q4Controller {
 
     $http.get('/api/research-methods')
       .then(res => {
-        res.data[0].recommended = 1;
+        res.data[0].recommended = true;
+        $scope.$project.method = res.data[0]._id;
         this.methods = res.data;
       });
 
-    // Dev Project
-    this.project = {
-      phase: 0,
-      method: "573e1953a134100952531328",
-      category: "573e155ac9acb2cd74e74007",
-      subcategory: "573e1528afdac1f0de865670",
-      product: "573e163e5917a8317f19d7ba",
-      timestamp: {
-        endDate: Date.now()
-      }
-    }
+    this.project.researcher = Auth.getCurrentUser()
 
   }
 
@@ -35,16 +26,22 @@ class Q4Controller {
       phase: this.project.phase,
       researchMethod: this.project.method,
       taxonomy: {
-        category: this.project.category,
-        subcategory: this.project.subcategory,
-        products: [this.project.product]
+        category: this.project.taxonomy.category,
+        subcategory: this.project.taxonomy.subcategory,
+        products: [this.project.taxonomy.product]
       },
       timestamp: {
         endDate: this.project.endDate_unix,
         updated: Date.now()
-      }
+      },
+      researcher: this.project.researcher._id,
+      users: [this.project.researcher._id]
     }).then(res => {
-      this.$state.go("new.wizard", {id: res.data._id});
+      var project = res.data;
+      this.$http.put('/api/users/'+project.researcher+'/access', {project: project._id, accessLevel: 2, notifications: 1})
+        .then(res => {
+          return this.$state.go('new.wizard', {id: project._id});
+        })
     });
   }
 

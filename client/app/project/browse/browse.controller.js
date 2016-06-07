@@ -2,17 +2,111 @@
 
 class BrowseController {
 
-  constructor(Auth, $state, $scope, $http, $stateParams, $anchorScroll, $location) {
+  constructor(Auth, $scope, $http, $stateParams, projects) {
     this.Auth = Auth;
-    this.$state = $state;
     this.$http = $http;
+    this.$scope = $scope;
 
-    this.ShowSidebar = this.Share = false;
+    this.projects = projects.data
 
-    $http.get('/api/projects/' + $stateParams.id)
+    this.filter = 0
+    this.filterOptions = [
+      {
+        label: 'Researcher',
+        value: 'researcher'
+      },
+      {
+        label: 'Category',
+        value: 'taxonomy.category',
+      },
+      {
+        label: 'Subcategory',
+        value: 'taxonomy.subcategory',
+      },
+      {
+        label: 'Tag',
+        value: 'taxonomy.tags'
+      },
+      {
+        label: 'Product',
+        value: 'taxonomy.products'
+      },
+      {
+        label: 'Persona',
+        value: 'personas'
+      }
+    ]
+    this.appliedFilters = []
+
+    /*
+     * Data for Typeahead Filters
+     */
+    $http.get('/api/users')
       .then(res => {
-        this.project = res.data;
+        return $scope.users = res.data;
       })
+    $http.get('/api/taxonomy/categories')
+      .then(res => {
+        return $scope.categories = res.data;
+      })
+    $http.get('/api/taxonomy/subcategories')
+      .then(res => {
+        return $scope.subcategories = res.data;
+      })
+    $http.get('/api/tags')
+      .then(res => {
+        return $scope.tags = res.data;
+      });
+    $http.get('/api/products')
+      .then(res => {
+        return $scope.products = res.data;
+      });
+    $http.get('/api/personas')
+      .then(res => {
+        return $scope.personas = res.data;
+      });
+    
+    /*
+     * Function to Filter Projects
+     */
+    this.filterProjects = function() {
+
+      var q = this.filterValue,
+          k = this.keyword,
+          f = this.filterKey,
+          filter = {namespace: (f && f != 0 ? f : 'title'), query: (k ? k : q)};
+
+      if (_.some(this.appliedFilters, filter)) {
+        var FilterIndex = _.findIndex(this.appliedFilters, filter);
+        return $scope.filterIndex = FilterIndex;
+      }
+
+      if (!k && typeof q != 'object') {
+        var FilterIndex = _.findIndex(this.appliedFilters, filter);
+        return this.appliedFilters.splice(FilterIndex, 1);
+      }
+
+      this.appliedFilters.push(filter);
+      
+      $http.post('/api/projects/index', this.appliedFilters)
+        .then(res => {
+          this.projects = res.data;
+        })
+
+      this.filterValue = this.keyword = this.filterKey = null
+
+      return true
+
+    }
+
+    this.removeFilter = function(index) {
+      this.appliedFilters.splice(index, 1)
+      $http.post('/api/projects/index', this.appliedFilters)
+        .then(res => {
+          return this.projects = res.data;
+        })
+      return
+    }
 
   }
 

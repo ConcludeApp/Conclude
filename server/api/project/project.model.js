@@ -22,7 +22,7 @@ var ProjectSchema = new mongoose.Schema({
   findings: [{
     title: String,
     description: String,
-    author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    author: String,
     updated: {type: Date, default: Date.now()}
   }],
   quotes: [{
@@ -35,14 +35,27 @@ var ProjectSchema = new mongoose.Schema({
     }
   }],
   personas: [{type: mongoose.Schema.Types.ObjectId, ref: 'Persona'}],
-  files: [{type: mongoose.Schema.Types.ObjectId, ref: 'File'}],
+  featuredFiles: [{
+    name: String,
+    fileType: String,
+    url: String
+  }],
+  resources: [{
+    name: String,
+    fileType: String,
+    url: String
+  }],
+  links: [{
+    title: String,
+    url: String
+  }],
   decisions: [{
     title: String,
     description: String,
     updated: {type: Date, default: Date.now()}
   }],
   implications: [{
-    type: String,
+    implicationType: String,
     description: String
   }],
   taxonomy: {
@@ -51,13 +64,22 @@ var ProjectSchema = new mongoose.Schema({
     products: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
     tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}]
   },
-  researchMethod: {type: mongoose.Schema.Types.ObjectId, ref: 'ResearchMethod'},
+  researcher: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  researchMethod: [{type: mongoose.Schema.Types.ObjectId, ref: 'ResearchMethod'}],
+  users: [
+    {_id: false, type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+  ],
+  comments: [{
+    user: String,
+    comment: String,
+    createdAt: {type: Date, default: Date.now()}
+  }],
   timestamp: {
-    createdAt: {type: Date, default: Date.now},
-    updatedAt: {type: Date, default: Date.now},
     startDate: {type: Date},
     endDate: {type: Date}
   }
+}, {
+  timestamps: true
 });
 
 export default mongoose.model('Project', ProjectSchema);

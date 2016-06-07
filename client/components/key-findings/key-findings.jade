@@ -1,0 +1,21 @@
+.fade-content
+  .input-group(prevent:scroll)
+    .modal-header.text-center Add Key Findings
+    .description Provide a general overview of the project and what compelled this research.
+    ol.fields
+      li(ng-repeat="finding in project.findings")
+        input.form-control.ctrl-sm(type="text",
+          placeholder="Enter a title for your finding...",
+          ng-model="project.findings[$index].title",
+          ng-required="$index < 1")
+        textarea.form-control.ctrl-sm(rows=2, 
+          placeholder="Enter a description for your finding...",
+          ng-model="project.findings[$index].description",
+          ng-required="$index < 1")
+        span.icon.ti-close(ng-show="$index >= 1", ng-click="project.findings.splice($index, 1)")
+    span.add(ng-click="project.findings.push({author: me.name})", ng-show="project.findings[0].title.length && project.findings[0].description.length")
+      span.ti-plus
+      | Add Key Finding
+    .btn-group.flex-row
+      a.btn.btn-secondary(ng-click="close()") CANCEL
+      a.btn.btn-primary(ng-click="save()") SAVE

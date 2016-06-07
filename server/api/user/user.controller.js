@@ -4,6 +4,7 @@ import User from './user.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import _ from 'lodash';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -97,6 +98,36 @@ export function changePassword(req, res, next) {
         return res.status(403).end();
       }
     });
+}
+
+/**
+ * Update User Account
+ */
+function respondWithUser(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function(entity) {
+    if (entity) {
+      res.status(statusCode).json(entity);
+    }
+  };
+}
+function setProjectAccess(updates) {
+  return function(entity) {
+    entity.projectAccess.push(updates)
+    entity.markModified('projectAccess')
+    return entity.save()
+      .then(updated => {
+        return entity;
+      });
+  };
+}
+export function editProjectAccess(req, res) {
+  if (req.body._id) {
+    delete req.body._id;
+  }
+  return User.findById(req.params.id).exec()
+    .then(setProjectAccess(req.body))
+    .then(respondWithUser(res));
 }
 
 /**

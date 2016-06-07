@@ -1,3 +1,8 @@
+input,
+select,
+textarea
+  &.ng-empty
+    color rgb(128,128,128)
 .form-control
   appearance none
   background white
@@ -12,6 +17,10 @@
   padding 0 ($padding - 5)
   transition border 200ms ease, box-shadow 200ms ease
   width 100%
+  &.ctrl-sm
+    font normal 11px/30px $fn-primary
+    height 30px
+    line-height 30px
   &:hover
     border 1px solid #8CA0B3
   &:focus
@@ -22,6 +31,11 @@
     border 1px solid #DE4A31
     &:focus
       box-shadow 0 0 5px rgba(#DE4A31, 0.2)
+
+textarea.form-control
+  line-height 16px
+  height auto
+  padding ($padding - 5)
       
 .select
   position relative
@@ -36,9 +50,6 @@
     right 15px
     top 0
 
-.input-group
-  margin 0 0 ($padding / 2)
-  
 .ui-select-container
   background transparent !important
   border 0 !important
@@ -85,9 +96,8 @@
   padding 0 $padding
   p
     margin 0 !important
+  &:hover,
   &.active
-    background transparent !important
-  &:hover
     background rgba($c-blue, 0.1) !important
 .ui-select-choices-row:hover
   background transparent !important
@@ -117,10 +127,9 @@ tags-input .autocomplete
     em
       font normal 13px $fn-primary
       text-decoration underline
-    &.selected
-      background transparent
-      color inherit
-    &:hover
+    &:hover,
+    &.selected,
+    &.active
       background rgba($c-blue, 0.1)
       color inherit
     &.selected em
@@ -132,6 +141,8 @@ tags-input .autocomplete
     text-decoration none
   .ng-invalid
     background red
+.input-group
+  margin 0 0 ($padding / 2)
 .input-group-horizontal
   border-right 1px solid $c-light-gray
   &.has-icon
@@ -173,7 +184,7 @@ tags-input .autocomplete
   padding 0 $padding
   text-align center
   text-decoration none
-  transition background 200ms ease
+  transition background 200ms ease, color 300ms ease
   width 100%
   &.btn-sm
     font-size 10px
@@ -189,7 +200,8 @@ tags-input .autocomplete
     border 1px solid $c-blue
     color $c-blue
     &:hover
-      background rgba($c-blue, 0.1)
+      background rgba($c-blue, 1)
+      color white
   &.btn-disabled,
   &[disabled]
     background #DCE6E9
@@ -247,6 +259,11 @@ tags-input
   margin-left -($padding / 4)
   margin-right -($padding / 4)
   margin-top ($padding / 2)
+  p
+    color $c-gray
+    line-height 40px
+    margin 0
+    padding-left 15px
   .tag
     background #EFF1F4
     border 1px solid $c-border
@@ -255,6 +272,17 @@ tags-input
     font normal 12px/24px $fn-primary 
     margin 0 ($padding / 4) ($padding / 2)
     padding 0 ($padding / 2)
+    span.namespace
+      opacity 0.5
     span.ti-close
+      cursor pointer
       font-size 8px
       margin-left 5px
+    &.exists
+      animation TagExists 0.2s 1
+      
+@keyframes TagExists
+  0%
+    box-shadow 0 0 0 0 rgba(red, 1)
+  100%
+    box-shadow 0 0 3px 6px rgba(red, 0)

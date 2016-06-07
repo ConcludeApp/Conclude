@@ -123,6 +123,7 @@
     color $c-gray
     margin-bottom ($padding + 10)
     padding ($padding + 10) ($padding + 15) ($padding + 15)
+    transition all 300ms ease
     span
       font-size 10px
       letter-spacing 0.15em
@@ -148,7 +149,7 @@
       border-color $c-teal
       color $c-copy
       strong
-        font-weight 700
+        font-weight 600
   .l-col
     width 66.666666%
   .r-col
@@ -178,22 +179,20 @@
           display block
           font-size 8px
           letter-spacing 0.125em
+
+.question-body
+  margin-bottom $padding * 2          
+
 footer
-  background #F6F9FA
+  // background #F6F9FA
   bottom 0
   left 0
-  position fixed
+  // position fixed
   width 100%
   .btn
-    border-radius 0
+    border 1px solid transparent
     padding 0 ($padding * 2)
     width auto
-  .btn-base
-    background transparent
-    color $c-gray
-    float left
-  .btn-primary
-    float right
     
 .wizard-header
   border-bottom 1px solid $c-light-gray
@@ -242,79 +241,81 @@ footer
   .input-group
     margin-bottom ($padding * 2)
     padding-left ($padding + 10)
-    position relative
+.input-group
+  position relative
+  .status
+    border 1px solid
+    border-radius 18px
+    color $c-border
+    font-size 10px
+    height 18px
+    left 0
+    line-height 16px
+    position absolute
+    text-align center
+    top 0
+    transition border 300ms ease
+    vertical-align middle
+    width 18px
+    span
+      opacity 0
+      position relative
+      top 2px
+      transition opacity 300ms ease
+  .question
+    color #8CA0B3
+    font-size 12px
+    font-weight 600
+    line-height 18px
+    letter-spacing 0.125em
+    .description
+      font-size 12px
+      font-weight 400
+      letter-spacing 0.05em
+      margin-bottom ($padding / 2)
+  ol.fields
+    color $c-gray
+    font-size 12px
+    font-weight 500
+    & > li
+      margin-bottom $padding
+      padding-left ($padding / 2)
+      position relative
+      span.icon
+        color $c-gray
+        position absolute
+        left 102%
+        top 0
+        &:hover
+          color $c-copy
+  textarea.form-control
+    height auto
+    line-height 18px
+    padding-top ($padding / 2)
+    padding-bottom ($padding / 2)
+    vertical-align top
+    & + textarea.form-control
+      margin-top ($padding / 2)
+  &.complete
     .status
-      border 1px solid
-      border-radius 18px
-      color $c-border
-      font-size 10px
-      height 18px
-      left 0
-      line-height 16px
-      position absolute
-      text-align center
-      top 0
-      transition border 300ms ease
-      vertical-align middle
-      width 18px
+      border 1px solid $c-gray
       span
-        opacity 0
-        position relative
-        top 2px
-        transition opacity 300ms ease
-    .question
-      color #8CA0B3
-      font-size 12px
-      font-weight 600
-      line-height 18px
-      letter-spacing 0.125em
-      .description
-        font-size 12px
-        font-weight 400
-        letter-spacing 0.05em
-        margin-bottom ($padding / 2)
-    ol.fields
-      color $c-gray
-      font-size 12px
-      font-weight 500
-      & > li
-        margin-bottom $padding
-        padding-left ($padding / 2)
-        position relative
-        span.icon
-          color $c-gray
-          position absolute
-          left 102%
-          top 0
-          &:hover
-            color $c-copy
-    .add
-      color $c-gray
-      font-size 12px
-      padding-left ($padding + 30)
+        color darken($c-gray, 20%)
+        opacity 1
+  &.active
+    .status
+      border 1px solid $c-teal
       span
-        margin-right ($padding / 2)
-        position relative
-        top -1px
-    textarea.form-control
-      height auto
-      line-height 18px
-      padding-top ($padding / 2)
-      padding-bottom ($padding / 2)
-      vertical-align top
-      & + textarea.form-control
-        margin-top ($padding / 2)
-    &.complete
-      .status
-        border 1px solid $c-gray
-        span
-          color darken($c-gray, 20%)
-          opacity 1
-    &.active
-      .status
-        border 1px solid $c-teal
-        span
-          color $c-teal
+        color $c-teal
+span.add
+  color $c-gray
+  font-size 12px
+  padding-left ($padding + 30)
+  span
+    margin-right ($padding / 2)
+    position relative
+    top -1px
+
 @keyframes ChoosePhase
   0%
     box-shadow 0 0 0 0 rgba($c-blue, 0)

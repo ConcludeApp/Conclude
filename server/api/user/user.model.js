@@ -24,6 +24,12 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
+  projectAccess: [{
+    _id: false,
+    project: {type: mongoose.Schema.Types.ObjectId, ref: 'Project'},
+    accessLevel: Number,
+    notifications: {type: Number, default: 1}
+  }],
   password: {
     type: String,
     required: function() {
@@ -34,10 +40,10 @@ var UserSchema = new Schema({
       }
     }
   },
+  temporaryPassword: Boolean,
   provider: String,
   salt: String,
-  google: {},
-  github: {}
+  google: {}
 });
 
 /**

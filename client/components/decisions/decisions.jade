@@ -1,0 +1,21 @@
+.fade-content
+  .input-group(prevent:scroll)
+    .modal-header.text-center Add Decisions
+    .description Provide a general overview of the project and what compelled this research.
+    ol.fields
+      li(ng-repeat="decision in project.decisions")
+        input.form-control.ctrl-sm(type="text",
+          placeholder="Enter a title for your decision...",
+          ng-model="project.decisions[$index].title",
+          ng-required="$index < 1")
+        textarea.form-control.ctrl-sm(rows=2, 
+          placeholder="Describe your decision...",
+          ng-model="project.decisions[$index].description",
+          ng-required="$index < 1")
+        span.icon.ti-close(ng-show="$index >= 1", ng-click="project.decisions.splice($index, 1)")
+    span.add(ng-click="project.decisions.push({})", ng-show="project.decisions[0].title.length && project.decisions[0].description.length")
+      span.ti-plus
+      | Add Another Decision
+    .btn-group.flex-row
+      a.btn.btn-secondary(ng-click="close()") CANCEL
+      a.btn.btn-primary(ng-click="save()") SAVE

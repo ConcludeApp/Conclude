@@ -1,0 +1,16 @@
+.fade-content
+  .input-group(prevent:scroll)
+    .modal-header.text-center Add Implications
+    .description Provide a general overview of the project and what compelled this research.
+    .input-group.implications
+      .content
+        .wrap
+          ul.nav
+            li(ng-repeat="i in project.implications", ng-class="{active: tab === i.implicationType}", ng-click="setTab(i.implicationType)") {{i.implicationType}}
+      .tab(ng-repeat="t in project.implications", ng-show="tab == t.implicationType")
+        textarea.form-control.ctrl-sm(rows=4,
+          placeholder="Add {{t.implicationType}} implications...",
+          ng-model="project.implications[$index].description")
+    .btn-group.flex-row
+      a.btn.btn-secondary(ng-click="close()") CANCEL
+      a.btn.btn-primary(ng-click="save()") SAVE

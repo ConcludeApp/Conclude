@@ -33,16 +33,19 @@
     font-size 12px
     text-align center
   .header-nav
+    overflow hidden
     text-align right
     ul
       list-style none
       margin 0
       // padding 0 10px
+      transition transform 150ms ease
       li
         color darken($c-icons, 20%)
         display inline-block
         height 40px
         line-height 36px
+        transition opacity 50ms ease
         text-align center
         vertical-align middle
         span
@@ -60,12 +63,21 @@
           width 28px
           &:hover
             color darken($c-icons, 40%)
-          &.active
+          &.active,
+          &:active
             animation ActiveMenuItem 200ms 1
             background $c-teal
             color white
       &.icons li
         width 40px
+        &.button
+          width auto
+          button
+            display inline-block
+            vertical-align middle
+          & + .button
+            margin 0 $padding 0 ($padding / 2)
+            padding-right ($padding / 2)
       &:not(.icons)
         padding-right ($padding / 2)
         li
@@ -102,6 +114,8 @@
       flex-grow 0
     .header-filter
       display flex
+      max-width 100%
+      width auto
       input,
       select
         appearance none
@@ -121,11 +135,22 @@
         min-width 200px
       .tags-row
         margin 0
-        padding 0 ($padding - 5)
+        padding 0 ($padding - 15)
         .tag
           margin-bottom 0
           vertical-align middle
-        
+      .applied input
+        padding-left 0
+      .input-group-horizontal:last-of-type
+        flex-grow 2
+        overflow hidden
+      .filter-track
+        display block
+        height 100%
+        overflow scroll
+        width 100%
+        .group
+          width 0
 @keyframes ActiveMenuItem
   0%
     box-shadow 0 0 0 0 rgba($c-teal, 0)
