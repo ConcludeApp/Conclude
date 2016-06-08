@@ -387,7 +387,7 @@ Project.find().remove()
           }
         }
       ],
-      "users": ["574dd661768100ae0eb63613"],
+      "users": [{user: "574dd661768100ae0eb63613"}],
       "personas": ["573e8120b6368b86852d84a3"],
       "files": [],
       "timestamp": {

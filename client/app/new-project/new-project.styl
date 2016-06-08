@@ -189,10 +189,15 @@ footer
   left 0
   // position fixed
   width 100%
+  &.fixed
+    background #F6F9FA
+    position fixed
   .btn
     border 1px solid transparent
     padding 0 ($padding * 2)
     width auto
+    &:first-of-type
+      float left
     
 .wizard-header
   border-bottom 1px solid $c-light-gray

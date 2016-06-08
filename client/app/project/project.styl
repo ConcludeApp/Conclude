@@ -178,6 +178,10 @@
     margin ($padding + 10) auto ($padding * 3)
   .attachments li
     display inline-block
+  .ti-close
+    color $c-copy
+    flex 0
+    position absolute
 .project-content
   padding 80px 0 65%
   .project-content_section
@@ -893,6 +897,50 @@
         position absolute
         top 0
         width 1px
+    .hidden-menu
+      background white
+      border 1px solid $c-border
+      border-radius 2px
+      left 50%
+      padding $padding
+      position absolute
+      right initial
+      text-align left
+      top 60px
+      transform translateX(-50%)
+      &:before,
+      &:after
+        content ''
+        height 0
+        left 0
+        margin auto
+        position absolute
+        right 0
+        width 0
+      &:before
+        border-left 10px solid transparent
+        border-right 10px solid transparent
+        border-bottom 10px solid white
+        top -10px
+        z-index 2
+      &:after
+        border-left 11px solid transparent
+        border-right 11px solid transparent
+        border-bottom 11px solid $c-border
+        top -11px
+        z-index 1
+      ul.attachments
+        li
+          display block
+          margin 0
+          a
+            color $c-copy
+            display block
+            white-space pre
+            i
+              color $c-blue
+          &:nth-child(n+2)
+            margin-top 15px
 
 .hidden-menu
   // opacity 

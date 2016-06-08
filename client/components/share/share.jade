@@ -3,31 +3,24 @@
     input(type="text", placeholder="Enter a name or email...", ng-model="share.to")
     input(type="submit", style="display: none")
     .clear(ng-class="{in: share.to}", ng-click="share.clearTo()") &times;
-  .share_list
-    .sl_item(ng-hide="share.$scope.$prjct.project.users.length > 1 || share.to.length || share.invitees.length")
-      .avatar(data-initials="{{share.me.name | initials}}", ng-class="{'has-photo': share.me.photo}", style="background-image: url({{share.me.photo}})")
-      .sli_content Only you have access to this project.
-    .sl_item(ng-repeat="user in share.$scope.$prjct.project.users track by $index", ng-hide="share.$scope.$prjct.project.users.length <= 1 || share.to || invitees.length || user._id === share.me._id", id="user-{{user._id}}")
-      .avatar(data-initials="{{user.name | initials}}", ng-class="{'has-photo': user.photo}", style="background-image: url({{user.photo}})", ng-init="share.getProjectAccess(this)")
-      .sli_content
-        span.name {{user.name}}
-        span.email {{user.email}}
-    .sl_item.result(ng-show="share.to.length", id="user-0", ng-click="share.queueInvite({'email': share.to})", ng-class="{invalid: share.error}")
+  .share_list(ng-show="share.to.length || share.invitees.length")
+    .sl_item.result(ng-show="share.to", id="user-0", ng-click="share.queueInvite({'email': share.to})", ng-class="{invalid: share.error}")
       .avatar(data-initials="?")
       .sli_content {{share.to}}
     .sl_item.result(ng-repeat="user in share.users | filter: share.to", ng-show="share.to.length", id="user-{{user._id}}", ng-click="share.queueInvite(user)", )
-      {{share._.include(share.$scope.$prjct.project.users, user._id)}}
-      .avatar(data-initials="{{user.name | initials}}", ng-class="{'has-photo': user.photo}", style="background-image: url({{user.photo}})")
+      .avatar(data-initials="{{user.user.name ? (user.user.name | initials) : '?'}}", ng-class="{'has-photo': user.photo}", style="background-image: url({{user.photo}})")
       .sli_content
         span.name {{user.name}}
         span.email {{user.email}}
     .sl_item.result.invitee(ng-repeat="user in share.invitees track by $index", ng-show="share.invitees.length && !share.to")
       .avatar(data-initials="{{user.name ? (user.name | initials) : '?'}}")
-      .sli_content {{user.email}}
+      .sli_content
+        span.name {{user.name}}
+        span.email {{user.email}}
   .share_footer.clearfix(ng-show="share.invitees.length"): .flex-row
-    input(type="text", placeholder="Enter a custom message...")
+    input(type="text", placeholder="Enter a custom message...", ng-model="share.message")
     a.btn.btn-secondary.btn-sm.pull-right(ng-click="share.cancelShare()") CANCEL
-    a.btn.btn-primary.btn-sm.pull-right(ng-click="share.sendInvite()") INVITE
+    a.btn.btn-primary.btn-sm.pull-right(ng-click="share.sendInvite()") SHARE
 
 //- span.controls(ng-click="editMode(user.id)", ng-class="{'edit-mode': edit === user.id}")
   span.controls_status(ng-show="user.permissions === 1") CAN EDIT

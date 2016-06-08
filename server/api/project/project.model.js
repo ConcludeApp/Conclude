@@ -66,9 +66,10 @@ var ProjectSchema = new mongoose.Schema({
   },
   researcher: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   researchMethod: [{type: mongoose.Schema.Types.ObjectId, ref: 'ResearchMethod'}],
-  users: [
-    {_id: false, type: mongoose.Schema.Types.ObjectId, ref: 'User'}
-  ],
+  users: [{
+    user: {_id: false, type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    notifications: {type: Boolean, default: 1}
+  }],
   comments: [{
     user: String,
     comment: String,

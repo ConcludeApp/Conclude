@@ -71,6 +71,8 @@ class BrowseController {
      */
     this.filterProjects = function() {
 
+      $scope.loading = true
+
       var q = this.filterValue,
           k = this.keyword,
           f = this.filterKey,
@@ -78,11 +80,13 @@ class BrowseController {
 
       if (_.some(this.appliedFilters, filter)) {
         var FilterIndex = _.findIndex(this.appliedFilters, filter);
+        $scope.loading = false;
         return $scope.filterIndex = FilterIndex;
       }
 
       if (!k && typeof q != 'object') {
         var FilterIndex = _.findIndex(this.appliedFilters, filter);
+        $scope.loading = false;
         return this.appliedFilters.splice(FilterIndex, 1);
       }
 
@@ -94,6 +98,8 @@ class BrowseController {
         })
 
       this.filterValue = this.keyword = this.filterKey = null
+
+      $scope.loading = false
 
       return true
 

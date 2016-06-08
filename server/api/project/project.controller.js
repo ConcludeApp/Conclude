@@ -10,9 +10,16 @@
 'use strict';
 
 import _ from 'lodash';
+import async from 'async';
 import mailer from 'nodemailer';
 import Project from './project.model';
 import User from '../user/user.model';
+import path from 'path'
+
+var emailTemplate = require('email-templates').EmailTemplate,
+    transporter   = mailer.createTransport({service: 'Gmail', auth: {user: 'dan@danielprice.co', pass: 'lUnaD71lcBXnzWuR'}}),
+    templateDir   = path.join(__dirname, '../../../client', 'email', 'share'),
+    email         = new emailTemplate(templateDir);
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -36,11 +43,10 @@ function sendNotificationsForProjects(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
     if (entity) {
-      var recipients = [],
-          transporter = mailer.createTransport({service: 'Gmail', auth: {user: 'dan@danielprice.co', pass: 'lUnaD71lcBXnzWuR'}});
+      var recipients = []
       _.forEach(entity, function(p) {
         _.forEach(p.users, function(u) {
-          recipients.push({'name': u.name.split(' ')[0], 'email': u.email});
+          recipients.push({'name': (u.name && u.name.split(' ')[0].length ? ` ${u.name.split(' ')[0]}` : ' '), 'email': u.email});
         });
         if (recipients.length) {
           return _.forEach(recipients, function(e) {
@@ -121,31 +127,68 @@ function respondWithFilteredResult(res, statusCode) {
   };
 }
 
+function sendEmail(user, project) {
+  var data = {
+    user: user,
+    project: project
+  }
+  email.render(data, function(err, res) {
+    if (err) return console.log(err)
+    transporter.sendMail({
+      from: '"Conclude App" <support@concludeapp.co>',
+      to: user.email,
+      subject: project.title + ' was shared with you VIA Conclude',
+      text: res.text,
+      html: res.html
+    }, function(err, res) {
+      if (err) { return console.log('Error: ', err); }
+    })
+  });
+}
+
+function createUser(email, project, cb) {
+  var newUser = new User({email: email});
+  newUser.provider = 'google';
+  newUser.role = 'user';
+  newUser.save()
+    .then(function(user) {
+      user.first = user.name.split(' ')[0];
+      sendEmail(user, project)
+      cb(user);
+    });
+}
+
 // Add Project Access to User
-export function share(req, res) {
+export function share(req, res, next) {
   var users = req.body,
       projectId = req.params.id,
-      projectUsers = [];
-  _.forEach(users, function(user) {
-    User.findOne({'email': user.email}).exec()
-      .then(function(res) {
-        if (!res) {
-          return
-        } else {
-          res.projectAccess.push({project: user.project, accessLevel: user.accessLevel, notifications: 1});
-          projectUsers.push(res._id);
-          return res.save()
-        }
-      });
-  });
-  return Project.findById(projectId).exec()
+      projectUsers = [],
+      message = users[0].message;
+  console.log(message);
+  Project.findById(projectId).exec()
     .then(function(res) {
-      if (!res) {
-        return
-      } else {
+      if (!res) { return }
+      var project = res;
+      _.set(project, 'message', message);
+      return async.each(users, function(u, cb) {
+        User.findOne({email: u.email}).exec()
+          .then(function(res) {
+            if (res) {
+              projectUsers.push({user: res._id, notifications: 1});
+              res.first = res.name.split(' ')[0];
+              sendEmail(res, project);
+              cb()
+            } else {
+              createUser(u.email, project, function(u) {
+                projectUsers.push({user: u._id, notifications: 1});
+                cb()
+              });
+            }
+          });
+      }, function sent() {
         res.users = _.union(res.users, projectUsers);
-        return res.save()
-      }
+        res.save()
+      })
     })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
@@ -192,7 +235,7 @@ export function index(req, res) {
 export function sendNotifications(req, res) {
   // yesterday is new Date(Date.now() - (24 * 60 * 60 * 1000))
   var y = new Date(Date.now() - (60 * 1000));
-  Project.find({updatedAt: {$gt: y}}, '_id title users').populate('users').exec()
+  Project.find({updatedAt: {$gt: y}}, '_id title users').populate('users.user').exec()
   // Project.find({}, '_id title users').populate('users').exec()
     .then(handleEntityNotFound(res))
     .then(sendNotificationsForProjects(res))
@@ -201,7 +244,7 @@ export function sendNotifications(req, res) {
 
 // Gets a single Project from the DB
 export function show(req, res) {
-  return Project.findById(req.params.id).populate("taxonomy.category taxonomy.subcategory taxonomy.products taxonomy.tags personas files researchMethod researcher users").exec()
+  return Project.findById(req.params.id).populate("taxonomy.category taxonomy.subcategory taxonomy.products taxonomy.tags personas files researchMethod researcher users.user").exec()
     .then(handleEntityNotFound(res))
     .then(respondWithProject(res))
     .catch(handleError(res));
@@ -219,7 +262,7 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  return Project.findById(req.params.id).populate("taxonomy.category taxonomy.subcategory taxonomy.products taxonomy.tags personas files researchMethod researcher users").exec()
+  return Project.findById(req.params.id).populate("taxonomy.category taxonomy.subcategory taxonomy.products taxonomy.tags personas files researchMethod researcher users.user").exec()
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))

@@ -20,7 +20,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             p Send me notifications when this project is updated.
       li: a(ng-class="{active: $prjct.show === 'ShowSidebar'}", ng-click="$prjct.showMenuItem('ShowSidebar')"): span.ti-info-alt
       li: a(ui-sref="new"): span.ti-plus
-      li: a(ng-click="$prjct.sendNotifications()"): span.ti-bell
+      //- li: a(ng-click="$prjct.sendNotifications()"): span.ti-announcement
   .loading(ng-class="{active: loading}")
   nav.project-nav
     ul
@@ -36,7 +36,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
 
   .container
     .project-content(ng-class="{faded: loading}")
-      .card.progress-card: .flex-row
+      //- .card.progress-card: .flex-row
         .item.main
           .progress-bar
             .pb_label 30% Complete
@@ -44,7 +44,21 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         .item
           .badge 12
           span.ti-files
-          .title Resources
+          .title.dropdown.active Resources
+            .hidden-menu.text-left
+              ul.attachments
+                li: a(href="{{file.url}}", target="_blank")
+                  i(class="file-audio")
+                  |  The name of the File
+                li: a(href="{{file.url}}", target="_blank")
+                  i(class="file-text")
+                  |  The name of the Second File
+                li: a(href="{{file.url}}", target="_blank")
+                  i(class="file-pdf")
+                  |  Another File
+                li: a(href="{{file.url}}", target="_blank")
+                  i(class="file-presentation")
+                  |  The Final File in the Resources                  
         .item
           .badge 3
           span.ti-check-box

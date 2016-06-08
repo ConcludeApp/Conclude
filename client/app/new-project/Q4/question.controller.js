@@ -35,7 +35,7 @@ class Q4Controller {
         updated: Date.now()
       },
       researcher: this.project.researcher._id,
-      users: [this.project.researcher._id]
+      users: [{user: this.project.researcher._id, notifications: 1}]
     }).then(res => {
       var project = res.data;
       this.$http.put('/api/users/'+project.researcher+'/access', {project: project._id, accessLevel: 2, notifications: 1})

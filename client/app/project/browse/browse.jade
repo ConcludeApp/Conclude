@@ -66,7 +66,7 @@ form(name="filterBy", ng-submit="$fltr.filterProjects()"): header.header.filter#
         ng-show="$fltr.filterKey === 'taxonomy.products'")
 
     button(type="submit", style="display: none")
-
+.loading(ng-class="{active: loading}")
 .container(style="padding-top: 60px")
   p.text-center(ng-hide="$fltr.projects.length") No projects found that match the selected filters.
   .grid.group(masonry)
@@ -75,12 +75,7 @@ form(name="filterBy", ng-submit="$fltr.filterProjects()"): header.header.filter#
         .pc_content
           span {{prjct.category}}
           strong {{prjct.title}}
-          span LAST UPDATED: {{prjct.timestamp.updatedAt | date: 'MM/dd/yyyy'}}
+          span LAST UPDATED: {{prjct.updatedAt | date: 'MM/dd/yyyy'}}
         .pc_meta.group
-          .user-group.pull-right
-            .avatar(data-initials="DP")
-            .avatar(data-initials="AB")
-            .avatar(data-initials="CD")
-            .avatar(data-initials="+3")
           span.status STATUS
             span In Progress 
