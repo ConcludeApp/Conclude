@@ -19,31 +19,27 @@
                   placeholder="Category...",
                   ng-model="category_search",
                   uib-typeahead="category as category.pretty for category in $categories | filter: category_search | limitTo: 8",
-                  typeahead-on-select="$project.taxonomy.category = category_search._id",
+                  typeahead-on-select="$project.taxonomy.category = category_search._id; getMethods(); recommendedMethods.push({category: category_search.pretty})",
                   ng-required="!($project.taxonomy.category.length || $project.taxonomy.subcategory.length || $project.taxonomy.product.length)")
               .input-group(data-label="SUBCATEGORY")
                 input.form-control.tr-title(type="text",
                   placeholder="Subcategory...",
                   ng-model="subcategory_search",
                   uib-typeahead="subcategory as subcategory.pretty for subcategory in $subcategories | filter: subcategory_search | limitTo: 8",
-                  typeahead-on-select="$project.taxonomy.subcategory = subcategory_search._id",
+                  typeahead-on-select="$project.taxonomy.subcategory = subcategory_search._id; getMethods(); recommendedMethods.push({subcategory: subcategory_search.pretty})",
                   ng-required="!($project.taxonomy.category.length || $project.taxonomy.subcategory.length || $project.taxonomy.product.length)")
               .input-group(data-label="PRODUCT")
                 input.form-control.tr-title(type="text",
                   placeholder="Product...",
                   ng-model="product_search",
                   uib-typeahead="product as product.title for product in $products | filter: product_search | limitTo: 8",
-                  typeahead-on-select="$project.taxonomy.product = product_search._id",
+                  typeahead-on-select="$project.taxonomy.product = product_search._id; getMethods(); recommendedMethods.push({product: product_search.title})",
                   ng-required="!($project.taxonomy.category.length || $project.taxonomy.subcategory.length || $project.taxonomy.product.length)")
             .col.r-col: .related
               span.title RELATED RESEARCH
               ul.list-bullet
-                li XYZ Usability Study
-                  span.date LAST UPDATED - 02/18/2016
-                li XYZ Usability Study
-                  span.date LAST UPDATED - 02/18/2016
-                li XYZ Usability Study
-                  span.date LAST UPDATED - 02/18/2016
+                li(ng-repeat="method in methods") {{method.title}}
+                  span.date LAST UPDATED - {{method.updatedAt | date: 'MM/dd/yyyy'}}
           footer.new-project-footer.group
             .pull-left: a.btn.btn-outline(style="opacity: 0.25") BACK
             .pull-right: button.btn(ui-sref=".Q2", ng-class="{'btn-primary': NewProject.$valid}", ng-disabled="NewProject.$invalid", type="submit") NEXT

@@ -1,3 +1,4 @@
+.loading(ng-class="{active: loading}")
 .container
   form(name="CreateProject", ng-submit="q4.createProject($project)")
     #question-4
@@ -15,11 +16,8 @@
           .effort
             span EFFORT
             p {{method.effort}}
-          .cost
-            span COST
-            p {{method.cost}}
           .data.tr-title
-            span DATA
+            span DATA TYPE
             p {{method.dataType}}
           .time
             span TIME
@@ -28,26 +26,23 @@
             span LOCATION
             p.tr-title {{method.location}}
       span.alternate-methods ALTERNATE METHODS
-      .method-card(ng-repeat="method in q4.methods | limitTo: 3",
+      .method-card(ng-repeat="method in q4.methods",
         ng-hide="method.recommended",
         ng-class="{active: $project.method === method._id}",
         ng-click="$project.method = method._id")
         strong {{method.title}}
         p {{method.description}}
         .meta.flex-row
-          .effort
+          .effort(ng-show="method.effort")
             span EFFORT
             p {{method.effort}}
-          .cost
-            span COST
-            p {{method.cost}}
-          .data.tr-title
-            span DATA
-            p.tr-title {{method.dataType}}
-          .time
+          .data.tr-title(ng-show="method.dataType")
+            span DATA TYPE
+            p {{method.dataType}}
+          .time(ng-show="method.duration")
             span TIME
             p {{method.duration}}
-          .location
+          .location(ng-show="method.location")
             span LOCATION
             p.tr-title {{method.location}}
     .page-fade

@@ -2,15 +2,18 @@
 
 class Q4Controller {
 
-  constructor(Auth, $state, $scope, $http) {
+  constructor(Auth, $state, $scope, $http, $rootScope) {
     
     this.Auth = Auth;
     this.$state = $state;
     this.$http = $http;
+    this.$scope = $scope
 
     this.project = $scope.$project;
 
-    $http.get('/api/research-methods')
+    console.log($rootScope.recommendedMethods)
+
+    $http.post('/api/research-methods/recommended', {data: $rootScope.recommendedMethods})
       .then(res => {
         res.data[0].recommended = true;
         $scope.$project.method = res.data[0]._id;
@@ -22,6 +25,7 @@ class Q4Controller {
   }
 
   createProject() {
+    this.$scope.loading = true;
     this.$http.post('/api/projects', {
       phase: this.project.phase,
       researchMethod: this.project.method,
@@ -38,10 +42,8 @@ class Q4Controller {
       users: [{user: this.project.researcher._id, notifications: 1}]
     }).then(res => {
       var project = res.data;
-      this.$http.put('/api/users/'+project.researcher+'/access', {project: project._id, accessLevel: 2, notifications: 1})
-        .then(res => {
-          return this.$state.go('new.wizard', {id: project._id});
-        })
+      this.$scope.loading = false;
+      return this.$state.go('new.wizard', {id: project._id});
     });
   }
 

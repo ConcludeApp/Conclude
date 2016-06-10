@@ -472,11 +472,11 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
           span.tag(ng-repeat="tag in $prjct.project.taxonomy.tags") {{tag.pretty}}
           span(ng-show="$prjct.project.taxonomy.tags.length <= 0"): small(style="display: block; padding: 0 5px") No tags to show.
     .sidebar_section
-      h4 Methodologies
+      h4 Research Method
       .sc_row(ng-hide="$prjct.show === 'EditProject'")
         ul.list-bullet.items
           li(ng-show="$prjct.project.researchMethod.length", ng-repeat="method in $prjct.project.researchMethod") {{method.title}}
-          li(ng-hide="$prjct.project.researchMethod.length"): span No methodologies added yet.
+          li(ng-hide="$prjct.project.researchMethod.length"): span No methodology added yet.
       .sc_row(ng-show="$prjct.show === 'EditProject'")
         ul.attachments.items
           li(ng-show="$prjct.project.researchMethod.length", ng-repeat="link in $prjct.project.researchMethod", style="padding: 0")
@@ -487,10 +487,10 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
               ng-value="$prjct.project.researchMethod[$index].title",
               uib-typeahead="method as method.title for method in $methods | filter: method_search[$index] | limitTo: 8",
               typeahead-on-select="$prjct.project.researchMethod[$index] = method_search[$index]._id")
-            span.icon.ti-close(ng-click="$prjct.project.researchMethod.splice($index, 1)")
-          li(style="padding: 0", ng-click="$prjct.project.researchMethod.push({})"): span.add(style="display: block;")
+            //- span.icon.ti-close(ng-click="$prjct.project.researchMethod.splice($index, 1)")
+          li(style="padding: 0", ng-click="$prjct.project.researchMethod.push({})", ng-show="$prjct.project.researchMethod.length <= 1"): span.add(style="display: block;")
             i.ti-plus
-            |  Add Methodology
+            |  Add Research Method
     .sidebar_section
       h4 Links
       .sc_row(ng-hide="$prjct.show === 'EditProject'")

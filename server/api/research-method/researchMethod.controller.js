@@ -59,6 +59,25 @@ function handleError(res, statusCode) {
   };
 }
 
+// Recommend a Method
+export function recommend(req, res) {
+  var queryStrings = [],
+      queryInt = [];
+  _.forEach(req.body.data, function(obj) {
+    var q = obj[_.keys(obj)[0]];
+    if (typeof q === 'number') {
+      return queryInt.push(q);
+    } else {
+      var reg = new RegExp(q, 'ig')
+      return queryStrings.push(reg);
+    }
+  });
+  console.log(queryStrings, queryInt);
+  return Model.find({$or: [{title: {$in: queryStrings}}, {description: {$in: queryStrings}}, {phase: queryInt[0]}]}).exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Gets a list of Projects
 export function index(req, res) {
   return Model.find().exec()

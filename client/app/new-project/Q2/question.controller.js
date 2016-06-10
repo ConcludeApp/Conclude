@@ -1,7 +1,7 @@
 'use strict';
 
 class Q2Controller {
-  constructor(Auth, $state, $scope) {
+  constructor(Auth, $state, $scope, $rootScope) {
 
     this.Auth = Auth;
     this.$state = $state;

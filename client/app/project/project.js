@@ -10,7 +10,7 @@ angular.module('concludeApp')
         controllerAs: '$prjct',
         resolve: {
           project: function($http, $stateParams, Auth, $state) {
-            return $http({method: 'POST', url: '/api/projects/' + $stateParams.id})
+            return $http({method: 'GET', url: '/api/projects/' + $stateParams.id})
           }
         }
       })

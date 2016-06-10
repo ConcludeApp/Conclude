@@ -45,22 +45,25 @@ function sendNotificationsForProjects(res, statusCode) {
     if (entity) {
       var recipients = []
       _.forEach(entity, function(p) {
-        _.forEach(p.users, function(u) {
+        async.each(p.users, function(u, cb) {
           recipients.push({'name': (u.name && u.name.split(' ')[0].length ? ` ${u.name.split(' ')[0]}` : ' '), 'email': u.email});
-        });
-        if (recipients.length) {
-          return _.forEach(recipients, function(e) {
-            transporter.sendMail({
-              from: '"Conclude App" <support@concludeapp.co>',
-              to: e.email,
-              subject: 'A Research Project was Recently Updated',
-              text: 'Hey ${e.name},\n${entity.title} was updated within the last 24 hours.\nhttp://localhost:9000/projects/${entity._id}',
-              html: `<p>Hey ${e.name},</p><p><i>${p.title}</i> was updated within the last 24 hours.</p><p><a href="http://localhost:9000/project/${p._id}">Log In to View</a></p>`
-            }, function(err, res) {
-              if (err) { return console.log('Error: ', err); }
+          return cb()
+        }, function() {
+          if (recipients.length) {
+            return _.forEach(recipients, function(e) {
+              transporter.sendMail({
+                from: '"Conclude App" <support@concludeapp.co>',
+                to: e.email,
+                subject: 'A Research Project was Recently Updated',
+                text: 'Hey ${e.name},\n${entity.title} was updated within the last 24 hours.\nhttp://localhost:9000/projects/${entity._id}',
+                html: `<p>Hey ${e.name},</p><p><i>${p.title}</i> was updated within the last 24 hours.</p><p><a href="http://localhost:9000/project/${p._id}">Log In to View</a></p>`
+              }, function(err, res) {
+                console.log('Gone')
+                if (err) { return console.log('Error: ', err); }
+              });
             });
-          });
-        }
+          }
+        });
       });
       return res.status(statusCode).json(entity);
     } else {
@@ -137,7 +140,7 @@ function sendEmail(user, project) {
     transporter.sendMail({
       from: '"Conclude App" <support@concludeapp.co>',
       to: user.email,
-      subject: project.title + ' was shared with you VIA Conclude',
+      subject: project.title + ' was just shared with you',
       text: res.text,
       html: res.html
     }, function(err, res) {
@@ -164,12 +167,11 @@ export function share(req, res, next) {
       projectId = req.params.id,
       projectUsers = [],
       message = users[0].message;
-  console.log(message);
   Project.findById(projectId).exec()
     .then(function(res) {
       if (!res) { return }
       var project = res;
-      _.set(project, 'message', message);
+          _.set(project, 'message', message);
       return async.each(users, function(u, cb) {
         User.findOne({email: u.email}).exec()
           .then(function(res) {
@@ -193,6 +195,20 @@ export function share(req, res, next) {
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
+}
+
+/* Recommend Research */
+export function recommend(req, res) {
+  var query = req.body.params;
+  if (query.length) {
+    return Project.find(query).exec()
+      .then(respondWithFilteredResult(res))
+      .catch(handleError(res));
+  } else {
+    return Project.find().exec()
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  }
 }
 
 /* Commented for Maintanability */

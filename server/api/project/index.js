@@ -6,6 +6,7 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
+router.post('/recommended', auth.isAuthenticated(), controller.recommend);
 router.post('/index', auth.isAuthenticated(), controller.index);
 router.get('/notifications', auth.isAuthenticated(), controller.sendNotifications);
 router.post('/:id/share', auth.isAuthenticated(), controller.share);

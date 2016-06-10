@@ -20,16 +20,16 @@
         <tr>
           <td>
             <p>Hey <%= user.first %>,</p>
-            <p><%= project.title %> was just shared with you.</p>
-            <%= if (project.message) { %.
-            <p><%= project.message %></p>
-            <%= } %>
+            <p><i><%= project.title %></i> was just shared with you on Conclude.</p>
+            <% if (project.message) { %>
+            <p class="quote"><%= project.message %></p>
+            <% } %>
             <br>
             <!-- button -->
             <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td>
-                  <a href="http://localhost:9000/project/<%= project._id %>">Log In to View</a>
+                  <a href="http://rp.concludeapp.co/project/<%= project._id %>">Log In to View</a>
                 </td>
               </tr>
             </table>
