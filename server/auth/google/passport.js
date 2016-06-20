@@ -10,10 +10,10 @@ export function setup(User, config) {
   function(accessToken, refreshToken, profile, done) {
     User.findOne({'google.id': profile.id}).exec()
       .then(user => {
+        return console.log(profile._json)
         if (user) {
           return done(null, user);
         }
-
         user = new User({
           name: profile.displayName,
           email: profile.emails[0].value,

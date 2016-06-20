@@ -17,7 +17,6 @@ import Persona from '../api/persona/persona.model'
 import Tag from '../api/tag/tag.model'
 import File from '../api/file/file.model'
 
-/*
 File.find({}).remove()
   .then(() =>{
     File.create({
@@ -138,7 +137,6 @@ Persona.find({}).remove()
       "link": "laboris.com"
     });
   });
-*/
 ResearchMethod.find({}).remove()
   .then(() => {
     ResearchMethod.create({
@@ -1319,7 +1317,6 @@ ResearchMethod.find({}).remove()
       "phase": [3]
     });
   });
-/*
 Product.find({}).remove()
   .then(() => {
     Product.create({
@@ -1458,7 +1455,7 @@ Subcategory.find().remove()
       "namespace": "category:personalization"
     });
   });
-*/
+
 Project.find().remove()
   .then(() => {
     Project.create({
@@ -1515,15 +1512,14 @@ Project.find().remove()
       }
     });
   });
-/*
 User.find({}).remove()
   .then(() => {
     User.create({
       _id: '574dd661768100ae0eb63613',
       provider: 'local',
       name: 'Daniel Price',
-      email: 'dan@example.com',
-      password: 'test'
+      email: 'dan@danielprice.co',
+      password: 'saffron'
     }, {
       _id: '574df8228376390c2aa635e1',
       provider: 'local',
@@ -1533,4 +1529,3 @@ User.find({}).remove()
       password: 'test'
     });
   });
-*/

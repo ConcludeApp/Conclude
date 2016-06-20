@@ -5,10 +5,7 @@ module.exports = function(config) {
   config.set({
     // base path, that will be used to resolve files and exclude
     basePath: '',
-
-    // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['mocha', 'chai', 'sinon-chai', 'chai-as-promised', 'chai-things'],
-
     client: {
       mocha: {
         timeout: 5000 // set default mocha spec timeout
