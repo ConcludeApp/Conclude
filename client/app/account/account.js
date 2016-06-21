@@ -10,12 +10,11 @@ angular.module('concludeApp')
       })
       .state('logout', {
         url: '/logout?referrer',
-        referrer: 'browse',
         template: '',
         controller: function($state, Auth) {
           var referrer = $state.params.referrer || $state.current.referrer || 'browse';
           Auth.logout();
-          $state.go(referrer);
+          $state.go('filter');
         }
       })
       .state('signup', {

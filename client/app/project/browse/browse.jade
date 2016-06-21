@@ -1,18 +1,19 @@
-form(name="filterBy", ng-submit="$fltr.filterProjects()"): header.header.filter#nav
-  .header-action: span.icon.ti-menu
+header.header.filter#nav
+  .header-action: span.icon.ti-menu(ng-click="showMainSidebar()")
   .header-filter.text-left
-    .input-group-horizontal.has-icon.icon-left.search
-      span.icon.ti-search
+    .input-group-horizontal.has-icon.icon-left.search(ng-class="{filtering: $fltr.filterKey || $fltr.appliedFilters.length}"): form(name="searchBy", ng-submit="$fltr.searchProjects()")
+      span.icon.ti-search(ng-click="$fltr.resetFilters()")
       input(type="search",
-        placeholder="Search projects by title..."
+        placeholder="Search projects by keyword or phrase..."
         ng-model="$fltr.keyword",
         ng-disabled="$fltr.filterKey")
+      span.icon.ti-close(ng-click="$fltr.resetFilters()", ng-class="{in: $fltr.keyword.length}")
     .input-group-horizontal.has-icon.icon-right
       select(ng-model="$fltr.filterKey",
         ng-options="o.value as o.label for o in $fltr.filterOptions")
         option(value="") Filter projects by...
       span.icon.ti-angle-down
-    .input-group-horizontal: .filter-track(ng-class="{applied: $fltr.appliedFilters.length}", filter:track): .group
+    .input-group-horizontal: .filter-track(ng-class="{applied: $fltr.appliedFilters.length}", filter:track): .group: form(name="filterBy", ng-submit="$fltr.filterProjects()")
       .tags-row.pull-left(ng-class="{applied: $fltr.appliedFilters.length}")
         .tag(ng-repeat="fltr in $fltr.appliedFilters",
           ng-class="{exists: filterIndex == $index}",
@@ -74,7 +75,7 @@ form(name="filterBy", ng-submit="$fltr.filterProjects()"): header.header.filter#
       figure.project-card(ui-sref="project({id: prjct._id})")
         .pc_content
           span {{prjct.category}}
-          strong {{prjct.title}}
+          strong {{prjct.title ? prjct.title : 'Untitled'}}
           span LAST UPDATED: {{prjct.updatedAt | date: 'MM/dd/yyyy'}}
         .pc_meta.group
           span.status STATUS

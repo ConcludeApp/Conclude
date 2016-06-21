@@ -11,8 +11,6 @@ class Q4Controller {
 
     this.project = $scope.$project;
 
-    console.log($rootScope.recommendedMethods)
-
     $http.post('/api/research-methods/recommended', {data: $rootScope.recommendedMethods})
       .then(res => {
         res.data[0].recommended = true;

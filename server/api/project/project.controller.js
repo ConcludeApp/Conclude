@@ -16,6 +16,27 @@ import Project from './project.model';
 import User from '../user/user.model';
 import path from 'path'
 
+
+Project.createMapping(function(err, map) {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log(map)
+  }
+});
+
+var stream = Project.synchronize(),
+    count = 0;
+stream.on('data', function(err, doc){
+  count++;
+});
+stream.on('close', function(){
+  console.log('indexed ' + count + ' documents!');
+});
+stream.on('error', function(err){
+  console.log(err);
+});
+
 var emailTemplate = require('email-templates').EmailTemplate,
     transporter   = mailer.createTransport({service: 'Gmail', auth: {user: 'dan@danielprice.co', pass: 'lUnaD71lcBXnzWuR'}}),
     templateDir   = path.join(__dirname, '../../../client', 'email', 'share'),
@@ -211,6 +232,16 @@ export function recommend(req, res) {
   }
 }
 
+export function search(req, res) {
+  var response = res;
+  Project.search({query_string: {query: req.body.query}}, {hydrate: true}, function(err, res) {
+    if (err) {
+      response.status(500).json(err);
+    } else {
+      response.status(200).json(res.hits.hits);
+    }
+  });
+}
 /* Commented for Maintanability */
 export function index(req, res) {
   var query = [];
@@ -235,6 +266,7 @@ export function index(req, res) {
      */
     return query.push({[key.namespace]: key.query});
   });
+  query.push({status: true});
   /* End Loop, Poll Server */
   if (query.length) {
     return Project.find({$and: query}).exec()

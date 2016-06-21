@@ -88,6 +88,15 @@
     color white
     padding ($padding * 5) $padding $padding
     position relative
+    &:after
+      background linear-gradient(rgba(black, 0), rgba(black, 0.85))
+      bottom 0
+      content ''
+      height 100px
+      left 0
+      position absolute
+      width 100%
+      z-index 0
     .persona-header_tag
       background $c-blue
       border-radius 2px
@@ -100,6 +109,10 @@
       padding 0 ($padding / 2)
       position absolute
       top $padding
+    .persona-header_name,
+    .persona-header_title
+      position relative
+      z-index 1
     .persona-header_name
       font-size 16px
       font-weight 700
@@ -168,7 +181,7 @@
     color $c-blue
     font normal 30px/42px $fn-primary
   p
-    font normal 20px/26px $fn-primary
+    font normal 16px/20px $fn-primary
     &.project-cat
       color #9FACB9
       font-size 12px
@@ -290,6 +303,8 @@
               position absolute
               right 0
               width 100%
+          &:nth-child(n+2)
+            margin-top 0
       .tab
         white-space pre-line
         padding ($padding + 10) 0 0
@@ -384,7 +399,7 @@
   z-index 11
   &.show
     animation ShowSidebar 200ms 1
-    right -15px
+    right -30px
   .sidebar_section
     margin-bottom $padding
     .sc_row
@@ -532,6 +547,7 @@
         font-weight 600
         
 .project-nav
+  height 85%
   left 0
   padding-left ($padding * 2)
   position fixed
@@ -549,9 +565,11 @@
       top 0
       width 1px
     li
+      cursor pointer
       font-size 12px
-      line-height 6em
+      line-height 4em
       position relative
+      transition all 200ms ease
       a
         color #9FACB9
         display inline-block
@@ -586,7 +604,7 @@
         top 0
         width 1px
         z-index 2
-      &.complete
+      &.active
         color $c-teal
         content ""
         &:before
@@ -1037,6 +1055,10 @@
       margin-top ($padding / 2)
     ul.dropdown
       padding 0
+  input.form-control,
+  textarea.form-control
+    padding ($padding / 2)
+    transition height 200ms ease
 .attachments li
   display inline-block
   margin-bottom ($padding / 2)
@@ -1094,8 +1116,8 @@
     .select,
     input
       flex 1
-      & + input
-        margin-top 5px
+      span.ti-angle-down
+        right 10px
     select,
     input
       padding 0 10px

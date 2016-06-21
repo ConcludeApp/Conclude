@@ -71,12 +71,12 @@
       &.icons li
         width 40px
         &.button
+          margin-right 8px
           width auto
           button
             display inline-block
             vertical-align middle
           & + .button
-            margin 0 $padding 0 ($padding / 2)
             padding-right ($padding / 2)
       &:not(.icons)
         padding-right ($padding / 2)
@@ -127,10 +127,31 @@
         padding 0 $padding
         width 100%
       .search
-        min-width 400px
         padding-left 10px
-        span.icon
+        transition width 200ms ease
+        width 400px
+        span.icon.ti-search
           left 10px
+          transition color 200ms ease
+        &.filtering
+          min-width 0
+          width 40px
+          span.icon.ti-search
+            color $c-icons
+            cursor pointer
+            left 0
+            // right 0
+            text-align center
+            width 40px
+            &:hover
+              color $c-copy
+        span.icon.ti-close
+          left initial
+          opacity 0
+          right 10px
+          transition opacity 200ms ease
+          &.in
+            opacity 1
       select
         min-width 200px
       .tags-row

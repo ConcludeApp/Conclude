@@ -1,0 +1,22 @@
+div.main-sidebar(ng-class="{show: ShowMainSidebar, expanded: ProjectSearch.length}")
+  .loading(ng-class="{active: searching}")
+  .controls.flex-row
+    //- span.logo Conclude
+    div: span.ti-close(ng-click="showMainSidebar(); searching = false; ProjectSearch = '';")
+  .content
+    .input-group: .flex-row
+      div: img(src="/assets/images/logo.png", height=30, width=30, ui-sref=".filter")
+      span: a.btn.btn-primary.btn-sm.pull-right(ui-sref=".new") NEW
+    //- .input-group: 
+    .search
+      input.form-control.ctrl-sm(placeholder='Search Projects by Keyword...', type='text', ng-model='ProjectSearch', ng-model-options='{debounce:600}', ng-change='searchProjects()')
+      span.icon.ti-close(ng-show="ProjectSearch.length", ng-click="ProjectSearch = '';")
+    ul.nav(ng-hide="ProjectSearch.length")
+      li(ui-sref=".filter", ui-sref-active="active") Projects
+      li(ng-class="{active: account}", ng-click="viewAccount()") Account
+    ul.nav(ng-show="ProjectSearch.length")
+      li.text-center(ng-hide="results.length") No projects found.
+      li(ng-repeat="project in results")
+        .project-card(ui-sref="^.project({id: project._id})", ui-sref-active="active")
+          p {{project.title ? project.title : 'Untitled'}}
+          span.tr-up {{project.updatedAt | date: 'MMM dd, yyyy'}}

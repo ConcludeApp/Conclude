@@ -1,0 +1,8 @@
+.my-account.text-center
+  .modal-title Account Info
+  .avatar(data-initials='DP', ng-class='{"has-photo": me.photo}', style="background-image: url({{me.photo}})")
+  .info
+    .name {{me.name}}
+    .email {{me.email}}
+  hr
+  a.btn.btn-outline(ui-sref="^.logout") LOG OUT

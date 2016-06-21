@@ -548,7 +548,6 @@ gulp.task('constant', function() {
 
 gulp.task('build:images', () => {
     return gulp.src(paths.client.images)
-        .pipe(plugins.rev())
         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/images`))
         .pipe(plugins.rev.manifest(`${paths.dist}/${clientPath}/assets/rev-manifest.json`, {
             base: `${paths.dist}/${clientPath}/assets`,

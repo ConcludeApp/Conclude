@@ -5,11 +5,10 @@ angular.module('concludeApp')
     return {
       restrict: 'A',
       link: function(scope, elem, attr) {
-        var target = angular.element(document.querySelector('#section-'+elem.attr('data-section')))[0],
-            targetHeight = (target.offsetHeight / 3),
-            minHeight = (targetHeight < 40) ? 40 : targetHeight;
-        elem.css('height', minHeight+'px')
-        elem.css('lineHeight', minHeight+'px')
+        var itemHeight = (elem[0].offsetHeight / 9);
+        console.log(itemHeight)
+        elem.find('li').css('height', itemHeight+'px')
+        elem.find('li').css('lineHeight', itemHeight+'px')
       }
     }
   });

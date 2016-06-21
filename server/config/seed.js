@@ -16,7 +16,7 @@ import ResearchMethod from '../api/research-method/researchMethod.model'
 import Persona from '../api/persona/persona.model'
 import Tag from '../api/tag/tag.model'
 import File from '../api/file/file.model'
-
+/*
 File.find({}).remove()
   .then(() =>{
     File.create({
@@ -1529,3 +1529,4 @@ User.find({}).remove()
       password: 'test'
     });
   });
+*/

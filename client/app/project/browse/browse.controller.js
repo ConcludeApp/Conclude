@@ -69,14 +69,41 @@ class BrowseController {
     /*
      * Function to Filter Projects
      */
+    this.searchProjects = function() {
+
+      $scope.loading = true;
+      var q = this.keyword;
+      this.appliedFilters = [];
+
+      $http.post('/api/projects/search', {query: q})
+        .then(res => {
+          $scope.loading = false;
+          return this.projects = res.data;
+        })
+
+      return true;
+
+    }
+
+    this.resetFilters = function() {
+      $scope.loading = true;
+      $http.post('/api/projects/index')
+        .then(res => {
+          $scope.loading = false
+          return this.projects = res.data;
+        })
+      this.appliedFilters = [];
+      return this.filterValue = this.keyword = this.filterKey = ''
+    }
+
     this.filterProjects = function() {
 
-      $scope.loading = true
+      $scope.loading = true;
 
       var q = this.filterValue,
           k = this.keyword,
           f = this.filterKey,
-          filter = {namespace: (f && f != 0 ? f : 'title'), query: (k ? k : q)};
+          filter = {namespace: (f && f != 0 ? f : 'title'), query: q};
 
       if (_.some(this.appliedFilters, filter)) {
         var FilterIndex = _.findIndex(this.appliedFilters, filter);
@@ -94,14 +121,11 @@ class BrowseController {
       
       $http.post('/api/projects/index', this.appliedFilters)
         .then(res => {
-          this.projects = res.data;
+          $scope.loading = false
+          return this.projects = res.data;
         })
 
-      this.filterValue = this.keyword = this.filterKey = null
-
-      $scope.loading = false
-
-      return true
+      return this.filterValue = this.keyword = this.filterKey = ''
 
     }
 

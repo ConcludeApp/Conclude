@@ -59,10 +59,11 @@ class NewProjectFormController {
   }
 
   updateProject() {
-    this.project.goals[0].primary = 1
-    this.project.questions[0].primary = 1
-    this.project.taxonomy.tags = []
-    var self = this
+    this.project.goals[0].primary = 1;
+    this.project.questions[0].primary = 1;
+    this.project.taxonomy.tags = [];
+    this.project.status = true;
+    var self = this;
 
     _.forEach(this.project.tags, function(tag) {
       self.project.taxonomy.tags.push(tag._id)
@@ -77,7 +78,7 @@ class NewProjectFormController {
   deleteProject() {
     this.$http.delete('/api/projects/' + this.project._id)
       .then(res =>{
-        this.$state.go("main")
+        this.$state.go("filter")
       })
   }
 

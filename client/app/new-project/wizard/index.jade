@@ -1,5 +1,5 @@
 header.header
-  .header-action: span.icon.ti-menu
+  .header-action: span.icon.ti-menu(ng-click="showMainSidebar()")
   .header-title Start a New Project
   .header-nav: ul
     li Last updated {{NewProject.project.updatedAt | timeAgo}} &nbsp;
@@ -12,10 +12,10 @@ header.header
         input(type="text", ng-model="NewProject.project.title", placeholder="Enter a title for your project...", name="title", required, novalidate)
       .meta-item
         span START DATE
-        input(type="text", ng-model="NewProject.project.timestamp.startAt", mask="19/39/9999", clean="true", placeholder="01/10/2016", name="start_date", required, novalidate)
+        input(type="text", ng-model="NewProject.project.timestamp.startAt", mask="19/39/9999", clean="true", placeholder="MM/DD/YYYY", name="start_date", required, novalidate)
       .meta-item
         span END DATE
-        input(type="text", ng-model="NewProject.project.timestamp.endAt", mask="19/39/9999", clean="true", placeholder="01/11/2016", name="end_date", required, novalidate)
+        input(type="text", ng-model="NewProject.project.timestamp.endAt", mask="19/39/9999", clean="true", placeholder="MM/DD/YYYY", name="end_date", required, novalidate)
       .meta-item(ng-show="NewProject.project.taxonomy.subcategory")
         span CATEGORY
         .tr-title {{NewProject.project.taxonomy.category.pretty}}
@@ -36,7 +36,7 @@ header.header
           name="description",
           ng-focus="NewProject.setFocus('description')",
           ng-blur="NewProject.clearFocus()",
-          required, novalidate)
+          required, novalidate, msd-elastic)
 
       .input-group(ng-class="{complete: NewProjectWizard.overview.$valid && focus != 'overview', active: focus === 'overview'}")
         .status: span.ti-check
@@ -48,7 +48,7 @@ header.header
           name="overview",
           ng-focus="NewProject.setFocus('overview')",
           ng-blur="NewProject.clearFocus()",
-          required, novalidate)
+          required, novalidate, msd-elastic)
 
       .input-group(ng-class="{complete: NewProjectWizard.goal_0.$valid && focus != 'goal', active: focus === 'goal'}")
         .status: span.ti-check
@@ -62,7 +62,7 @@ header.header
               ng-required="$index < 1",
               ng-focus="NewProject.setFocus('goal')",
               ng-blur="NewProject.clearFocus()",
-              name="goal_{{$index}}")
+              name="goal_{{$index}}", msd-elastic)
             input(type="hidden", ng-model="NewProject.project.goals[$index].primary", value="{{$index < 1 ? 0 : 1}}")
             span.icon.ti-close(ng-show="$index >= 1", ng-click="NewProject.project.goals.splice($index)")
         span.add(ng-click="NewProject.project.goals.push({})")
@@ -81,14 +81,14 @@ header.header
               ng-required="$index < 1",
               ng-focus="NewProject.setFocus('question')",
               ng-blur="NewProject.clearFocus()",
-              name="question_q_{{$index}}")
+              name="question_q_{{$index}}", msd-elastic)
             textarea.form-control(rows=2, 
               placeholder="Enter a description {{$index < 1 ? 'primary' : 'secondary'}} question considered here…",
               ng-model="NewProject.project.questions[$index].description",
               ng-required="$index < 1",
               ng-focus="NewProject.setFocus('question')",
               ng-blur="NewProject.clearFocus()",
-              name="question_a_{{$index}}")
+              name="question_a_{{$index}}", msd-elastic)
             input(type="hidden", ng-model="NewProject.project.questions[$index].primary", value="{{$index < 1 ? 0 : 1}}")
             span.icon.ti-close(ng-show="$index >= 1", ng-click="NewProject.project.questions.splice($index)")
         span.add(ng-click="NewProject.project.questions.push({})")
@@ -98,7 +98,7 @@ header.header
       .input-group(ng-class="{complete: NewProjectWizard.persona_0.$valid && focus != 'personas', active: focus === 'personas'}")
         .status: span.ti-check
         .question PERSONAS
-          .description Select at least one persona the research is targeted at. You may add additional secondary personas.
+          .description Select at least one persona the research is targeted at. You may add additional personas.
         ol.fields
           li(ng-repeat="persona in NewProject.project.personas")
             input.form-control(rows=1,
@@ -112,9 +112,9 @@ header.header
               ng-blur="NewProject.clearFocus()",
               name="persona_{{$index}}")
             span.icon.ti-close(ng-show="$index >= 1", ng-click="NewProject.project.personas.splice($index)")
-        span.add(ng-click="NewProject.project.personas.push({})")
+        span.add(ng-click="NewProject.project.personas.push({})", ng-hide="NewProject.project.personas.length >= 3")
           span.ti-plus
-          | Add Secondary Persona
+          | Add Additional Persona
 
       .input-group(ng-class="{complete: NewProjectWizard.tags.$valid && NewProjectWizard.tags.$touched && focus != 'tags', active: focus === 'tags'}", style="margin-bottom: 200px")
         .status: span.ti-check
@@ -128,7 +128,8 @@ header.header
           ng-blur="NewProject.clearFocus()",
           on-tag-added='NewProject.createTag($tag)',
           add-from-autocomplete-only=0
-          novalidate)
+          novalidate,
+          msd-elastic)
           auto-complete(source="NewProject.loadTags($query)"
             min-length=1,
             max-results-to-show="4")

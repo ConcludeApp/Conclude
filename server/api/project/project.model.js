@@ -1,12 +1,15 @@
 'use strict';
 
 import mongoose from 'mongoose';
+import elastic from 'elasticsearch';
+import ms from 'mongoosastic';
 
 var ProjectSchema = new mongoose.Schema({
   title: String,
   summary: String,
   overview: String,
   phase: String,
+  status: {type: Boolean, default: false},
   goals: [{
     primary: Boolean,
     description: String
@@ -81,6 +84,25 @@ var ProjectSchema = new mongoose.Schema({
   }
 }, {
   timestamps: true
+});
+
+var search = new elastic.Client({
+  host: 'https://594d6019:ddsqudvvq1oqrz10@maple-6482730.us-east-1.bonsai.io'
+});
+
+search.ping({
+  requestTimeout: 30000,
+  hello: "elasticsearch"
+}, function (error) {
+  if (error) {
+    console.error('Search cluster is down.');
+  } else {
+    console.log('Search cluster running.');
+  }
+});
+
+ProjectSchema.plugin(ms, {
+  esClient: search
 });
 
 export default mongoose.model('Project', ProjectSchema);

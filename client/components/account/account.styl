@@ -1,0 +1,41 @@
+.my-account
+  color #939AA0
+  padding ($padding * 3) ($padding * 2)
+  .modal-title
+    margin-bottom ($padding * 2)
+  .email
+    font-size 14px
+    opacity 0.5
+  hr
+    display block
+    margin ($padding + 10) 0
+  .btn
+    display inline-block
+    padding 0 ($padding * 2)
+    width auto
+  .avatar
+    background-size cover
+    border 1px solid
+    border-radius 48px
+    color $c-blue
+    display inline-block
+    height 48px
+    margin 0 0 $padding
+    position relative
+    vertical-align middle
+    width 48px
+    z-index 1
+    &:before
+      content attr(data-initials)
+      font-size 14px
+      height 100%
+      left 0
+      line-height 48px
+      position absolute
+      right 0
+      text-align center
+      top 0
+      width 100%
+      z-index 0
+    &.has-photo:before
+      opacity 0
