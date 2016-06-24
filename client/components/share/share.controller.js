@@ -24,8 +24,8 @@ class ShareController {
       })
 
     this.checkEmail = function validateEmail(email) {
-      // var val = /^.+(@returnpath.com)$/;
-      var val = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+      var val = /^.+(@returnpath.com)$/;
+      // var val = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
       return val.test(email)
     }
 
@@ -62,17 +62,17 @@ class ShareController {
   sendInvite() {
     var self = this;
     self.invitees[0].message = self.message;
-    this.$scope.$prjct.$scope.loading = true;
+    self.sendingEmails = true;
     return self.$http.post('/api/projects/'+self.project+'/share', self.invitees)
       .then(res => {
         self.invitees = []
         self.to = self.message = ''
-        self.$scope.$prjct.$scope.loading = false
+        self.sendingEmails = false;
         return self.$state.go(self.$state.current, {id: self.project}, {reload: true});
       }, function(err) {
         self.invitees = []
         self.to = self.message = ''
-        self.$scope.$prjct.$scope.loading = false
+        self.sendingEmails = false;
         return self.$state.go(self.$state.current, {id: self.project}, {reload: true});
       })
   }

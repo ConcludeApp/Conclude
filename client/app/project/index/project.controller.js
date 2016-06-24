@@ -9,19 +9,36 @@ class ProjectController {
     this.$scope = $scope;
     this.modal = $uibModal;
 
-    this.me = Auth.getCurrentUser()
     this.project = project.data
     this.implicationsTab = 'Sales'
+
+    var me = this.me = Auth.getCurrentUser()
+
+    var index = _.findIndex(this.project.users, function(u) {
+      return u.user._id === me._id;
+    });
+
+    this.project.notifications = this.project.users[index].notifications;
 
     $scope.persona_search = []
     $scope.method_search = []
 
     $scope.slickConfig = {
+      adaptiveHeight: true,
       autoplay: false,
       draggable: false,
       arrows: false,
       dots: true,
       method: {}
+    }
+
+    if (this.project.users.length > 1) {
+      var index = _.findIndex(this.project.users, function(u) {
+        return u.user._id === me._id;
+      });
+      if (index > -1) {
+        return this.project.users[index].notifications = this.project.notifications;
+      }
     }
 
     /* Edit Project */
@@ -100,12 +117,41 @@ class ProjectController {
         return $scope.loading = false
       }
     });
+    /*
+    $scope.$watch('$prjct.project.notifications', function(n,o) {
+      if (n!=o) {
+        $scope.$prjct.updatingNotifications = true;
+        $scope.$prjct.project.users[index].notifications = $scope.$prjct.project.notifications;
+        $http.put('/api/projects/'+$scope.$prjct.project._id, $scope.$prjct.project)
+          .then(res => {
+            $scope.$prjct.updatingNotifications = false;
+            return $scope.$prjct.project.__v = res.data.__v;
+          });
+      }
+    });
+    */
+  }
 
-
-
+  setNotificationSettings() {
+    var self = this;
+    self.updatingNotifications = true;
+    if (self.project.users.length > 1) {
+      var index = _.findIndex(self.project.users, function(u) {
+        return u.user._id === self.me._id;
+      });
+      self.project.users[index].notifications = self.project.notifications;
+    } else {
+      self.project.users.push({user: self.me._id, notifications: self.project.notifications});
+    }
+    return self.$http.put('/api/projects/'+self.project._id, self.project)
+      .then(res => {
+        self.updatingNotifications = false;
+        return this.project.__v = res.data.__v;
+      });
   }
 
   showMenuItem(item) {
+    this.ShowSidebar = false;
     return this.show = (this.show === item ? '' : item);
   }
 
@@ -113,13 +159,14 @@ class ProjectController {
     this.$scope.loading = true
     this.$http.put('/api/projects/'+this.project._id, this.project)
       .then(res => {
-        this.show = ''
+        this.show = '';
         this.$http.get('/api/projects/'+res.data._id)
           .then(res => {
-            this.$scope.loading = false
-            this.$scope.slickConfig.enabled = true
-            this.show = ''
-            return this.project = res.data
+            this.$scope.loading = false;
+            this.$scope.slickConfig.enabled = true;
+            this.show = '';
+            this.ShowSidebar = false;
+            return this.project = res.data;
           })
       })
   }
@@ -128,9 +175,10 @@ class ProjectController {
     this.$scope.loading = true
     this.$http.get('/api/projects/'+this.project._id)
       .then(res => {
-        this.$scope.loading = false
-        this.show = ''
-        return this.project = res.data
+        this.$scope.loading = false;
+        this.ShowSidebar = false;
+        this.show = '';
+        return this.project = res.data;
       })
   }
 

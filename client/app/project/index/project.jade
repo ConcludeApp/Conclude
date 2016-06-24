@@ -1,29 +1,33 @@
 ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
   header.header
     .header-action: span.icon.ti-menu(ng-click="showMainSidebar()")
-    .header-title(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.title}}
-    .header-title(ng-show="$prjct.show === 'EditProject'") Last updated {{$prjct.project.updatedAt | timeAgo}}
-    .header-nav(ng-show="$prjct.show == 'EditProject' && !$prjct.loading"): ul.icons
-      //- li: a(ng-click="$prjct.saveProject()"): span.ti-save
-      li.button: button.btn.btn-sm.btn-secondary(ng-click="$prjct.cancelEdits()") CANCEL
-      li.button: button.btn.btn-sm.btn-primary(ng-click="$prjct.saveProject()") SAVE CHANGES
-      li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-menu-alt
-      //- li: a(ng-click="$prjct.cancelEdits()"): span.ti-close
-    .header-nav(ng-hide="$prjct.show == 'EditProject'"): ul.icons
-      li(ng-class="{active: $prjct.show === 'EditProject'}")
-        a(ng-click="$prjct.showMenuItem('EditProject'); $prjct.ShowSidebar = true;", ng-class="{active: $prjct.show === 'EditProject'}"): span.ti-pencil-alt
-      li(ng-class="{active: $prjct.show === 'ShowShare'}")
-        a(ng-click="$prjct.showMenuItem('ShowShare')", ng-class="{active: $prjct.show === 'ShowShare'}"): span.ti-share
-        .hidden-menu(ng-click="$event.stopPropagation()"): div(share:project, project="{{$prjct.project}}")
-      li(ng-class="{active: $prjct.show === 'ShowNotifications'}")
-        a(ng-click="$prjct.showMenuItem('ShowNotifications')", ng-class="{active: $prjct.show === 'ShowNotifications'}"): span.ti-bell
-        .hidden-menu(ng-click="$event.stopPropagation()"): .notifications
-          label
-            input(type="checkbox")
-            p Send me notifications when this project is updated.
-      li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-menu-alt
-      //- li: a(ui-sref="new"): span.ti-plus
-      //- li: a(ng-click="$prjct.sendNotifications()"): span.ti-announcement
+    .header-title
+      span(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.title}}
+      span(ng-show="$prjct.show === 'EditProject'") Last updated {{$prjct.project.updatedAt | timeAgo}}
+    //- .header-title(ng-show="$prjct.show === 'EditProject'") Last updated {{$prjct.project.updatedAt | timeAgo}}
+    .header-nav
+      ul.icons(ng-show="$prjct.show == 'EditProject' && !$prjct.loading")
+        //- li: a(ng-click="$prjct.saveProject()"): span.ti-save
+        li.button: button.btn.btn-sm.btn-secondary(ng-click="$prjct.cancelEdits()") CANCEL
+        li.button: button.btn.btn-sm.btn-primary(ng-click="$prjct.saveProject()") SAVE CHANGES
+        li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-menu-alt
+        //- li: a(ng-click="$prjct.cancelEdits()"): span.ti-close
+      ul.icons(ng-hide="$prjct.show == 'EditProject'")
+        li(ng-class="{active: $prjct.show === 'EditProject'}")
+          a(ng-click="$prjct.showMenuItem('EditProject'); $prjct.ShowSidebar = true;", ng-class="{active: $prjct.show === 'EditProject'}"): span.ti-pencil-alt
+        li(ng-class="{active: $prjct.show === 'ShowShare'}")
+          a(ng-click="$prjct.showMenuItem('ShowShare')", ng-class="{active: $prjct.show === 'ShowShare'}"): span.ti-share
+          .hidden-menu(ng-click="$event.stopPropagation()"): div(share:project, project="{{$prjct.project}}")
+        li(ng-class="{active: $prjct.show === 'ShowNotifications'}")
+          a(ng-click="$prjct.showMenuItem('ShowNotifications')", ng-class="{active: $prjct.show === 'ShowNotifications'}"): span.ti-bell
+          .hidden-menu(ng-click="$event.stopPropagation()"): .notifications
+            .loading(ng-class="{active: $prjct.updatingNotifications}")
+            label
+              input(type="checkbox", ng-model="$prjct.project.notifications", ng-change="$prjct.setNotificationSettings()")
+              p Send me notifications when this project is updated.
+        li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar; $prjct.show = ($prjct.show === 'EditProject' ? 'EditProject' : '');"): span.ti-menu-alt
+        //- li: a(ui-sref="new"): span.ti-plus
+        //- li: a(ng-click="$prjct.sendNotifications()"): span.ti-announcement
   .loading(ng-class="{active: loading}")
   nav.project-nav(x-project-menu)
     ul
