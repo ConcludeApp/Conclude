@@ -12,6 +12,7 @@
           placeholder="Enter a description for your finding...",
           ng-model="project.findings[$index].description",
           ng-required="$index < 1")
+        input.form-control(placeholder="Enter a category for your finding...", ng-model="finding.category")
         span.icon.ti-close(ng-show="$index >= 1", ng-click="project.findings.splice($index, 1)")
     span.add(ng-click="project.findings.push({author: me.name})", ng-show="project.findings[0].title.length && project.findings[0].description.length")
       span.ti-plus

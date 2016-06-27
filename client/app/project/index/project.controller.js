@@ -2,7 +2,7 @@
 
 class ProjectController {
 
-  constructor(Auth, $state, $scope, $http, $stateParams, $anchorScroll, $location, $uibModal, project) {
+  constructor(Auth, $state, $scope, $http, $stateParams, $anchorScroll, $location, $uibModal, project, $window) {
     this.Auth = Auth;
     this.$state = $state;
     this.$http = $http;
@@ -10,15 +10,9 @@ class ProjectController {
     this.modal = $uibModal;
 
     this.project = project.data
-    this.implicationsTab = 'Sales'
+    this.implicationsTab = 'Product'
 
     var me = this.me = Auth.getCurrentUser()
-
-    var index = _.findIndex(this.project.users, function(u) {
-      return u.user._id === me._id;
-    });
-
-    this.project.notifications = this.project.users[index].notifications;
 
     $scope.persona_search = []
     $scope.method_search = []
@@ -36,15 +30,52 @@ class ProjectController {
       var index = _.findIndex(this.project.users, function(u) {
         return u.user._id === me._id;
       });
+      this.project.notifications = this.project.users[index].notifications ? this.project.users[index].notifications : '';
       if (index > -1) {
-        return this.project.users[index].notifications = this.project.notifications;
+        this.project.users[index].notifications = this.project.notifications;
       }
     }
 
     /* Edit Project */
-    $scope.$watch('$prjct.show', function(o,n) {
-      if (o === 'EditProject') {
-        $scope.loading = true
+    $scope.fileTypes = [
+      {
+        label: 'Text',
+        value: 'text'
+      },
+      {
+        label: 'Video',
+        value: 'video'
+      },
+      {
+        label: 'Audio',
+        value: 'audio'
+      },
+      {
+        label: 'Image',
+        value: 'image'
+      },
+      {
+        label: 'PDF',
+        value: 'pdf'
+      },
+      {
+        label: 'Spreadsheet',
+        value: 'spreadsheet'
+      },
+      {
+        label: 'Presentation',
+        value: 'presentation'
+      },
+      {
+        label: 'Folder',
+        value: 'folder'
+      }
+    ];
+    $scope.$watch('$prjct.show', function(n,o) {
+      var goTo = angular.element('#section-'+angular.element('[data-section].active').attr('data-section'));
+      if (n === 'EditProject') {
+        $scope.loading = true;
+        $scope.$broadcast('elastic:adjust')
         $http.get('/api/personas')
           .then(res => {
             return $scope.personas = res.data;
@@ -80,41 +111,10 @@ class ProjectController {
               return _.filter(theTags, function(o) { return o.pretty.includes(v) })
             }
           })
-        $scope.fileTypes = [
-          {
-            label: 'Text',
-            value: 'text'
-          },
-          {
-            label: 'Video',
-            value: 'video'
-          },
-          {
-            label: 'Audio',
-            value: 'audio'
-          },
-          {
-            label: 'Image',
-            value: 'image'
-          },
-          {
-            label: 'PDF',
-            value: 'pdf'
-          },
-          {
-            label: 'Spreadsheet',
-            value: 'spreadsheet'
-          },
-          {
-            label: 'Presentation',
-            value: 'presentation'
-          },
-          {
-            label: 'Folder',
-            value: 'folder'
-          }
-        ]
-        return $scope.loading = false
+        setTimeout(function() {
+          $window.dispatchEvent(new Event('resize'));
+        }, 100)
+        return $scope.loading = false;
       }
     });
     /*
@@ -190,9 +190,9 @@ class ProjectController {
       user: this.me.name,
       comment: this.comment
     }
-    this.project.comments.push(comment)
+    this.project.comments.push(comment);
     this.saveProject()
-    return this.NoComment = this.comment = null
+    return this.NoComment = this.comment = null;
   }
 
   addKeyFindings() {
@@ -261,7 +261,7 @@ class ProjectController {
   }
 
   setTab(title) {
-    return this.implicationsTab = title
+    return this.implicationsTab = title;
   }
 
   sendNotifications() {

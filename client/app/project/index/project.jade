@@ -13,32 +13,43 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-menu-alt
         //- li: a(ng-click="$prjct.cancelEdits()"): span.ti-close
       ul.icons(ng-hide="$prjct.show == 'EditProject'")
-        li(ng-class="{active: $prjct.show === 'EditProject'}")
-          a(ng-click="$prjct.showMenuItem('EditProject'); $prjct.ShowSidebar = true;", ng-class="{active: $prjct.show === 'EditProject'}"): span.ti-pencil-alt
+        li(ng-class="{active: $prjct.show === 'EditProject'}", ng-hide="$prjct.me.role != 'admin'")
+          a(ng-click="$prjct.showMenuItem('EditProject'); $prjct.ShowSidebar = true;", ng-class="{active: $prjct.show === 'EditProject'}")
+            span.ti-pencil-alt
+            .label Edit
         li(ng-class="{active: $prjct.show === 'ShowShare'}")
-          a(ng-click="$prjct.showMenuItem('ShowShare')", ng-class="{active: $prjct.show === 'ShowShare'}"): span.ti-share
+          a(ng-click="$prjct.showMenuItem('ShowShare')", ng-class="{active: $prjct.show === 'ShowShare'}")
+            span.ti-share
+            .label Share
           .hidden-menu(ng-click="$event.stopPropagation()"): div(share:project, project="{{$prjct.project}}")
         li(ng-class="{active: $prjct.show === 'ShowNotifications'}")
-          a(ng-click="$prjct.showMenuItem('ShowNotifications')", ng-class="{active: $prjct.show === 'ShowNotifications'}"): span.ti-bell
+          a(ng-click="$prjct.showMenuItem('ShowNotifications')", ng-class="{active: $prjct.show === 'ShowNotifications'}")
+            span.ti-bell
+            .label Notifications
           .hidden-menu(ng-click="$event.stopPropagation()"): .notifications
             .loading(ng-class="{active: $prjct.updatingNotifications}")
             label
               input(type="checkbox", ng-model="$prjct.project.notifications", ng-change="$prjct.setNotificationSettings()")
               p Send me notifications when this project is updated.
-        li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar; $prjct.show = ($prjct.show === 'EditProject' ? 'EditProject' : '');"): span.ti-menu-alt
+        li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar; $prjct.show = ($prjct.show === 'EditProject' ? 'EditProject' : '');")
+          span.ti-menu-alt
+          .label Info
         //- li: a(ui-sref="new"): span.ti-plus
         //- li: a(ng-click="$prjct.sendNotifications()"): span.ti-announcement
   .loading(ng-class="{active: loading}")
-  nav.project-nav(x-project-menu)
+  nav.project-nav
     ul
+      li.header(href="#section-0", du-smooth-scroll) RESEARCH
       li(data-section="0", du-scrollspy, href="#section-0", du-smooth-scroll) Overview
-      li(data-section="1", du-scrollspy, href="#section-1", du-smooth-scroll) Summary &amp; Background
-      li(data-section="2", du-scrollspy, href="#section-2", du-smooth-scroll) Project Goals
-      li(data-section="3", du-scrollspy, href="#section-3", du-smooth-scroll) Questions Considered
+      li(data-section="1", du-scrollspy, href="#section-1", du-smooth-scroll) Background
+      li(data-section="2", du-scrollspy, href="#section-2", du-smooth-scroll) Research Goals
+      li(data-section="3", du-scrollspy, href="#section-3", du-smooth-scroll) Research Questions
+      li.header(href="#section-4", du-smooth-scroll) RESULTS
       li(data-section="4", du-scrollspy, href="#section-4", du-smooth-scroll) Key Findings
-      li(data-section="5", du-scrollspy, href="#section-5", du-smooth-scroll) Direct Quotes
-      li(data-section="6", du-scrollspy, href="#section-6", du-smooth-scroll) Decisions
-      li(data-section="7", du-scrollspy, href="#section-7", du-smooth-scroll) Implications
+      li(data-section="5", du-scrollspy, href="#section-5", du-smooth-scroll) Decisions
+      li(data-section="6", du-scrollspy, href="#section-6", du-smooth-scroll) Implications
+      li.header(href="#section-7", du-smooth-scroll) PARTICIPANTS
+      li(data-section="7", du-scrollspy, href="#section-7", du-smooth-scroll) Direct Quotes
       li(data-section="8", du-scrollspy, href="#section-8", du-smooth-scroll) Personas
 
   .container
@@ -80,9 +91,9 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             input.form-control(type="text", ng-model="$prjct.project.title", placeholder="Project title...") 
         br
         p
-          span(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.summary}}
+          span(ng-hide="$prjct.show === 'EditProject'", ng-bind-html="$prjct.project.summary")
           span(ng-show="$prjct.show === 'EditProject'")
-            textarea.form-control(type="text", ng-model="$prjct.project.summary", rows=2, placeholder="Project summary...", msd-elastic)
+            textarea.form-control(type="text", ng-model="$prjct.project.summary", rows=2, placeholder="Project summary...", msd-elastic='1')
         br
         ul.attachments
           li(ng-repeat="file in $prjct.project.featuredFiles")
@@ -104,12 +115,14 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         hr
       section.project-content_section#section-1
         h2 Background
+          span Provide a general overview of the project and what compelled this research.
         p
           span(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.overview}}
           span(ng-show="$prjct.show === 'EditProject'")
-            textarea.form-control(type="text", ng-model="$prjct.project.overview", rows=2, placeholder="Project overview...", msd-elastic)
+            textarea.form-control(type="text", ng-model="$prjct.project.overview", rows=2, placeholder="Project overview...", msd-elastic='2')
       section.project-content_section.project-goal#section-2
-        h2 Project Goals
+        h2 Research Goals
+          span High-level reasons for conducting the study and what success looks like.
         .content(ng-hide="$prjct.show === 'EditProject'"): ul
           li(ng-repeat="goal in $prjct.project.goals")
             .item-label(data-content="{{goal.primary ? 'P' : 'S'}}", ng-class="{primary: goal.primary, secondary: !goal.primary}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
@@ -117,30 +130,30 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         .content(ng-show="$prjct.show === 'EditProject'")
           ul: li(ng-repeat="goal in $prjct.project.goals")
             .item-label(data-content="{{goal.primary ? 'P' : 'S'}}", ng-class="{primary: goal.primary, secondary: !goal.primary}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
-            textarea.form-control(ng-model="goal.description",
+            textarea(class='msd-elastic form-control q-{{$index}}'
+              ng-model="goal.description",
               rows=2,
-              placeholder="Enter {{$index < 1 ? 'primary' : 'secondary'}} research goal here…",
-              msd-elastic)
+              placeholder="Enter {{$index < 1 ? 'primary' : 'secondary'}} research goal here…")
             input(type="hidden",
               ng-model="goal.primary",
-              value="{{$index < 1 ? 0 : 1}}",
-              msd-elastic)
+              value="{{$index < 1 ? 0 : 1}}")
             span.icon.ti-close(ng-show="$index >= 1",
               ng-click="$prjct.project.goals.splice($index, 1)")
           span.add(ng-click="$prjct.project.goals.push({})")
             span.ti-plus
             |  Add Secondary Goal
       section.project-content_section.questions-considered#section-3
-        h2 Questions Considered
-        h1 {{viewQuestion}}
+        h2 Research Questions
+          span Questions to be answered during the study.
         .content(ng-hide="$prjct.show === 'EditProject'"): ul
           li(ng-repeat="q in $prjct.project.questions", ng-class="{open: !viewQuestion_$index}", ng-init="viewQuestion_$index = true")
             .item-label(ng-click="viewQuestion_$index = !viewQuestion_$index")
-              span.icon.ti-angle-down(ng-show="viewQuestion_$index")
-              span.icon.ti-angle-up(ng-hide="viewQuestion_$index")
+              span.icon.ti-angle-right(ng-show="viewQuestion_$index")
+              span.icon.ti-angle-down(ng-hide="viewQuestion_$index")
             h3 {{q.question}}
-            p(uib-collapse="viewQuestion_$index") {{q.description}}
-            p.note LAST UPDATED - {{q.timestamp.updatedAt | date: 'MM/dd/yyyy'}}
+            p(ng-class="{hide: viewQuestion_$index}") {{q.description}}
+              br
+              p.note LAST UPDATED - {{q.timestamp.updatedAt | date: 'MM/dd/yyyy'}}
         .content(ng-show="$prjct.show === 'EditProject'")
           ul: li(ng-repeat="question in $prjct.project.questions")
             .item-label(data-content="{{$index < 1 ? 'P' : 'S'}}", ng-class="{primary: $index < 1, secondary: $index > 1}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
@@ -167,6 +180,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             .item-label(data-content="{{f.author ? (f.author | initials) : ''}}"): .item-description {{f.author}}
             h3 {{f.title}}
             p {{f.description}}
+            span.cat(ng-show="f.category") {{f.category}}
             //- p.note LAST UPDATED - {{f.updated | date: 'MM/dd/yyyy'}}}}
         .content(ng-show="$prjct.show === 'EditProject'")
           ul: li(ng-repeat="finding in $prjct.project.findings")
@@ -182,6 +196,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
               ng-model="finding.description",
               ng-required="$index < 1",
               msd-elastic)
+            input.form-control(placeholder="Enter a category for your finding...", ng-model="finding.category")
             span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.findings.splice($index, 1)")
           span.add(ng-click="$prjct.project.findings.push({author: $prjct.me.name})", ng-show="$prjct.project.findings[0].title.length && $prjct.project.findings[0].description.length")
             span.ti-plus
@@ -207,7 +222,116 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
               p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
               p.note: span(style="height: 8px; width: 15%")
           .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addKeyFindings()") ADD KEY FINDINGS
-      section.project-content_section.key-findings.direct-quotes#section-5(ng-class="{empty: !$prjct.project.quotes.length}")
+      section.project-content_section.decisions#section-5(ng-class="{empty: !$prjct.project.decisions.length}")
+        h2 Decisions
+        .content(ng-show="$prjct.project.decisions.length && $prjct.show != 'EditProject'")
+          ul
+            li(ng-repeat="d in $prjct.project.decisions")
+              .item-label: i.ti-check
+              h3 {{d.title}}
+              p {{d.description}}
+              p.note(ng-show="d.updated") LAST UPDATED - {{d.updated | date: 'MM/dd/yyyy'}}
+        .content(ng-show="$prjct.project.decisions.length && $prjct.show === 'EditProject'")
+          ul
+            li(ng-repeat="decision in $prjct.project.decisions")
+              .item-label: i.ti-check
+              textarea.form-control(type="text",
+                placeholder="Enter a title for your decision...",
+                ng-model="decision.title",
+                ng-required="$index < 1",
+                rows=1,
+                msd-elastic)
+              textarea.form-control(rows=2, 
+                placeholder="Describe your decision...",
+                ng-model="decision.description",
+                ng-required="$index < 1",
+                msd-elastic)
+              span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.decisions.splice($index, 1)")
+          span.add(ng-click="$prjct.project.decisions.push({})", ng-show="$prjct.project.decisions[0].title.length && $prjct.project.decisions[0].description.length")
+            span.ti-plus
+            | Add Another Decision
+        .content(ng-hide="$prjct.project.decisions.length")
+          ul
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+            li
+              .item-label
+              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
+              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
+              p.note: span(style="height: 8px; width: 15%")
+          .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addDecisions()") ADD DECISIONS
+      section.project-content_section.implications.empty#section-6
+        h2 Implications
+        .content(ng-show="$prjct.project.implications.length"): .wrap
+          ul.nav(ng-hide="$prjct.show === 'EditProject'")
+            li(ng-repeat="i in $prjct.project.implications",
+              ng-class="{active: $prjct.implicationsTab === i.implicationType}",
+              ng-click="$prjct.setTab(i.implicationType)",
+              ng-show="i.description.length || $prjct.me.role === 'admin'") {{i.implicationType}}
+          ul.nav(ng-show="$prjct.show === 'EditProject'")
+            li(ng-repeat="i in $prjct.project.implications",
+              ng-class="{active: $prjct.implicationsTab === i.implicationType}",
+              ng-click="$prjct.setTab(i.implicationType)") {{i.implicationType}}
+          .tab(ng-repeat="t in $prjct.project.implications", ng-show="$prjct.implicationsTab === t.implicationType")
+            strong
+              span.icon.ti-layout(ng-show="t.implicationType == 'Product'")
+              span.icon.ti-palette(ng-show="t.implicationType == 'Design'")
+              span.icon.ti-headphone-alt(ng-show="t.implicationType == 'Service'")
+              span.icon.ti-pie-chart(ng-show="t.implicationType == 'Marketing'")
+              span.icon.ti-shopping-cart(ng-show="t.implicationType == 'Sales'")
+              span.icon.ti-agenda(ng-show="t.implicationType == 'On-Boarding'")
+              | {{t.implicationType}} Implications
+            div(ng-hide="$prjct.show === 'EditProject'")
+              p(ng-show="t.description.length") {{t.description}}
+              .placeholder(ng-hide="t.description.length")
+                p
+                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
+                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
+                  span(style="height: 8px; width: 60%; margin-bottom: 10px")
+                p
+                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
+                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
+                  span(style="height: 8px; width: 60%; margin-bottom: 20px")
+            div(ng-show="$prjct.show === 'EditProject'")
+              textarea.form-control(rows=4,
+                ng-model="t.description",
+                placeholder="Enter {{t.implicationType}} implications...",
+                msd-elastic)
+        .content(ng-hide="$prjct.project.implications.length"): .wrap
+          ul.nav
+            li Product
+            li Design
+            li Service
+            li Marketing
+            li Sales
+            li On-Boarding
+          .tab
+            strong(style="margin-bottom: 15px;"): .group
+              //- span.icon.ti-headphone-alt
+              span.icon
+              //- | Support Implications
+              span(style="height: 14px; width: 40%; margin-left: 35px; margin-top: 4px")
+            p
+              span(style="height: 8px; width: 100%; margin-bottom: 10px")
+              span(style="height: 8px; width: 100%; margin-bottom: 10px")
+              span(style="height: 8px; width: 60%; margin-bottom: 10px")
+            p
+              span(style="height: 8px; width: 100%; margin-bottom: 10px")
+              span(style="height: 8px; width: 100%; margin-bottom: 10px")
+              span(style="height: 8px; width: 60%; margin-bottom: 20px")
+            .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addImplications()") ADD IMPLICATIONS
+      section.project-content_section.key-findings.direct-quotes#section-7(ng-class="{empty: !$prjct.project.quotes.length}")
         h2 Direct Quotes
         .content(ng-show="$prjct.project.quotes.length && $prjct.show != 'EditProject'")
           slick(settings='slickConfig', ng-if="!loading")
@@ -263,108 +387,6 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
                 .qa-name: span(style="height: 12px; display: inline-block; width: 20%")
                 .qa-title: span(style="height: 8px; display: inline-block; width: 10%")
           .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addDirectQuotes()") ADD DIRECT QUOTES
-      section.project-content_section.decisions#section-6(ng-class="{empty: !$prjct.project.decisions.length}")
-        h2 Decisions
-        .content(ng-show="$prjct.project.decisions.length && $prjct.show != 'EditProject'")
-          ul
-            li(ng-repeat="d in $prjct.project.decisions")
-              .item-label: i.ti-check
-              h3 {{d.title}}
-              p {{d.description}}
-              p.note(ng-show="d.updated") LAST UPDATED - {{d.updated | date: 'MM/dd/yyyy'}}
-        .content(ng-show="$prjct.project.decisions.length && $prjct.show === 'EditProject'")
-          ul
-            li(ng-repeat="decision in $prjct.project.decisions")
-              .item-label: i.ti-check
-              textarea.form-control(type="text",
-                placeholder="Enter a title for your decision...",
-                ng-model="decision.title",
-                ng-required="$index < 1",
-                rows=1,
-                msd-elastic)
-              textarea.form-control(rows=2, 
-                placeholder="Describe your decision...",
-                ng-model="decision.description",
-                ng-required="$index < 1",
-                msd-elastic)
-              span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.decisions.splice($index, 1)")
-          span.add(ng-click="$prjct.project.decisions.push({})", ng-show="$prjct.project.decisions[0].title.length && $prjct.project.decisions[0].description.length")
-            span.ti-plus
-            | Add Another Decision
-        .content(ng-hide="$prjct.project.decisions.length")
-          ul
-            li
-              .item-label
-              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-              p.note: span(style="height: 8px; width: 15%")
-            li
-              .item-label
-              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-              p.note: span(style="height: 8px; width: 15%")
-            li
-              .item-label
-              h3: span(style="height: 14px; width: 60%; margin-bottom: 8px")
-              p: span(style="height: 8px; width: 100%; margin-bottom: 8px")
-              p: span(style="height: 8px; width: 80%; margin-bottom: 16px")
-              p.note: span(style="height: 8px; width: 15%")
-          .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addDecisions()") ADD DECISIONS
-      section.project-content_section.implications.empty#section-7
-        h2 Implications
-        .content(ng-show="$prjct.project.implications.length"): .wrap
-          ul.nav
-            li(ng-repeat="i in $prjct.project.implications",
-              ng-class="{active: $prjct.implicationsTab === i.implicationType}",
-              ng-click="$prjct.setTab(i.implicationType)") {{i.implicationType}}
-          .tab(ng-repeat="t in $prjct.project.implications", ng-show="$prjct.implicationsTab === t.implicationType")
-            strong
-              span.icon.ti-shopping-cart(ng-show="t.implicationType == 'Sales'")
-              span.icon.ti-headphone-alt(ng-show="t.implicationType == 'Support'")
-              span.icon.ti-palette(ng-show="t.implicationType == 'Design'")
-              span.icon.ti-layout(ng-show="t.implicationType == 'Product'")
-              span.icon.ti-pie-chart(ng-show="t.implicationType == 'Marketing'")
-              | {{t.implicationType}} Implications
-            div(ng-hide="$prjct.show === 'EditProject'")
-              p(ng-show="t.description.length") {{t.description}}
-              .placeholder(ng-hide="t.description.length")
-                p
-                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
-                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
-                  span(style="height: 8px; width: 60%; margin-bottom: 10px")
-                p
-                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
-                  span(style="height: 8px; width: 100%; margin-bottom: 10px")
-                  span(style="height: 8px; width: 60%; margin-bottom: 20px")
-            div(ng-show="$prjct.show === 'EditProject'")
-              textarea.form-control(rows=4,
-                ng-model="t.description",
-                placeholder="Enter {{t.implicationType}} implications...",
-                msd-elastic)
-        .content(ng-hide="$prjct.project.implications.length"): .wrap
-          ul.nav
-            li Sales
-            li Support
-            li Design
-            li Product
-            li Marketing
-          .tab
-            strong(style="margin-bottom: 15px;"): .group
-              //- span.icon.ti-headphone-alt
-              span.icon
-              //- | Support Implications
-              span(style="height: 14px; width: 40%; margin-left: 35px; margin-top: 4px")
-            p
-              span(style="height: 8px; width: 100%; margin-bottom: 10px")
-              span(style="height: 8px; width: 100%; margin-bottom: 10px")
-              span(style="height: 8px; width: 60%; margin-bottom: 10px")
-            p
-              span(style="height: 8px; width: 100%; margin-bottom: 10px")
-              span(style="height: 8px; width: 100%; margin-bottom: 10px")
-              span(style="height: 8px; width: 60%; margin-bottom: 20px")
-            .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addImplications()") ADD IMPLICATIONS
       section.project-content_section.personas#section-8
         h2 Personas
         .content.group(ng-hide="$prjct.show === 'EditProject'")
@@ -395,7 +417,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
   aside.sidebar#sidebar(ng-class="{show: $prjct.ShowSidebar}", prevent:scroll)
     .sidebar_section  
       h4 The Basics
-      .sc_row
+      //- .sc_row
         p.label STATUS
         .flex-row(style="margin-top: 10px")
           .status.past
@@ -418,19 +440,12 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             ng-value="$prjct.project.researcher.name",
             uib-typeahead="researcher as researcher.name for researcher in $users | filter: researcher | limitTo: 8",
             typeahead-on-select="$prjct.project.researcher = researcher._id")
-        .flex-row
-          .input-block
-            p.label CREATED
-            span {{$prjct.project.createdAt | date: 'MMM d, yyyy'}}
-          .input-block
-            p.label LAST UPDATED
-            span {{$prjct.project.updatedAt | date: 'MMM d, yyyy'}}
     .sidebar_section
       h4 Resources / Files
       .sc_row
         ul.attachments.items
           li(ng-repeat="file in $prjct.project.resources", style="padding: 0")
-            a(href="{{file.url}}", ng-hide="$prjct.show === 'EditProject'")
+            a(href="{{file.url}}", ng-hide="$prjct.show === 'EditProject'", target="_blank")
               i(class="file-{{file.fileType}}")
               | {{file.name}}
             span.input-group.group(ng-show="$prjct.show === 'EditProject'")
@@ -512,11 +527,20 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             i.ti-plus
             |  Add Research Method
     .sidebar_section
+      h4 Timestamps
+      .sc_row: .flex-row
+        .input-block
+          p.label CREATED
+          span {{$prjct.project.createdAt | date: 'MMM d, yyyy'}}
+        .input-block
+          p.label LAST UPDATED
+          span {{$prjct.project.updatedAt | date: 'MMM d, yyyy'}}
+    .sidebar_section
       h4 Links
       .sc_row(ng-hide="$prjct.show === 'EditProject'")
         ul.list-links.items
           li(ng-show="$prjct.project.links.length", ng-repeat="link in $prjct.project.links")
-            a(href="{{link.url}}") {{link.title}}
+            a(href="{{link.url}}", target="_blank") {{link.title}}
           li(ng-hide="$prjct.project.links.length"): span No links added yet.
       .sc_row(ng-show="$prjct.show === 'EditProject'")
         ul.attachments.items

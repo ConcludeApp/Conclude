@@ -243,9 +243,32 @@ footer
 .wizard-container
   margin ($padding * 3) auto
   max-width 990px
+  padding-right 300px
+  position relative
   .input-group
     margin-bottom ($padding * 2)
     padding-left ($padding + 10)
+  .wizard-guide
+    background $c-light-gray
+    border-radius 2px
+    color $c-copy
+    padding $padding
+    position absolute
+    right 0
+    top 0
+    transition all 400ms ease
+    width 260px
+    h4
+      color darken($c-light-gray, 20%)
+      font-size 10px
+      font-weight 600
+      letter-spacing 0.2em
+      margin 0 0 10px
+    p
+      font-size 14px
+      line-height 18px
+      margin 0
+      opacity 0.9
 .input-group
   position relative
   .status

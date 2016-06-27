@@ -197,6 +197,8 @@
     position absolute
 .project-content
   padding 80px 0 65%
+  position relative
+  transition opacity 300ms ease
   white-space pre-line
   .project-content_section
     margin 0 auto 80px
@@ -209,13 +211,19 @@
         font 600 16px/24px $fn-primary
         vertical-align middle
     h2
-      font 600 14px/14px $fn-primary
-      letter-spacing 0.15em
-      text-transform uppercase
+      font 500 20px/20px $fn-primary
+      letter-spacing 0.05em
       & + p
         margin ($padding - 10) auto 0
+      & > span
+        display block
+        color lighten($c-copy, 40%)
+        font-size 12px
+        font-weight 400
+        letter-spacing 0
+        line-height 26px
     p
-      font normal 14px/24px $fn-primary
+      font normal 14px/20px $fn-primary
       word-wrap break-word
       white-space pre-line
     .content
@@ -237,22 +245,29 @@
         background-color #A0AEBB
         &.primary
           background-color $c-blue
+      ul li + li
+        margin-top 20px !important
     &.questions-considered
       ul > li
         p
-          overflow hidden
           transition height 300ms ease
+        .hide
+          height 20px
+          overflow hidden
+          text-overflow ellipsis
+          white-space pre
         & > .item-label
           background transparent
           border 1px solid #9FAEBB
           color #9FAEBB
           transition all 200ms ease
-          i.ti-angle-down
+          span.ti-angle-right
             position relative
-            top 2px
-          i.ti-angle-up
+            left 1px
+          span.ti-angle-up
+            left 0.5px
             position relative
-            top -3px
+            top -1px
           &:hover
             background $c-blue
             border 1px solid $c-blue
@@ -262,14 +277,27 @@
             border 1px solid $c-blue
             span
               color $c-blue
-              left -1px
               transform rotate(-45deg)
+            &:hover
+              background transparent
     &.key-findings
       ul > li > .item-label
         background transparent
         border 1px solid $c-blue
         color $c-blue
         font 600 10px/24px $fn-primary
+      span.cat
+        background $c-gray
+        border-radius 2px
+        color white
+        display inline-block
+        font-size 10px
+        font-weight 500
+        letter-spacing 0.1em
+        line-height 22px
+        margin-top 8px
+        padding 0 10px
+        vertical-align middle
     &.implications
       // min-height 300px
       // padding-bottom 100%
@@ -400,7 +428,7 @@
   z-index 11
   &.show
     animation ShowSidebar 200ms 1
-    right -30px
+    right -15px
   .sidebar_section
     margin-bottom $padding
     .sc_row
@@ -458,6 +486,8 @@
         margin 0 0 ($padding / 2)
         padding-left $padding
         position relative
+        a
+          text-decoration underline
       &[class*="list"] li:before
         font-family "themify"
         -webkit-font-smoothing antialiased
@@ -548,7 +578,7 @@
         font-weight 600
         
 .project-nav
-  height 85%
+  height 100%
   left 0
   padding-left ($padding * 2)
   position fixed
@@ -613,6 +643,18 @@
         &:after
           background $c-teal
           z-index 2
+      &.header
+        border-bottom 0
+        color $c-gray
+        font-weight 500
+        letter-spacing 0.2em
+        // height 20px !important
+        // line-height 20px !important
+        // margin-top 20px
+        &:hover
+          color darken($c-gray, 20%)
+        &:before
+          display none
 .notifications
   background-color #FFFFFF
   border 1px solid #EEF1F5
@@ -1136,4 +1178,4 @@
   span.add
     padding-left 0
 .faded
-  display none
+  opacity 0

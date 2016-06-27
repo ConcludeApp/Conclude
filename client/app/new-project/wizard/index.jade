@@ -26,6 +26,16 @@ header.header
         span PRODUCT
         .tr-title {{NewProject.project.taxonomy.products[0].title}}
     .wizard-container
+      .wizard-guide(fix:scroll)
+        h4 QUICK HELP
+        p(ng-hide="focus") Select a section to get help.
+        p(ng-show="focus === 'description'") Help for the description.
+        p(ng-show="focus === 'overview'") Help for the summary.
+        p(ng-show="focus === 'goal'") Help for the goals.
+        p(ng-show="focus === 'question'") Help for the questions.
+        p(ng-show="focus === 'personas'") Help for the personas.
+        p(ng-show="focus === 'tags'") Help for the tags.
+
       .input-group(ng-class="{complete: NewProjectWizard.description.$valid && focus != 'description', active: focus === 'description'}")
         .status: span.ti-check
         .question SHORT DESCRIPTION
@@ -40,7 +50,7 @@ header.header
 
       .input-group(ng-class="{complete: NewProjectWizard.overview.$valid && focus != 'overview', active: focus === 'overview'}")
         .status: span.ti-check
-        .question SUMMARY &amp; BACKGROUND
+        .question SUMMARY
           .description Provide a general overview of the project and what compelled this research.
         textarea.form-control(rows=3,
           placeholder="Enter summary and background here…",
@@ -52,8 +62,8 @@ header.header
 
       .input-group(ng-class="{complete: NewProjectWizard.goal_0.$valid && focus != 'goal', active: focus === 'goal'}")
         .status: span.ti-check
-        .question PROJECT GOALS
-          .description Provide a general overview of the project and what compelled this research.
+        .question RESEARCH GOALS
+          .description High-level reasons for conducting the study and what success looks like.
         ol.fields
           li(ng-repeat="goal in NewProject.project.goals")
             textarea.form-control(rows=2,
@@ -71,8 +81,8 @@ header.header
 
       .input-group(ng-class="{complete: NewProjectWizard.question_q_0.$valid && NewProjectWizard.question_a_0.$valid && focus != 'question', active: focus === 'question'}")
         .status: span.ti-check
-        .question QUESTIONS CONSIDERED
-          .description Provide a general overview of the project and what compelled this research.
+        .question RESEARCH QUESTIONS
+          .description Questions to be answered during the study.
         ol.fields
           li(ng-repeat="goal in NewProject.project.questions")
             textarea.form-control(rows=1,

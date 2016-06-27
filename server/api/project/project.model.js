@@ -6,6 +6,7 @@ import ms from 'mongoosastic';
 
 var ProjectSchema = new mongoose.Schema({
   title: String,
+  slug: String,
   summary: String,
   overview: String,
   phase: String,
@@ -25,6 +26,7 @@ var ProjectSchema = new mongoose.Schema({
   findings: [{
     title: String,
     description: String,
+    category: String,
     author: String,
     updated: {type: Date, default: Date.now()}
   }],
@@ -89,6 +91,17 @@ var ProjectSchema = new mongoose.Schema({
 var search = new elastic.Client({
   host: 'https://594d6019:ddsqudvvq1oqrz10@maple-6482730.us-east-1.bonsai.io'
 });
+
+var slugify = function(str) {
+  return str.toString().toLowerCase()
+}
+ProjectSchema.pre('save', function(next) {
+  if (this.title) {
+    this.slug = slugify(this.title);
+  }
+  next();
+});
+
 
 search.ping({
   requestTimeout: 30000,

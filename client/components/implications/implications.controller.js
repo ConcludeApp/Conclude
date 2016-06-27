@@ -10,15 +10,9 @@ class ImplicationsModalController {
 
     var body = angular.element($document[0].body);
 
-    $scope.tab = 'Sales'
+    $scope.tab = 'Product'
 
     $scope.project.implications = [
-      {
-        implicationType: 'Sales'
-      },
-      {
-        implicationType: 'Support'
-      },
       {
         implicationType: 'Product'
       },
@@ -26,8 +20,17 @@ class ImplicationsModalController {
         implicationType: 'Design'
       },
       {
+        implicationType: 'Service'
+      },
+      {
         implicationType: 'Marketing'
       },
+      {
+        implicationType: 'Sales'
+      },
+      {
+        implicationType: 'On-Boarding'
+      }
     ]
 
     $scope.close = function() {
