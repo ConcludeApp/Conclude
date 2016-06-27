@@ -12,6 +12,8 @@ class ProjectController {
     this.project = project.data
     this.implicationsTab = 'Product'
 
+    // this.viewPersona(project.data.personas[0])
+
     var me = this.me = Auth.getCurrentUser()
 
     $scope.persona_search = []
@@ -30,6 +32,7 @@ class ProjectController {
       var index = _.findIndex(this.project.users, function(u) {
         return u.user._id === me._id;
       });
+      this.project.user = this.project.users[index]._id;
       this.project.notifications = this.project.users[index].notifications ? this.project.users[index].notifications : '';
       if (index > -1) {
         this.project.users[index].notifications = this.project.notifications;
@@ -242,6 +245,20 @@ class ProjectController {
       resolve: {
         params: function() {
           return {'project': self.project}
+        }
+      }
+    })
+  }
+
+  viewPersona(persona) {
+    var self = this
+    this.modal.open({
+      templateUrl: '/components/persona/persona.html',
+      controller: 'PersonaModalController',
+      size: 'lg',
+      resolve: {
+        params: function() {
+          return {'project': persona}
         }
       }
     })

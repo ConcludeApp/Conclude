@@ -157,6 +157,7 @@ function sendEmail(user, project) {
     project: project
   }
   email.render(data, function(err, res) {
+    console.log(process.env.EMAIL_USERNAME, process.env.EMAIL_PASSWORD)
     if (err) return console.log(err)
     transporter.sendMail({
       from: '"Conclude App" <support@concludeapp.co>',
@@ -176,7 +177,8 @@ function createUser(email, project, cb) {
   newUser.role = 'user';
   newUser.save()
     .then(function(user) {
-      user.first = user.name.split(' ')[0];
+      // user.first = user.name.split(' ')[0];
+      console.log(user);
       sendEmail(user, project)
       cb(user);
     });

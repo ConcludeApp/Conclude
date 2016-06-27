@@ -13,7 +13,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-menu-alt
         //- li: a(ng-click="$prjct.cancelEdits()"): span.ti-close
       ul.icons(ng-hide="$prjct.show == 'EditProject'")
-        li(ng-class="{active: $prjct.show === 'EditProject'}", ng-hide="$prjct.me.role != 'admin'")
+        li(ng-class="{active: $prjct.show === 'EditProject'}", ng-hide="$prjct.me.role != 'admin' && !$prjct.project.user")
           a(ng-click="$prjct.showMenuItem('EditProject'); $prjct.ShowSidebar = true;", ng-class="{active: $prjct.show === 'EditProject'}")
             span.ti-pencil-alt
             .label Edit
