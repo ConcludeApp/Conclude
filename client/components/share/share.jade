@@ -20,7 +20,7 @@
         span.email {{user.email}}
   .note(ng-show="share.to.length && filteredUsers.length <= 0 && share.error") You must enter a valid Return Path email address.
   .share_footer.clearfix(ng-show="share.invitees.length"): .flex-row
-    input(type="text", placeholder="Enter a custom message...", ng-model="share.message")
+    textarea.the-note(type="text", placeholder="Enter a custom message...", ng-model="share.message", rows=1, msd-elastic)
     a.btn.btn-secondary.btn-sm.pull-right(ng-click="share.cancelShare()") CANCEL
     a.btn.btn-primary.btn-sm.pull-right(ng-click="share.sendInvite()") SHARE
 

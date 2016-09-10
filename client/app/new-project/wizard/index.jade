@@ -27,19 +27,35 @@ header.header
         .tr-title {{NewProject.project.taxonomy.products[0].title}}
     .wizard-container
       .wizard-guide(fix:scroll)
-        h4 QUICK HELP
-        p(ng-hide="focus") Select a section to get help.
-        p(ng-show="focus === 'description'") Help for the description.
-        p(ng-show="focus === 'overview'") Help for the summary.
-        p(ng-show="focus === 'goal'") Help for the goals.
-        p(ng-show="focus === 'question'") Help for the questions.
-        p(ng-show="focus === 'personas'") Help for the personas.
-        p(ng-show="focus === 'tags'") Help for the tags.
+        div(ng-hide="focus")
+          h4 QUICK HELP
+          p Select a section to get help.
+        div(ng-show="focus === 'description'") 
+          h4 SHORT DESCRIPTION
+          p This description should be between two and five lines.
+          p For example: "In May/June 2016, EO Next Generation product team conducted a three-week beta test of the new NG product to assess if the Deliverability Wizard improved the user experience for small and medium customers who have minimal technical support."
+        div(ng-show="focus === 'overview'")
+          h4 BACKGROUND
+          p Briefly describe what led to this study. Discuss the short term history of the project. Be concise, no more than five lines.
+        div(ng-show="focus === 'goal'")
+          h4 RESEARCH GOALS
+          p Briefly state the high-level reason (or reasons) for conducting this study. Try to write the goal in one sentence. If it doesn't make sense, create a numbered list of very short goal statements. If you have more than three to four goals, you are aiming too high, or you may be repeating yourself.
+        div(ng-show="focus === 'question'") 
+          h4 RESEARCH QUESTIONS
+          p These are the specifics--the core of your plan. List them in order of importance. You should probably have no more than 7 to 10 questions, preferably around 5 questions. 
+          p If you have more than 7 or 8 questions, divide them into two priority groups. The first one is the primary groups of questions  These are the questions that must be answered during the study or the goal is not met. The second group consists of secondary questions that will be answered if time permits. 
+          p These are not necessarily the questions you will ask your study participants. These questions will help you when you write your script--you will construct your script trying to answer these questions.
+        div(ng-show="focus === 'personas'")
+          h4 PERSONAS
+          p A persona is a profile that represents a group of similar people with shared goals, behaviors and needs. Personas are based on actual research and talking to customers, and then finding similar patterns of behavior.  Return Path’s EO personas are based on over 130 interviews conducted in 2014-2015 and 80 interviews in 2013.
+        //- div(ng-show="focus === 'tags'")
+          h4 Tags
+          p Help for the tags.
 
       .input-group(ng-class="{complete: NewProjectWizard.description.$valid && focus != 'description', active: focus === 'description'}")
         .status: span.ti-check
         .question SHORT DESCRIPTION
-          .description Provide a few words that describe the high level purpose of the project.
+          .description Include the details about what will be done, when, where and by whom, and why.
         textarea.form-control(rows=2,
           placeholder="Enter description here...",
           ng-model="NewProject.project.summary",
@@ -50,8 +66,8 @@ header.header
 
       .input-group(ng-class="{complete: NewProjectWizard.overview.$valid && focus != 'overview', active: focus === 'overview'}")
         .status: span.ti-check
-        .question SUMMARY
-          .description Provide a general overview of the project and what compelled this research.
+        .question BACKGROUND
+          .description What led you here that you want to do this study?
         textarea.form-control(rows=3,
           placeholder="Enter summary and background here…",
           ng-model="NewProject.project.overview",
@@ -63,7 +79,7 @@ header.header
       .input-group(ng-class="{complete: NewProjectWizard.goal_0.$valid && focus != 'goal', active: focus === 'goal'}")
         .status: span.ti-check
         .question RESEARCH GOALS
-          .description High-level reasons for conducting the study and what success looks like.
+          .description What is the reason for this study? What is the end result of this research activity?
         ol.fields
           li(ng-repeat="goal in NewProject.project.goals")
             textarea.form-control(rows=2,

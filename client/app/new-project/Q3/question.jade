@@ -33,7 +33,7 @@
       .col.r-col: .related
         span.title RELATED RESEARCH
         ul.list-bullet
-          li(ng-repeat="method in methods") {{method.title}}
+          li(ng-repeat="method in methods", ng-show="method.title") {{method.title}}
             span.date LAST UPDATED - {{method.updatedAt | date: 'MM/dd/yyyy'}}
     footer.new-project-footer
       .pull-left: a.btn.btn-outline(ui-sref="^.Q2") BACK

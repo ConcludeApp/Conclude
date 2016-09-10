@@ -578,11 +578,13 @@
         font-weight 600
         
 .project-nav
+  bottom 20px
   height 100%
   left 0
   padding-left ($padding * 2)
   position fixed
   top 80px
+  z-index 9
   ul
     list-style none
     margin 0
@@ -643,7 +645,7 @@
         &:after
           background $c-teal
           z-index 2
-      &.header
+      &.heading
         border-bottom 0
         color $c-gray
         font-weight 500
@@ -876,13 +878,16 @@
     border-top 1px solid #EEF1F5
     font-size 12px
     padding $padding
-    input
+    textarea
       border 0
       font-size inherit
       height 30px
-      line-height 30px
+      line-height 16px
+      margin 6px 0
       outline 0
+      resize none
       padding-right 10px
+      transition height 200ms ease-in-out
       width 100%
     a.btn
       float right

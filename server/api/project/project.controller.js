@@ -160,9 +160,9 @@ function sendEmail(user, project) {
     console.log(process.env.EMAIL_USERNAME, process.env.EMAIL_PASSWORD)
     if (err) return console.log(err)
     transporter.sendMail({
-      from: '"Conclude App" <support@concludeapp.co>',
+      from: '"Conclude - Research Insights" <support@concludeapp.co>',
       to: user.email,
-      subject: project.title + ' was just shared with you',
+      subject: 'Krista shared the "' + project.title + '" research project with you',
       text: res.text,
       html: res.html
     }, function(err, res) {
@@ -177,8 +177,6 @@ function createUser(email, project, cb) {
   newUser.role = 'user';
   newUser.save()
     .then(function(user) {
-      // user.first = user.name.split(' ')[0];
-      console.log(user);
       sendEmail(user, project)
       cb(user);
     });
@@ -189,25 +187,30 @@ export function share(req, res, next) {
   var users = req.body,
       projectId = req.params.id,
       projectUsers = [],
-      message = users[0].message;
+      message = users[0].message,
+      val = /^.+(@returnpath.com)$/;
   Project.findById(projectId).exec()
     .then(function(res) {
       if (!res) { return }
       var project = res;
-          _.set(project, 'message', message);
+      _.set(project, 'message', message);
       return async.each(users, function(u, cb) {
         User.findOne({email: u.email}).exec()
           .then(function(res) {
             if (res) {
               projectUsers.push({user: res._id, notifications: 1});
-              res.first = res.name.split(' ')[0];
               sendEmail(res, project);
               cb()
             } else {
-              createUser(u.email, project, function(u) {
-                projectUsers.push({user: u._id, notifications: 1});
+              if (val.test(u.email)) {
+                createUser(u.email, project, function(u) {
+                  projectUsers.push({user: u._id, notifications: 1});
+                  sendEmail(u, project);
+                  cb()
+                });
+              } else {
                 cb()
-              });
+              }
             }
           });
       }, function sent() {

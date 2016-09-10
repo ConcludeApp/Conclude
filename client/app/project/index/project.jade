@@ -13,7 +13,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-menu-alt
         //- li: a(ng-click="$prjct.cancelEdits()"): span.ti-close
       ul.icons(ng-hide="$prjct.show == 'EditProject'")
-        li(ng-class="{active: $prjct.show === 'EditProject'}", ng-hide="$prjct.me.role != 'admin' && !$prjct.project.user")
+        li(ng-class="{active: $prjct.show === 'EditProject'}", ng-show="$prjct.me.role === 'admin' || $prjct.project.user.length")
           a(ng-click="$prjct.showMenuItem('EditProject'); $prjct.ShowSidebar = true;", ng-class="{active: $prjct.show === 'EditProject'}")
             span.ti-pencil-alt
             .label Edit
@@ -37,18 +37,19 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         //- li: a(ui-sref="new"): span.ti-plus
         //- li: a(ng-click="$prjct.sendNotifications()"): span.ti-announcement
   .loading(ng-class="{active: loading}")
-  nav.project-nav
+
+  nav.project-nav(size:nav)
     ul
-      li.header(href="#section-0", du-smooth-scroll) RESEARCH
+      li.heading(href="#section-0", du-smooth-scroll) RESEARCH
       li(data-section="0", du-scrollspy, href="#section-0", du-smooth-scroll) Overview
       li(data-section="1", du-scrollspy, href="#section-1", du-smooth-scroll) Background
       li(data-section="2", du-scrollspy, href="#section-2", du-smooth-scroll) Research Goals
       li(data-section="3", du-scrollspy, href="#section-3", du-smooth-scroll) Research Questions
-      li.header(href="#section-4", du-smooth-scroll) RESULTS
+      li.heading(href="#section-4", du-smooth-scroll) RESULTS
       li(data-section="4", du-scrollspy, href="#section-4", du-smooth-scroll) Key Findings
       li(data-section="5", du-scrollspy, href="#section-5", du-smooth-scroll) Decisions
       li(data-section="6", du-scrollspy, href="#section-6", du-smooth-scroll) Implications
-      li.header(href="#section-7", du-smooth-scroll) PARTICIPANTS
+      li.heading(href="#section-7", du-smooth-scroll) PARTICIPANTS
       li(data-section="7", du-scrollspy, href="#section-7", du-smooth-scroll) Direct Quotes
       li(data-section="8", du-scrollspy, href="#section-8", du-smooth-scroll) Personas
 
@@ -115,14 +116,14 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         hr
       section.project-content_section#section-1
         h2 Background
-          span Provide a general overview of the project and what compelled this research.
+          span What led you here that you want to do this study?
         p
           span(ng-hide="$prjct.show === 'EditProject'") {{$prjct.project.overview}}
           span(ng-show="$prjct.show === 'EditProject'")
             textarea.form-control(type="text", ng-model="$prjct.project.overview", rows=2, placeholder="Project overview...", msd-elastic='2')
       section.project-content_section.project-goal#section-2
         h2 Research Goals
-          span High-level reasons for conducting the study and what success looks like.
+          span What is the reason for this study? What is the end result of this research activity?
         .content(ng-hide="$prjct.show === 'EditProject'"): ul
           li(ng-repeat="goal in $prjct.project.goals")
             .item-label(data-content="{{goal.primary ? 'P' : 'S'}}", ng-class="{primary: goal.primary, secondary: !goal.primary}"): .item-description {{goal.primary ? 'Primary' : 'Secondary'}}
@@ -175,6 +176,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             | Add Question
       section.project-content_section.key-findings#section-4(ng-class="{'empty': !$prjct.project.findings.length}")
         h2 Key Findings
+          span Findings are the “why” things happened and the answers to your research questions. 
         .content(ng-show="$prjct.project.findings.length && $prjct.show != 'EditProject'"): ul
           li(ng-repeat="f in $prjct.project.findings")
             .item-label(data-content="{{f.author ? (f.author | initials) : ''}}"): .item-description {{f.author}}
@@ -273,6 +275,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
           .add: .overlay: a.btn.btn-sm.btn-primary(ng-click="$prjct.addDecisions()") ADD DECISIONS
       section.project-content_section.implications.empty#section-6
         h2 Implications
+          span Acquired knowledge derived from research that informs design.
         .content(ng-show="$prjct.project.implications.length"): .wrap
           ul.nav(ng-hide="$prjct.show === 'EditProject'")
             li(ng-repeat="i in $prjct.project.implications",

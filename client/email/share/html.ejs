@@ -23,8 +23,8 @@
       <table>
         <tr>
           <td>
-            <p>Hey <%= user.first %>,</p>
-            <p><i><%= project.title %></i> was just shared with you on Conclude.</p>
+            <p>Hey there,</p>
+            <p><i></i> was just shared with you on Conclude.</p>
             <% if (project.message) { %>
             <p class="quote"><%= project.message %></p>
             <% } %>
@@ -49,5 +49,137 @@
 </table>
 <!-- /body -->
 
+</body>
+</html>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml" style="height: 100% !important;">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>Conclude</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+</head>
+<body style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; height: 100% !important; margin: 0; padding: 0; width: 100% !important;"><style type="text/css">
+body {
+height: 100% !important; width: 100% !important; margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;
+}
+.ExternalClass {
+height: 100%; width: 100%;
+}
+.ExternalClass {
+line-height: 100%;
+}
+img {
+outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;
+}
+@media screen and (max-width: 680px) {
+  table[class="Container"] {
+    box-shadow: 0 !important; border-radius: 0 !important; max-width: none !important;
+  }
+  table[class="Spacer"] {
+    display: none !important;
+  }
+  td[class="HeaderSection"] {
+    padding: 15px 15px 0 !important;
+  }
+  p[class="TitleLead"] {
+    font-size: 10px !important;
+  }
+  p[class="Title"] {
+    font-size: 20px !important; line-height: 28px !important;
+  }
+  td[class="Image"] {
+    padding: 30px !important;
+  }
+  td[class="QuoteSection"] {
+    padding: 0 15px !important;
+  }
+  td[class="QuoteSection"] [class="Quote"] {
+    padding: 20px !important;
+  }
+  td[class="FooterSection"] {
+    padding: 10px 0 45px !important;
+  }
+}
+</style>
+  <table cellpadding="0" cellspacing="0" border="0" class="Background" style="border-collapse: collapse; border-spacing: 0; height: 100%; line-height: 100% !important; margin: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100% !important;" bgcolor="#F9F9F9">
+    <tr>
+      <td valign="top" style="border-collapse: collapse;">
+        <table cellpadding="20" border="0" class="Spacer" width="640" style="border-collapse: collapse; border-spacing: 0; min-width: 660px; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 660px;">
+          <tr><td style="border-collapse: collapse;"><img border="0" alt="" height="1" hspace="0" vspace="0" width="660" src="https://conclude.returnpath.com/assets/images/emails/spacer.gif" style="-ms-interpolation-mode: bicubic; outline: none; text-decoration: none;" /></td></tr>
+        </table>
+        <table cellpadding="10" cellspacing="0" border="0" class="Container" style="border: 1px solid #e1e6ec; border-collapse: collapse; border-radius: 4px; border-spacing: 0; box-shadow: 0px 0px 10px 0px rgba(44, 44, 46, 0.05); font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" bgcolor="#FFFFFF">
+          <tr><!-- Begin Header -->
+            <td class="HeaderSection" style="border-collapse: collapse; padding: 30px 30px 0;">
+              <table cellpadding="20" cellspacing="0" border="0" width="100%" style="border-collapse: collapse; border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                <tr>
+                  <td style="border-collapse: collapse;"><img src="https://conclude.returnpath.com/assets/images/emails/logo.png" alt="Conclude App" style="-ms-interpolation-mode: bicubic; outline: none; text-decoration: none;" /></td>
+                  <td align="right" style="border-collapse: collapse;">
+                    <div><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://conclude.returnpath.com/project/<%= project._id %>" style="height:28px;v-text-anchor:middle;width:130px;" arcsize="358%" strokecolor="#2C97DE" fillcolor="#ffffff"><w:anchorlock/><center style="color:#2C97DE;font-family:'Arial',sans-serif;font-size:10px;font-weight:normal;letter-spacing:1px;">VIEW PROJECT</center></v:roundrect><![endif]--><a href="https://conclude.returnpath.com/project/<%= project._id %>" style="-webkit-text-size-adjust: none; background: #ffffff; border: 1px solid #2c97de; border-radius: 100px; color: #2C97DE; display: inline-block; font-family: 'Arial',sans-serif; font-size: 10px; font-weight: normal; letter-spacing: 1px; line-height: 28px; mso-hide: all; text-align: center; text-decoration: none; width: 130px;">VIEW PROJECT</a></div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr><!-- End Header -->
+          <tr><!-- Begin Content -->
+            <td class="ContentSection" style="border-collapse: collapse;">
+              <table cellpadding="15" cellspacing="0" border="0" width="100%" style="border-collapse: collapse; border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                <tr>
+                  <td align="center" class="TitleSection" style="border-collapse: collapse;">
+                    <p class="TitleLead" style="color: #8A95A1; font-size: 11px; letter-spacing: 1px; line-height: 19px; margin: 0; padding: 0; text-transform: uppercase;">Krista shared a research project with you...</p>
+                    <p class="Title" style="color: #47525D; font-size: 24px; font-weight: bold; line-height: 32px; margin: 0; padding: 0;"><%= project.title %></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" class="Image" style="border-collapse: collapse; padding: 20px 20px 40px;">
+                    <img src="https://d17oy1vhnax1f7.cloudfront.net/items/2w2K3p2x2C180m052e0F/research.3S3I3H3R2604.png" alt="Research Doc" style="-ms-interpolation-mode: bicubic; outline: none; text-decoration: none;" />
+                    <!-- <img src="/img/research.png" /> -->
+                  </td>
+                </tr><!-- End Image -->
+                <tr>
+                  <td class="QuoteSection" style="border-collapse: collapse; padding: 0 45px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse: collapse; border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                      <tr>
+                        <td class="Quote" style="border: 1px solid #f4f5f6; border-collapse: collapse; border-radius: 4px; padding: 40px; width: 100%; white-space: pre;" bgcolor="#FCFDFE">
+                          <%= project.message %>
+                        </td>
+                      </tr>
+                    </table>
+                  </td><!-- End Quote -->
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="FooterSection" align="center" style="border-collapse: collapse; padding: 30px 0 45px;">
+              <table cellpadding="15" cellspacing="0" border="0" width="100%" style="border-collapse: collapse; border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                <tr>
+                  <td align="center" style="border-collapse: collapse;">
+                    <div><!--[if mso]>
+  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://conclude.returnpath.com/project/<%= project._id %>" style="height:48px;v-text-anchor:middle;width:220px;" arcsize="209%" strokecolor="#2C97DE" fillcolor="#2C97DE">
+    <w:anchorlock/>
+    <center style="color:#ffffff;font-family:'Arial',sans-serif;font-size:12px;letter-spacing:3px;">VIEW PROJECT</center>
+  </v:roundrect>
+<![endif]--><a href="http://conclude.returnpath.com/project/<%= project._id %>" style="-webkit-text-size-adjust: none; background: #2C97DE; border: 1px solid #2c97de; border-radius: 100px; color: #ffffff; display: inline-block; font-family: 'Arial', sans-serif; font-size: 12px; font-weight: normal; letter-spacing: 3px; line-height: 48px; mso-hide: all; text-align: center; text-decoration: none; width: 220px;">VIEW PROJECT</a></div>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr><!-- End Title -->
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="border-collapse: collapse;">
+        <table cellpadding="20" border="0" class="Spacer" width="640" style="border-collapse: collapse; border-spacing: 0; min-width: 660px; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 660px;">
+          <tr><td style="border-collapse: collapse;"><img border="0" alt="" height="1" hspace="0" vspace="0" width="640" src="https://conclude.returnpath.com/assets/images/emails/spacer.gif" style="-ms-interpolation-mode: bicubic; outline: none; text-decoration: none;" /></td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>

@@ -1,27 +1,21 @@
 'use strict';
 
 angular.module('concludeApp')
-  .directive('fixScroll', function($window) {
+  .directive('sizeNav', function($window) {
     return {
       restrict: 'A',
       link: function(scope, elem, attr) {
-        // On Scroll, if elem.distanceTop > header.outerHeight + 20, then LOCK THAT DOWN BOY.
+
         var $win  = angular.element($window),
-            dist  = angular.element(elem).offset().top - 70,
-            left  = angular.element(elem).offset().left;
-        $win.on('scroll', function(e) {
-          if ($win.scrollTop() > dist) {
-            return angular.element(elem)
-              .css('position', 'fixed')
-              .css('left', left)
-              .css('top', 60);
-          } else {
-            return angular.element(elem)
-              .css('position', 'absolute')
-              .css('left', 'initial')
-              .css('top', 'initial');
-          }
-        });
+            h     = $win.outerHeight() - 120,
+            $el   = angular.element(elem[0])[0],
+            $list = $el.querySelectorAll('li');
+        $el.style.height = `${h}px`;
+        for (var i = $list.length - 1; i >= 0; i--) {
+          $el = angular.element($list[i])[0];
+          $el.style.lineHeight = (h / $list.length) + 'px';
+        }
+
       }
     }
   });

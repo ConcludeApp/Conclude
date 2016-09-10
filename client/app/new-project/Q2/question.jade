@@ -31,14 +31,19 @@
             .select
               span.ti-angle-down
               input(type="hidden", ng-model="$project.endDate.year", ng-required="$project.endDate.year")
-              ui-select(ng-model="$project.endDate.year", class="form-control", title="Month", theme="bootstrap")
+              ui-select(ng-model="$project.endDate.year", class="form-control", title="Month", theme="bootstrap", ng-if="$isAdmin")
+                ui-select-match(placeholder="Year...") {{$select.selected.label}}
+                ui-select-choices(repeat="year.label as year in adminYears | filter: {label: $select.search}")
+                  p {{year.label}}
+              ui-select(ng-model="$project.endDate.year", class="form-control", title="Month", theme="bootstrap", ng-if="!$isAdmin")
                 ui-select-match(placeholder="Year...") {{$select.selected.label}}
                 ui-select-choices(repeat="year.label as year in years | filter: {label: $select.search}")
                   p {{year.label}}
+
       .col.r-col: .related
         span.title RELATED RESEARCH
         ul.list-bullet
-          li(ng-repeat="method in methods") {{method.title}}
+          li(ng-repeat="method in methods", ng-show="method.title") {{method.title}}
             span.date LAST UPDATED - {{method.updatedAt | date: 'MM/dd/yyyy'}}
     footer.new-project-footer
       .pull-left: a.btn.btn-outline(ui-sref="^.") BACK

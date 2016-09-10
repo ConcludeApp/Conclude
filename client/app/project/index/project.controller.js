@@ -32,9 +32,9 @@ class ProjectController {
       var index = _.findIndex(this.project.users, function(u) {
         return u.user._id === me._id;
       });
-      this.project.user = this.project.users[index]._id;
-      this.project.notifications = this.project.users[index].notifications ? this.project.users[index].notifications : '';
       if (index > -1) {
+        this.project.user = this.project.users[index]._id;
+        this.project.notifications = this.project.users[index].notifications ? this.project.users[index].notifications : '';
         this.project.users[index].notifications = this.project.notifications;
       }
     }

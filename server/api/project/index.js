@@ -10,7 +10,7 @@ router.post('/recommended', auth.isAuthenticated(), controller.recommend);
 router.post('/index', auth.isAuthenticated(), controller.index);
 router.post('/search', auth.isAuthenticated(), controller.search);
 router.get('/notifications', auth.isAuthenticated(), controller.sendNotifications);
-router.post('/:id/share', auth.isAuthenticated(), controller.share);
+router.post('/share/:id', auth.isAuthenticated(), controller.share);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.put('/:id', auth.isAuthenticated(), controller.update);
 router.patch('/:id', auth.isAuthenticated(), controller.update);
