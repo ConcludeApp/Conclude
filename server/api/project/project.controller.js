@@ -162,7 +162,7 @@ function sendEmail(user, project) {
     transporter.sendMail({
       from: '"Conclude - Research Insights" <support@concludeapp.co>',
       to: user.email,
-      subject: 'Krista shared the "' + project.title + '" research project with you',
+      subject: 'Krista shared the research project "' + project.title + '" with you',
       text: res.text,
       html: res.html
     }, function(err, res) {
@@ -226,6 +226,10 @@ export function share(req, res, next) {
 /* Recommend Research */
 export function recommend(req, res) {
   var query = req.body.params;
+  if (!Object.prototype.toString.call(query) === '[object Array]') {
+    query = [query];
+    query.push({'name': {$exists: true}});
+  }
   if (query.length) {
     return Project.find(query).exec()
       .then(respondWithFilteredResult(res))

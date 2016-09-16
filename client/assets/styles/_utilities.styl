@@ -1,6 +1,6 @@
 .container
   margin 0 auto
-  max-width 750px
+  max-width 620px
   &.large
     max-width 1200px
     padding 0 $padding
@@ -56,3 +56,65 @@ placeholder()
       {block}
   &:-ms-input-placeholder
       {block}
+
+$edit = darken(#FFF, 2%)
+[contenteditable=true]
+  display block
+  font-size inherit
+  transition background 200ms ease, opacity 200ms ease
+  &:hover
+    background rgba(#F8E71C, 0.1)
+  &:focus
+    background $edit
+    outline 0
+    &:hover
+      background $edit
+  &:before
+    content attr(placeholder)
+    font-size inherit
+    font-weight 400
+    opacity 0.5
+    left 0
+    min-width 600px
+    position absolute
+    top 0
+    z-index -1
+  &.ng-empty:not(:focus)
+    background transparent
+    overflow hidden
+    &:hover
+      background rgba(#F8E71C, 0.1)
+  &.ng-not-empty:before
+    content ''
+  &.animate.ng-empty
+    height 24px
+  &.animate.ng-hide-add,
+  &.animate.ng-hide-remove
+    transition height 100ms ease, opacity 200ms ease
+  &.animate.ng-hide
+    height 0 !important
+    min-height 0 !important
+    opacity 0 !important
+
+.m-10
+  margin-top 10px
+.m-5
+  margin-top 5px
+
+.no-animate
+  transition none !important
+  
+.hide-all
+  display none !important
+  
+.mce-btn:hover,
+.mce-btn:focus
+  background lighten($c-light-gray, 10%) !important
+  border-color transparent !important
+.mce-btn
+  transition background 100ms ease
+  
+.cf:after
+  content ""
+  display table
+  clear both

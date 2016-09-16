@@ -369,13 +369,13 @@ gulp.task('watch', () => {
         .pipe(lintServerScripts())
         .pipe(plugins.livereload());
 
-    gulp.watch('bower.json', ['wiredep:client']);
+    // gulp.watch('bower.json', ['wiredep:client']);
 });
 
 gulp.task('serve', cb => {
     runSequence(['clean:tmp', 'constant', 'env:all'],
         ['lint:scripts', 'inject', 'jade'],
-        ['wiredep:client'],
+        // ['wiredep:client'],
         ['transpile:client', 'styles'],
         ['start:server', 'start:client'],
         'watch',

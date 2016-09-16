@@ -8,8 +8,16 @@
 	font-weight: normal;
 	font-style: normal;
 }
-
-[class^="ti-"], [class*=" ti-"] {
+i.mce-i-save,
+i.mce-i-close {
+	font-weight: 900;
+	position: relative;
+	top: 2px;
+}
+[class^="ti-"],
+[class*=" ti-"],
+i.mce-i-close,
+i.mce-i-save {
 	font-family: 'themify';
 	speak: none;
 	font-style: normal;
@@ -17,7 +25,6 @@
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
-
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -233,7 +240,8 @@
 .ti-comment-alt:before {
 	content: "\e645";
 }
-.ti-close:before {
+.ti-close:before,
+i.mce-i-close:before {
 	content: "\e646";
 }
 .ti-clip:before {
@@ -251,7 +259,8 @@
 .ti-angle-down:before {
 	content: "\e64b";
 }
-.ti-check:before {
+.ti-check:before,
+i.mce-i-save:before {
 	content: "\e64c";
 }
 .ti-check-box:before {

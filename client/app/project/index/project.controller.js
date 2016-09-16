@@ -7,6 +7,7 @@ class ProjectController {
     this.$state = $state;
     this.$http = $http;
     this.$scope = $scope;
+    this.$window = $window;
     this.modal = $uibModal;
 
     this.project = project.data
@@ -15,9 +16,65 @@ class ProjectController {
     // this.viewPersona(project.data.personas[0])
 
     var me = this.me = Auth.getCurrentUser()
+    var self = this;
+
+    var blurAll = function() {
+     var tmp = document.createElement("input");
+     document.body.appendChild(tmp);
+     tmp.focus();
+     document.body.removeChild(tmp);
+    }
 
     $scope.persona_search = []
     $scope.method_search = []
+    $scope.textConfig = {
+      inline: true,
+      menubar: false,
+      toolbar: "bold italic underline strikethrough | bullist numlist outdent indent | blockquote hr link image | undo redo | cancel save",
+      skin: "minimal",
+      plugins: "autoresize code fullscreen",
+      setup: function (editor) {
+        editor.addButton('cancel', {
+          icon: 'close',
+          title: 'Cancel',
+          onclick: function () {
+            return blurAll()
+          }
+        });
+        editor.addButton('save', {
+          icon: 'save',
+          title: 'Save',
+          onclick: function () {
+            self.quickSave()
+            return blurAll()
+          }
+        });
+      }
+    }
+    $scope.titleConfig = {
+      inline: true,
+      menubar: false,
+      toolbar: "bold italic underline strikethrough | undo redo | cancel save",
+      skin: "minimal",
+      plugins: "autoresize code",
+      setup: function (editor) {
+        editor.addButton('cancel', {
+          icon: 'close',
+          title: 'Cancel',
+          onclick: function () {
+            return blurAll()
+          }
+        });
+        editor.addButton('save', {
+          icon: 'save',
+          title: 'Save',
+          onclick: function () {
+            self.quickSave()
+            return blurAll()
+          }
+        });
+      }
+    }
 
     $scope.slickConfig = {
       adaptiveHeight: true,
@@ -117,9 +174,12 @@ class ProjectController {
         setTimeout(function() {
           $window.dispatchEvent(new Event('resize'));
         }, 100)
-        return $scope.loading = false;
+        setTimeout(function() {
+          return $scope.loading = false;
+        }, 300)
       }
     });
+
     /*
     $scope.$watch('$prjct.project.notifications', function(n,o) {
       if (n!=o) {
@@ -165,12 +225,27 @@ class ProjectController {
         this.show = '';
         this.$http.get('/api/projects/'+res.data._id)
           .then(res => {
-            this.$scope.loading = false;
             this.$scope.slickConfig.enabled = true;
             this.show = '';
             this.ShowSidebar = false;
-            return this.project = res.data;
+            this.project = res.data;
+            var self = this;
+            return setTimeout(function() {
+              self.$scope.loading = false;
+            }, 300)
           })
+      })
+  }
+
+  quickSave() {
+    // this.$scope.loading = true
+    this.$http.put('/api/projects/'+this.project._id, this.project)
+      .then(res => {
+        console.log(res);
+        this.project.__v = res.__v;
+        this.project.updatedAt = res.data.updatedAt;
+        // console.log(this.project.updatedAt, res.updatedAt)
+        return document.activeElement.blur()
       })
   }
 
@@ -178,10 +253,13 @@ class ProjectController {
     this.$scope.loading = true
     this.$http.get('/api/projects/'+this.project._id)
       .then(res => {
-        this.$scope.loading = false;
         this.ShowSidebar = false;
         this.show = '';
-        return this.project = res.data;
+        this.project = res.data;
+        var self = this;
+        return setTimeout(function() {
+          self.$scope.loading = false;
+        }, 300)
       })
   }
 
