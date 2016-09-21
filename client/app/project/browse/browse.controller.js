@@ -20,10 +20,6 @@ class BrowseController {
         value: 'taxonomy.category',
       },
       {
-        label: 'Subcategory',
-        value: 'taxonomy.subcategory',
-      },
-      {
         label: 'Tag',
         value: 'taxonomy.tags'
       },

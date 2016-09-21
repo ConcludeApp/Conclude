@@ -115,6 +115,7 @@ tags-input .autocomplete
   right 0
   left 0
   list-style none
+  max-width 450px !important
   top 110%
   transition all 300ms ease
   z-index 2
@@ -149,6 +150,8 @@ tags-input .autocomplete
     position relative
     span.icon
       bottom 0
+      color $c-gray
+      font-size 12px
       line-height 40px
       margin auto
       position absolute
@@ -271,9 +274,10 @@ tags-input
     display inline-block
     font normal 12px/24px $fn-primary 
     margin 0 ($padding / 4) ($padding / 2)
-    padding 0 ($padding / 2)
+    padding 0 6px
     span.namespace
-      opacity 0.5
+      opacity 0.8
+      text-transform capitalize
     span.ti-close
       cursor pointer
       font-size 8px

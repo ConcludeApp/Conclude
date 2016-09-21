@@ -278,11 +278,11 @@ export function index(req, res) {
   query.push({status: true});
   /* End Loop, Poll Server */
   if (query.length) {
-    return Project.find({$and: query}).exec()
+    return Project.find({$and: query}).populate("taxonomy.category taxonomy.subcategory researcher").exec()
       .then(respondWithFilteredResult(res))
       .catch(handleError(res));
   } else {
-    return Project.find().exec()
+    return Project.find().populate("taxonomy.category taxonomy.subcategory researcher").exec()
       .then(respondWithResult(res))
       .catch(handleError(res));
   }

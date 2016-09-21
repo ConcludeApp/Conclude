@@ -19,12 +19,27 @@ class ProjectController {
     var self = this;
 
     var blurAll = function() {
-     var tmp = document.createElement("input");
-     document.body.appendChild(tmp);
-     tmp.focus();
-     document.body.removeChild(tmp);
+      var tmp = document.createElement("input");
+      tmp.className = 'blur'
+      document.body.appendChild(tmp);
+      tmp.focus();
+      document.body.removeChild(tmp);
     }
-
+    /*
+    $scope.$DragControls = {
+      // accept: function (sourceItemHandleScope, destSortableScope) {return true},
+      accept: false,
+      containerPositioning: 'relative',
+      containment: '#section-8'
+    }
+    */
+    $scope.$DragControls = {
+      'ui-floating': false,
+      handle: '.move',
+      tolerance: 'pointer',
+      disabled: $scope.enableDrag,
+      placeholder: 'ui-sortable-placeholder'
+    }
     $scope.persona_search = []
     $scope.method_search = []
     $scope.textConfig = {
@@ -36,15 +51,21 @@ class ProjectController {
       setup: function (editor) {
         editor.addButton('cancel', {
           icon: 'close',
-          title: 'Cancel',
+          title: 'Cancel Changes',
           onclick: function () {
             return blurAll()
           }
         });
         editor.addButton('save', {
           icon: 'save',
-          title: 'Save',
+          title: 'Save Project',
           onclick: function () {
+            self.quickSave()
+            return blurAll()
+          }
+        });
+        editor.on('keydown', function(e) {
+          if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
             self.quickSave()
             return blurAll()
           }
@@ -54,7 +75,7 @@ class ProjectController {
     $scope.titleConfig = {
       inline: true,
       menubar: false,
-      toolbar: "bold italic underline strikethrough | undo redo | cancel save",
+      toolbar: "undo redo | cancel save",
       skin: "minimal",
       plugins: "autoresize code",
       setup: function (editor) {
@@ -73,16 +94,21 @@ class ProjectController {
             return blurAll()
           }
         });
+        editor.on('keydown', function(e) {
+          if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
+            self.quickSave()
+            return blurAll()
+          }
+        });
       }
     }
-
     $scope.slickConfig = {
       adaptiveHeight: true,
       autoplay: false,
       draggable: false,
       arrows: false,
       dots: true,
-      method: {}
+      slide: '.quote'
     }
 
     if (this.project.users.length > 1) {
@@ -95,7 +121,6 @@ class ProjectController {
         this.project.users[index].notifications = this.project.notifications;
       }
     }
-
     /* Edit Project */
     $scope.fileTypes = [
       {
@@ -135,7 +160,6 @@ class ProjectController {
       var goTo = angular.element('#section-'+angular.element('[data-section].active').attr('data-section'));
       if (n === 'EditProject') {
         $scope.loading = true;
-        $scope.$broadcast('elastic:adjust')
         $http.get('/api/personas')
           .then(res => {
             return $scope.personas = res.data;
@@ -215,6 +239,11 @@ class ProjectController {
 
   showMenuItem(item) {
     this.ShowSidebar = false;
+    if (item === 'EditProject') {
+      this.$scope.enableDrag = true;
+    } else {
+      this.$scope.enableDrag = false;
+    }
     return this.show = (this.show === item ? '' : item);
   }
 
@@ -241,7 +270,6 @@ class ProjectController {
     // this.$scope.loading = true
     this.$http.put('/api/projects/'+this.project._id, this.project)
       .then(res => {
-        console.log(res);
         this.project.__v = res.__v;
         this.project.updatedAt = res.data.updatedAt;
         // console.log(this.project.updatedAt, res.updatedAt)
@@ -364,6 +392,11 @@ class ProjectController {
       .then(res => {
         return console.log(res)
       })
+  }
+
+  setFocus(section) {
+    angular.element('#'+section).find('[contenteditable]')[0].focus()
+    return this.$scope.editSection = section;
   }
 
 }

@@ -1,5 +1,22 @@
+.move
+  cursor move
+  height 24px
+  left 0
+  line-height 24px
+  position absolute
+  text-align center
+  width 24px
+  i
+    color $c-gray
+    position relative
+    top -1px
+    transition color 200ms ease
+    vertical-align middle
+    &:hover
+      color $c-teal
+  &:active
+    cursor grabbing
 .item-label
-  left -($padding * 2)
   background #424242
   border-radius 20px
   bottom 0
@@ -7,6 +24,7 @@
   display inline-block
   font-size 12px
   height 24px
+  left 30px
   line-height 24px
   position absolute
   text-align center
@@ -62,8 +80,8 @@
     border 1px solid $c-gray !important
     color $c-gray !important
     &:hover
-      background #F22613 !important
-      border-color #F22613 !important
+      background #F04533 !important
+      border-color #F04533 !important
       color white !important
 .persona
   background white
@@ -95,7 +113,7 @@
     padding ($padding * 5) $padding $padding
     position relative
     &:after
-      background linear-gradient(rgba(black, 0), rgba(black, 0.85))
+      background linear-gradient(rgba(black, 0), rgba(black, 0.5))
       bottom 0
       content ''
       height 100px
@@ -117,35 +135,46 @@
       top $padding
     .persona-header_name,
     .persona-header_title
+      font-family $fn-title
       position relative
       z-index 1
     .persona-header_name
       font-size 16px
-      font-weight 700
+      font-weight 400
+      letter-spacing 0.075em
       line-height 22px
     .persona-header_title
       font-size 10px
-      font-weight 500
+      font-weight 300
       line-height 14px
+      letter-spacing 0.125em
+      text-transform uppercase
   .persona-content
     font-size 12px
     line-height 20px
     padding $padding
     
 .quote
-  padding-left ($padding * 2)
+  padding-left 70px
   position relative
-  i
-    color #F04533
-    font-size 18px
+  .item-label.quote-icon
+    background transparent
+    i
+      color #F04533
+      font-size 24px
+      position relative
+      top -2px
+    /*
     left 6px
     position absolute
     top -2px
     vertical-align bottom
+    */
   .quote-meta
-    color #9FACB9
-    font-size 10px
-    line-height 12px
+    color $c-gray
+    font 400 13px/13px $fn-title
+    // font-weight 300
+    letter-spacing 0.05em
   .quote-content
     font italic 18px/24px Times, "Times New Roman", Georgia, serif
     letter-spacing 0.05em
@@ -153,6 +182,9 @@
   .quote-author
     align-items center
     display flex
+    font 400 12px/12px $fn-title
+    // font-weight 300
+    letter-spacing 0.075em
     .qa-photo
       background-size cover
       border 2px solid #A2AFBC
@@ -161,12 +193,19 @@
       margin-right ($padding / 2)
       width 48px
     .qa-content
-      color #9FACB9
+      color $c-gray
       flex-grow 2
+      font-family $fn-title
       .qa-name
-        font-size 14px
+        font-size 13px
+        font-weight 400
+        letter-spacing 0.05em
       .qa-title
-        font-size 10px
+        font-size 11px
+        font-weight 300
+        letter-spacing 0.15em
+        line-height 11px
+        text-transform uppercase
 .attachments
   list-style none
   margin 0 -20px
@@ -209,33 +248,54 @@
   position relative
   // white-space pre-line
   .project-content_section
+    font normal 14px/24px $fn-primary
+    word-wrap break-word
     h3
       display inline-block
       font 600 16px/24px $fn-primary
       vertical-align middle
       width 100%
     h2
-      font 400 20px/20px $fn-title
+      font 300 20px/20px $fn-title
+      letter-spacing 0.05em
       margin 0
+      position relative
       & > span
         display block
         color #8A95A1
         font-size 15px
         font-weight 300
-        letter-spacing 0.01em
+        letter-spacing 0.03em
         line-height 26px
+      & > i
+        color $c-gray
+        font-size 14px
+        opacity 0
+        transition opacity 200ms ease
+      & > .toggle-edit
+        font-size 16px
+        height 24px
+        left -24px
+        margin auto
+        position absolute
+        top 1px
+        vertical-align top
+        width 24px
+      &:hover i
+        opacity 1
+        &:hover
+          color $c-teal
+          cursor pointer
     h3
       margin 0
-    p
-      font normal 14px/24px $fn-primary
-      word-wrap break-word
     .content
       margin ($padding + 10) 0 0
-      ul
+      ul.list
         list-style none
         margin 0
-        padding-left ($padding + 20)
-        li
+        padding-left 0
+        & > li
+          padding-left 70px
           position relative
           p.note
             color $c-gray
@@ -339,7 +399,6 @@
         border 1px solid $c-light-gray
         border-radius 4px
         box-shadow 0 1px 4px rgba(#3F4E5A, 0.1)
-        margin-left -30px
         padding $padding ($padding + 15)
       ul
         border-bottom 1px solid $c-light-gray
@@ -351,7 +410,7 @@
           display inline-block
           font-size 13px
           margin 0
-          padding 0 $padding ($padding / 2)
+          padding 0 15px ($padding / 2)
           position relative
           &:first-of-type
             margin-left -20px
@@ -370,7 +429,7 @@
           &:nth-child(n+2)
             margin-top 0
       .tab
-        padding 20px
+        padding 20px 15px
         position relative
         z-index 2
         strong
@@ -405,6 +464,9 @@
           text-shadow 0 1px 0 white, 0 2px 0 white, 0 3px 0 white, 0 4px 0 white, 0 5px 0 white, 0 -1px 0 white, 0 -2px 0 white, 0 -3px 0 white, 0 -4px 0 white, 0 -5px 0 white
           top -4px
           vertical-align bottom
+    &.direct-quotes
+      .content ul li .item-label.quote-icon
+        border 0
     /*
     &.empty
       position relative
@@ -448,15 +510,14 @@
           display inline-block
           padding ($padding + 10)
     */
-    &:nth-child(n+2) .content
-      padding-left ($padding + 10)
   h1,
   h2,
   p
     margin 0 auto 5px
     
 .sidebar
-  background-color #F8F9FA
+  // background-color #F8F9FA
+  border-left 1px solid $c-light-gray
   height 100%
   overflow auto
   padding 35px ($padding + 25) ($padding * 6) ($padding + 10)
@@ -468,6 +529,11 @@
   // transform translateX(100%)
   width 320px
   z-index 11
+  /*
+  @media screen and (min-width 1280px)
+    animation ShowSidebar 200ms 1
+    right -15px
+  */
   &.show
     animation ShowSidebar 200ms 1
     right -15px
@@ -518,6 +584,9 @@
         line-height 32px
         margin 0
         text-decoration none
+        a
+          text-decoration none !important
+          font-weight normal !important
     ul.items
       list-style none
       margin 0
@@ -622,12 +691,10 @@
         font-weight 600
         
 .project-nav
-  bottom 20px
-  height 100%
-  left 0
   padding-left ($padding * 2)
   position fixed
-  top 80px
+  top 50%
+  transform translateY(-50%)
   z-index 9
   &.fade
     opacity 0.1
@@ -638,7 +705,7 @@
     margin 0
     padding 0
     &:before
-      background $c-light-gray
+      background lighten($c-gray, 60%)
       content ""
       height 100%
       left $padding
@@ -651,18 +718,19 @@
       line-height 4em
       position relative
       transition all 200ms ease
+      span
+        opacity 0
+        transition opacity 200ms ease
       a
         color #9FACB9
         display inline-block
         text-decoration none
         transition color 200ms ease
         vertical-align middle
-        &:hover
-          color darken(#9FACB9, 20%)
-        &.active
-          color darken(#9FACB9, 60%)
+      &.active
+        color darken(#9FACB9, 60%)
       &:before
-        background $c-light-gray
+        background lighten($c-gray, 60%)
         border 3px solid white
         border-radius 6px
         bottom 0
@@ -696,8 +764,9 @@
       &.heading
         border-bottom 0
         color $c-gray
-        font-weight 500
-        letter-spacing 0.2em
+        font-family $fn-title
+        font-weight 400
+        letter-spacing 0.125em
         // height 20px !important
         // line-height 20px !important
         // margin-top 20px
@@ -705,6 +774,8 @@
           color darken($c-gray, 20%)
         &:before
           display none
+  &:hover ul li span
+    opacity 1
 .notifications
   background-color #FFFFFF
   border 1px solid #EEF1F5
@@ -1081,7 +1152,7 @@
 .grid
   margin 20px -20px
   .grid-item
-    padding 0 ($padding / 2) ($padding / 2)
+    padding 0 ($padding / 2) $padding
     float left
     width 33.3333%  
   .project-card
@@ -1091,20 +1162,33 @@
     color $c-copy
     margin 0
     transition box-shadow 200ms ease
-    .pc_content,
+    .pc_content
+      padding $padding $padding 0
     .pc_meta
       padding $padding
     .pc_meta
-      border-top 1px solid $c-light-gray
+      align-items center
+      display flex
+      .avatar
+        flex 0 0 24px
+        margin-right 10px
+      & > *
+        flex 1
     span,
     strong
       display block
-    strong
-      font-weight 500
-      margin 5px 0
-    span
-      color $c-gray
+    .title
+      color $c-blue
+      font-size 20px
+      line-height 26px
+      font-family $fn-title
+      font-weight 300
+      letter-spacing 0.05em
+      margin 5px 0 0
+    span.cat
+      color darken($c-gray, 10%)
       font-size 10px
+      font-family $fn-title
       font-weight 400
       letter-spacing 0.15em
       text-transform uppercase
@@ -1114,6 +1198,14 @@
           color $c-copy
           font normal 14px/18px $fn-primary
           text-transform initial
+    .time,
+    .lead
+      color darken($c-gray, 10%)
+      font-family $fn-title
+      font-size 12px
+      font-weight 300
+      letter-spacing 0.05em
+      line-height 12px
     &:hover
       border 1px solid $c-light-gray
       box-shadow 0 1px 4px rgba(#3F4E5A, 0.1)
@@ -1135,6 +1227,22 @@
 .edit
   .project-title .attachments li
     display block
+  input.form-control,
+  textarea.form-control
+    padding ($padding / 2)
+    transition height 200ms ease
+  span.cat
+    &:hover
+      background rgba(#F8E71C, 0.1) !important
+      border 1px solid rgba(#F8E71C, 0.2) !important
+    &:focus:hover
+      background lighten($c-light-gray, 5%) !important
+      border 1px solid darken($c-light-gray, 5%) !important
+  .slick-list
+    height auto !important
+    overflow auto !important
+  .item-label
+    left 30px
   .project-content
     span.add
       display block
@@ -1156,17 +1264,19 @@
       // margin-top ($padding / 2)
     ul.dropdown
       padding 0
-  input.form-control,
-  textarea.form-control
-    padding ($padding / 2)
-    transition height 200ms ease
-  span.cat
-    &:hover
-      background rgba(#F8E71C, 0.1) !important
-      border 1px solid rgba(#F8E71C, 0.2) !important
-    &:focus:hover
-      background lighten($c-light-gray, 5%) !important
-      border 1px solid darken($c-light-gray, 5%) !important
+    .form-control
+      border 0
+      border-bottom 1px solid $c-light-gray
+      box-shadow none
+      box-shadow 0
+      height 24px
+      padding 0
+      transition border-color 200ms ease
+      &:focus
+        box-shadow none
+        box-shadow 0
+      &:hover
+        border-color $c-gray
 .attachments li
   display inline-block
   margin-bottom ($padding / 2)
@@ -1249,3 +1359,70 @@
   
 h3 span
   width 100%
+
+[slick],
+.slick-track,
+.slick-slide
+  border 0 !important
+  outline 0 !important
+  
+input.blur
+  bottom 0
+  display none
+  height 0
+  margin auto
+  left 0
+  overflow auto
+  position absolute
+  right 0
+  // top 0
+  width 0
+  
+.as-sortable-dragging
+  opacity 0.2
+  
+[as-sortable-drag]
+  position relative
+  
+.ui-sortable-placeholder
+  background rgba($c-teal, 0.05)
+  // border 1px dashed $c-gray
+  border 1px dashed rgba($c-teal, 0.35)
+  height 32px
+  margin-left 30px
+  
+.filters.animate
+  margin 0 -10px 30px
+  p
+    color $c-gray
+    font normal 10px/10px $fn-title
+    letter-spacing 0.15em
+    margin 0 0 5px
+    
+.project-card .avatar
+  background-size cover
+  border 1px solid $c-light-gray
+  border-radius 32px
+  color $c-blue
+  display inline-block
+  height 24px
+  position relative
+  vertical-align middle
+  width 24px
+  z-index 1
+  &:before
+    content attr(data-initials)
+    font-size 11px
+    font-family $fn-title
+    letter-spacing 0.05em
+    height 100%
+    left 0
+    line-height 24px
+    position absolute
+    right 0
+    text-align center
+    top 0
+    width 100%
+    z-index 0
+  &.has-photo:before
+    opacity 0

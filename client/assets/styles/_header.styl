@@ -162,6 +162,10 @@
         outline 0
         padding 0 $padding
         width 100%
+        &.filter
+          border-bottom 1px solid $c-light-gray
+          height 40px
+          min-width 260px
       .search
         padding-left 10px
         transition width 200ms ease
@@ -200,7 +204,7 @@
         padding-left 0
       .input-group-horizontal:last-of-type
         flex-grow 2
-        overflow hidden
+        // overflow hidden
       .filter-track
         display block
         height 100%
@@ -208,6 +212,8 @@
         width 100%
         .group
           width 0
+    ul.dropdown-menu
+      min-width 220px
 @keyframes ActiveMenuItem
   0%
     box-shadow 0 0 0 0 rgba($c-teal, 0)

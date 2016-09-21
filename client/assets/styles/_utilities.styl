@@ -1,6 +1,8 @@
 .container
   margin 0 auto
   max-width 620px
+  &.md
+    max-width 900px
   &.large
     max-width 1200px
     padding 0 $padding
@@ -28,7 +30,7 @@ hr
   text-align center
 
 ::selection
-  background #CEF3EC
+  background darken(#CEF3EC, 6%)
   
 .group
   clear both
@@ -61,6 +63,7 @@ $edit = darken(#FFF, 2%)
 [contenteditable=true]
   display block
   font-size inherit
+  pointer-events all !important
   transition background 200ms ease, opacity 200ms ease
   &:hover
     background rgba(#F8E71C, 0.1)
@@ -95,6 +98,9 @@ $edit = darken(#FFF, 2%)
     height 0 !important
     min-height 0 !important
     opacity 0 !important
+
+[is-disabled=true] .as-sortable-item-handle
+  cursor default !important
 
 .m-10
   margin-top 10px

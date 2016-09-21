@@ -1,16 +1,22 @@
 'use strict';
 
 angular.module('concludeApp')
-  .directive('preventScroll', function($document) {
+  .directive('showHint', function($document) {
     return {
       restrict: 'A',
       link: function(scope, elem, attr) {
-        var body = angular.element($document[0].body[0]);
-        elem.bind('mouseover', function(e) {
-          body.css('overflow', 'hidden')
-        });
-        elem.bind('mouseleave', function(e) {
-          body.css('overflow', 'auto')
+        var el = angular.element(elem[0]),
+            val, str;
+
+        function splitVal(v, i) {
+          return [v.substring(0, i), v.substring(i)]
+        }
+
+        el.on('focus', function(e) {
+          str = el.val();
+          val = splitVal(str, str.length - 1);
+          el.val(val[0]);
+          return setTimeout(()=> (el.val(val[0] + val[1])), 1);
         });
       }
     }

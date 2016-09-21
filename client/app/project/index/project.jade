@@ -1,17 +1,16 @@
+//- 'Pencil Icon for Edit where Move is in Default state... On Click set Focus to Adjacent Input and enable TinyMCE for that section. Introduce Section and Document level Edit States that can live together.'
+
 ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
   header.header
     .header-action: span.icon.ti-menu(ng-click="showMainSidebar()")
     .header-title
       span(ng-hide="$prjct.show === 'EditProject'", ng-bind-html="$prjct.project.title")
       span(ng-show="$prjct.show === 'EditProject'") Last updated {{$prjct.project.updatedAt | timeAgo}}
-    //- .header-title(ng-show="$prjct.show === 'EditProject'") Last updated {{$prjct.project.updatedAt | timeAgo}}
     .header-nav
       ul.icons.no-animate(ng-class="{'hide-all': $prjct.show != 'EditProject'}")
-        //- li: a(ng-click="$prjct.saveProject()"): span.ti-save
-        li.button: button.btn.btn-sm.btn-outline(ng-click="$prjct.cancelEdits()") CLOSE EDIT MODE
-        //- li.button: button.btn.btn-sm.btn-primary(ng-click="$prjct.saveProject()") SAVE CHANGES
+        li.button: button.btn.btn-sm.btn-outline(ng-click="$prjct.cancelEdits()") CANCEL
+        li.button: button.btn.btn-sm.btn-primary(ng-click="$prjct.saveProject()") SAVE
         li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar"): span.ti-menu-alt
-        //- li: a(ng-click="$prjct.cancelEdits()"): span.ti-close
       ul.icons.no-animate(ng-class="{'hide-all': $prjct.show == 'EditProject'}")
         li(ng-class="{active: $prjct.show === 'EditProject'}", ng-show="$prjct.me.role === 'admin' || $prjct.project.user.length")
           a(ng-click="$prjct.showMenuItem('EditProject'); $prjct.ShowSidebar = false;", ng-class="{active: $prjct.show === 'EditProject'}")
@@ -34,24 +33,23 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
         li: a(ng-class="{active: $prjct.ShowSidebar}", ng-click="$prjct.ShowSidebar = !$prjct.ShowSidebar; $prjct.show = ($prjct.show === 'EditProject' ? 'EditProject' : '');")
           span.ti-menu-alt
           .label Info
-        //- li: a(ui-sref="new"): span.ti-plus
-        //- li: a(ng-click="$prjct.sendNotifications()"): span.ti-announcement
+
   .loading(ng-class="{active: loading}")
 
-  nav.project-nav(size:nav, ng-class="{faded: loading, fade: $prjct.show === 'EditProject'}")
+  nav.project-nav(ng-class="{faded: loading, fade: $prjct.show === 'EditProject'}")
     ul
-      li.heading(href="#section-0", du-smooth-scroll) RESEARCH
-      li(data-section="0", du-scrollspy, href="#section-0", du-smooth-scroll) Overview
-      li(data-section="1", du-scrollspy, href="#section-1", du-smooth-scroll) Background
-      li(data-section="2", du-scrollspy, href="#section-2", du-smooth-scroll) Research Goals
-      li(data-section="3", du-scrollspy, href="#section-3", du-smooth-scroll) Research Questions
-      li.heading(href="#section-4", du-smooth-scroll) RESULTS
-      li(data-section="4", du-scrollspy, href="#section-4", du-smooth-scroll) Key Findings
-      li(data-section="5", du-scrollspy, href="#section-5", du-smooth-scroll) Decisions
-      li(data-section="6", du-scrollspy, href="#section-6", du-smooth-scroll) Implications
-      li.heading(href="#section-7", du-smooth-scroll) PARTICIPANTS
-      li(data-section="7", du-scrollspy, href="#section-7", du-smooth-scroll) Direct Quotes
-      li(data-section="8", du-scrollspy, href="#section-8", du-smooth-scroll) Personas
+      li.heading(href="#section-0", du-smooth-scroll): span RESEARCH
+      li(data-section="0", du-scrollspy, href="#section-0", du-smooth-scroll): span Overview
+      li(data-section="1", du-scrollspy, href="#section-1", du-smooth-scroll): span Background
+      li(data-section="2", du-scrollspy, href="#section-2", du-smooth-scroll): span Research Goals
+      li(data-section="3", du-scrollspy, href="#section-3", du-smooth-scroll): span Research Questions
+      li.heading(href="#section-4", du-smooth-scroll): span RESULTS
+      li(data-section="4", du-scrollspy, href="#section-4", du-smooth-scroll): span Key Findings
+      li(data-section="5", du-scrollspy, href="#section-5", du-smooth-scroll): span Decisions
+      li(data-section="6", du-scrollspy, href="#section-6", du-smooth-scroll): span Implications
+      li.heading(href="#section-7", du-smooth-scroll): span PARTICIPANTS
+      li(data-section="7", du-scrollspy, href="#section-7", du-smooth-scroll): span Direct Quotes
+      li(data-section="8", du-scrollspy, href="#section-8", du-smooth-scroll): span Personas
 
   .container
     .project-content(ng-class="{faded: loading}")
@@ -85,12 +83,12 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
       .project-title#section-0
         .project-cat {{$prjct.project.taxonomy.category.pretty}}
           span(ng-show="$prjct.project.taxonomy.subcategory.pretty"), {{$prjct.project.taxonomy.subcategory.pretty}}
-          i.icon-audio
-        h1(contenteditable="{{$prjct.show === 'EditProject'}}", ng-bind-html="$prjct.project.title", ng-model="$prjct.project.title", ui-tinymce="titleConfig")
+        h1(ng-hide="$prjct.show === 'EditProject'", ng-bind-html="$prjct.project.title")
+        h1(ng-show="$prjct.show === 'EditProject'", contenteditable="{{$prjct.show === 'EditProject'}}", ng-bind-html="$prjct.project.title", ng-model="$prjct.project.title", ui-tinymce="titleConfig")
         div.m-10(ng-hide="$prjct.show === 'EditProject'")
           div(ng-bind-html="$prjct.project.summary")
         div.m-10(ng-show="$prjct.show === 'EditProject'")
-          div(ng-model="$prjct.project.summary", ui-tinymce="textConfig", placeholder="Enter a Summary for this Project")
+          span(ng-model="$prjct.project.summary", ui-tinymce="textConfig", placeholder="Enter a Summary for this Project")
         br
         ul.attachments
           li(ng-repeat="file in $prjct.project.featuredFiles")
@@ -111,22 +109,24 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             |  Add Featured File
         hr
       section.project-content_section#section-1
-        h2 Background
+        h2 Background 
+          //- i.toggle-edit.ti-pencil-alt(ng-if="$prjct.user === me._id", ng-click="$prjct.setFocus('section-1')")
           span What led you here that you want to do this study?
         div.m-5
-          div(ng-hide="$prjct.show === 'EditProject'", ng-bind-html="$prjct.project.overview")
-          div(ng-show="$prjct.show === 'EditProject'", ng-model="$prjct.project.overview", ui-tinymce="textConfig", placeholder="Enter a Summary for this Project")
+          div(ng-hide="$prjct.show === 'EditProject' || editSection === 'section-1'", ng-bind-html="$prjct.project.overview")
+          span(ng-show="$prjct.show === 'EditProject' || editSection === 'section-1'", ng-model="$prjct.project.overview", ui-tinymce="textConfig", placeholder="Enter a Summary for this Project")
 
       section.project-content_section.project-goal#section-2
         h2 Research Goals
           span What is the reason for this study? What is the end result of this research activity?
-        .content: ul
+        .content: ul.list(ng-model="$prjct.project.goals", ui-sortable="$DragControls")
           li(ng-repeat="goal in $prjct.project.goals")
-            .item-label(ng-hide="$prjct.show === 'Edit Project'", data-content="{{$index === 0 ? 'P' : 'S'}}", ng-class="{primary: goal.primary, secondary: !goal.primary}")
+            .item-label(ng-hide="$prjct.show === 'EditProject'", data-content="{{$index === 0 ? 'P' : 'S'}}", ng-class="{primary: goal.primary, secondary: !goal.primary}")
               .item-description {{$index === 0 ? 'Primary' : 'Secondary'}}
             .item-label.remove(ng-show="$prjct.show === 'EditProject'", ng-click="$prjct.project.goals.splice($index, 1)")
               span.icon.ti-trash
               .item-description Remove
+            .move(ng-show="$prjct.show === 'EditProject'"): i.ti-arrows-vertical
             p(ng-hide="$prjct.show === 'EditProject'", ng-bind-html="goal.description")
             p(ng-show="$prjct.show === 'EditProject'", ng-model="goal.description", ui-tinymce="textConfig", placeholder="Enter a goal for the research here...", contenteditable=true)
           li.add(ng-show="$prjct.show === 'EditProject'", ng-click="$prjct.project.goals.push({})")
@@ -136,14 +136,15 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
       section.project-content_section.questions-considered#section-3
         h2 Research Questions
           span Questions to be answered during the study.
-        .content: ul
+        .content: ul.list(ng-model="$prjct.project.questions", ui-sortable="$DragControls")
           li(ng-repeat="q in $prjct.project.questions")
             .item-label(ng-click="viewQuestion_$index = !viewQuestion_$index", ng-show="$prjct.show != 'EditProject'")
-              span.icon.ti-angle-right(ng-show="viewQuestion_$index")
-              span.icon.ti-angle-down(ng-hide="viewQuestion_$index")
+              span.icon.ti-angle-right(ng-hide="viewQuestion_$index")
+              span.icon.ti-angle-down(ng-show="viewQuestion_$index")
             .item-label.remove(ng-click="$prjct.project.questions.splice($index, 1)", ng-show="$prjct.show === 'EditProject'")
               span.icon.ti-trash
               .item-description Remove
+            .move(ng-show="$prjct.show === 'EditProject'"): i.ti-arrows-vertical
             div.default(ng-hide="$prjct.show === 'EditProject'")
               h3: span(ng-bind-html="q.question")
               p(ng-class="{hide: !viewQuestion_$index}", ng-init="viewQuestion_$index = false", ng-bind-html="q.description")
@@ -155,16 +156,17 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             .item-label: span.ti-plus
             small ADD RESEARCH QUESTION
 
-      section.project-content_section.key-findings#section-4(ng-class="{'empty': !$prjct.project.findings.length}", ng-show="$prjct.project.findings.length || (!$prjct.project.findings.length && $prjct.show === 'EditProject')")
+      section.project-content_section.key-findings#section-4
         h2 Key Findings
           span Findings are the “why” things happened and the answers to your research questions. 
-        .content: ul
+        .content: ul.list(ng-model="$prjct.project.findings", ui-sortable="$DragControls")
           li(ng-repeat="f in $prjct.project.findings")
             .item-label(data-content="{{f.author ? (f.author | initials) : ''}}", ng-show="$prjct.show != 'EditProject'")
               .item-description {{f.author}}
             .item-label.remove(ng-click="$prjct.project.findings.splice($index, 1)", ng-show="$prjct.show === 'EditProject'")
               span.icon.ti-trash
               .item-description Remove
+            .move(ng-show="$prjct.show === 'EditProject'"): i.ti-arrows-vertical
             div.default(ng-hide="$prjct.show === 'EditProject'")
               h3: span(ng-bind-html="f.title")
               p(ng-class="{hide: !viewQuestion_$index}", ng-init="viewQuestion_$index = false", ng-bind-html="f.description")
@@ -177,44 +179,27 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             .item-label: span.ti-plus
             small ADD KEY FINDING
 
-      section.project-content_section.decisions#section-5(ng-class="{empty: !$prjct.project.decisions.length}")
+      section.project-content_section.decisions#section-5
         h2 Decisions
         .content.cf
-          ul.cf
+          ul.cf.list(ng-model="$prjct.project.decisions", ui-sortable="$DragControls")
             li(ng-repeat="d in $prjct.project.decisions")
               .item-label(ng-show="$prjct.show != 'EditProject'"): i.ti-check
               .item-label.remove(ng-click="$prjct.project.decisions.splice($index, 1)", ng-show="$prjct.show === 'EditProject'")
                 span.icon.ti-trash
                 .item-description Remove
+              .move(ng-show="$prjct.show === 'EditProject'"): i.ti-arrows-vertical
               div.default(ng-hide="$prjct.show === 'EditProject'")
                 h3: span(ng-bind-html="d.title")
                 p(ng-bind-html="d.description")
               div.edit(ng-show="$prjct.show === 'EditProject'")
-                h3: span(ng-bind-html="d.title", ng-model="d.title", contenteditable="true", ui-tinymce="titleConfig", placeholder="Summarize your decision here")
+                h3: span(ng-model="d.title", contenteditable="true", ui-tinymce="titleConfig", placeholder="Summarize your decision here")
                 p(ng-show="d.title.length >= 10", ng-model="d.description", contenteditable="true", ui-tinymce="textConfig", placeholder="Describe the decision here", class="animate")
               p.note(ng-show="d.updated") Updated {{d.updated | date: 'MMMM d, yyyy'}}
             li.add(ng-show="$prjct.show === 'EditProject'", ng-click="$prjct.project.decisions.push({})")
               .item-label: span.ti-plus
               small ADD DECISION
-        //- .content(ng-show="$prjct.project.decisions.length && $prjct.show === 'EditProject'")
-          ul
-            li(ng-repeat="decision in $prjct.project.decisions")
-              .item-label: i.ti-check
-              textarea.form-control(type="text",
-                placeholder="Enter a title for your decision...",
-                ng-model="decision.title",
-                ng-required="$index < 1",
-                rows=1,
-                msd-elastic)
-              textarea.form-control(rows=2, 
-                placeholder="Describe your decision...",
-                ng-model="decision.description",
-                ng-required="$index < 1",
-                msd-elastic)
-              span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.decisions.splice($index, 1)")
-          span.add(ng-click="$prjct.project.decisions.push({})", ng-show="$prjct.project.decisions[0].title.length && $prjct.project.decisions[0].description.length")
-            span.ti-plus
-            | Add Another Decision
+
       section.project-content_section.implications.empty#section-6
         h2 Implications
           span Acquired knowledge derived from research that informs design.
@@ -235,72 +220,68 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
               | {{t.implicationType}} Implications
             .m-10
               div(ng-hide="$prjct.show === 'EditProject'", ng-bind-html="t.description")
-              div(ng-show="$prjct.show === 'EditProject'", ng-model="t.description", ui-tinymce="textConfig", placeholder="Describe the {{t.implicationType}} implications here", class="animate")
+              span(ng-show="$prjct.show === 'EditProject'", ng-model="t.description", ui-tinymce="textConfig", placeholder="Describe the {{t.implicationType}} implications here", class="animate")
 
       section.project-content_section.key-findings.direct-quotes#section-7(ng-class="{empty: !$prjct.project.quotes.length}")
         h2 Direct Quotes
-        .content(ng-show="$prjct.project.quotes.length && $prjct.show != 'EditProject'")
-          slick(settings='slickConfig', ng-if="!loading")
-            .quote(ng-repeat="quote in $prjct.project.quotes")
-              i.icon.ti-quote-left
-              .quote-meta {{quote.source}}
-              .quote-content {{quote.quote}}
-              .quote-author
-                .qa-photo(style="background-image: url({{quote.author.photo}})", ng-show="quote.author.photo")
-                .qa-content 
-                  .qa-name {{quote.author.name}}
-                  .qa-title {{quote.author.title}}
-        .content(ng-show="$prjct.project.quotes.length && $prjct.show === 'EditProject'")
+        .content(ng-hide="$prjct.show === 'EditProject'"): slick(settings='slickConfig', ng-if='!loading')
           .quote(ng-repeat="quote in $prjct.project.quotes")
-            i.icon.ti-quote-left
-            input.form-control(type="text",
-              placeholder="Enter the source of the quote...",
-              ng-model="quote.source",
-              ng-required="$index < 1")
-            textarea.form-control(rows=2, 
-              placeholder="Enter the quote...",
-              ng-model="quote.quote",
-              ng-required="$index < 1",
-              msd-elastic)
-            .flex-row
-              .input
-                input.form-control(type="text",
-                  placeholder="Enter a Author's name...",
-                  ng-model="quote.author.name",
-                  ng-required="$index < 1")
-              .input
-                input.form-control(type="text",
-                  placeholder="Enter the Author's title...",
-                  ng-model="quote.author.title",
-                  ng-required="$index < 1")
-            span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.quotes.splice($index, 1)")
-          span.add(ng-click="$prjct.project.quotes.push({})", ng-show="$prjct.project.quotes[0].source.length && $prjct.project.quotes[0].quote.length && $prjct.project.quotes[0].author.name.length")
-            span.ti-plus
-            | Add Another Quote
-            
+            .item-label.quote-icon: i.ti-quote-left
+            div.default(ng-hide="$prjct.show 'EditProject'")
+              .quote-meta(ng-bind-html="quote.source")
+              p.quote-content(ng-bind-html="quote.quote")
+              .quote-author
+                .qa-content 
+                  .qa-name(ng-bind-html="quote.author.name")
+                  .qa-title(ng-bind-html="quote.author.title")
+        .content(ng-show="$prjct.show === 'EditProject'"): ul.list(ng-model="$prjct.project.quotes", ui-sortable="$DragControls")
+          li.quote(ng-repeat="quote in $prjct.project.quotes")
+            .item-label.remove(ng-show="$prjct.show === 'EditProject'", ng-click="$prjct.project.quotes.splice($index, 1)")
+              span.icon.ti-trash
+              .item-description Remove
+            .move(ng-show="$prjct.show === 'EditProject'"): i.ti-arrows-vertical
+            div.edit
+              .quote-meta(ng-model="quote.source", placeholder="Enter the quotes source here", ui-tinymce="titleConfig")
+              p.quote-content(ng-model="quote.quote", placeholder="Enter the quote here", ui-tinymce="titleConfig")
+              .quote-author
+                .qa-content 
+                  .qa-name(ng-model="quote.author.name", placeholder="Enter the author or speaker here", ui-tinymce="titleConfig")
+                  .qa-title(ng-model="quote.author.title", placeholder="Enter the authors role within their company", ui-tinymce="titleConfig")
+          li.add(ng-show="$prjct.show === 'EditProject'", ng-click="$prjct.project.quotes.push({})")
+            .item-label: span.ti-plus
+            small ADD QUOTE
+
       section.project-content_section.personas#section-8
         h2 Personas
         .content.group(ng-hide="$prjct.show === 'EditProject'")
-          .persona.primary(ng-repeat="persona in $prjct.project.personas")
-            .persona-header(style="background-image: url({{persona.photo}})")
-              .persona-header_tag(ng-show="persona.primary") PRIMARY
-              .persona-header_name {{persona.name}}
-              .persona-header_title {{persona.title}}
-            .persona-content {{persona.description|limitTo:150}}{{persona.description.length > 150 ? '...' : null}}
-        .content.group(ng-show="$prjct.show === 'EditProject'")
-          .input-group(ng-repeat="persona in $prjct.project.personas")
-            input.form-control(rows=1,
-              placeholder="Select persona...",
-              ng-model="persona_search[$index]",
-              ng-value="$prjct.project.personas[$index].name",
-              uib-typeahead="persona as persona.name for persona in personas | filter: persona_search[$index] | limitTo: 8",
-              typeahead-on-select="$prjct.project.personas[$index] = persona_search[$index]._id",
-              ng-required="$index <= 0")
-            span.icon.ti-close(ng-show="$index >= 1", ng-click="$prjct.project.personas.splice($index, 1)")
-          span.add(ng-click="$prjct.project.personas.push({})")
-            span.ti-plus
-            | Add Persona
-      .page-fade(style="bottom: 0")
+            .persona.primary(ng-repeat="persona in $prjct.project.personas")
+              .persona-header(style="background-image: url({{persona.photo}})")
+                .persona-header_tag(ng-show="persona.primary") PRIMARY
+                .persona-header_name {{persona.name}}
+                .persona-header_title {{persona.title}}
+              .persona-content {{persona.description | limitTo:150}}{{persona.description.length > 150 ? '...' : null}}
+          .content.group(ng-show="$prjct.show === 'EditProject'")
+            ul.list(ng-model="$prjct.project.personas", ui-sortable="$DragControls")
+              li(ng-repeat="p in $prjct.project.personas")
+                .item-label(ng-show="$prjct.show != 'EditProject'"): i.ti-check
+                .item-label.remove(ng-click="$prjct.project.personas.splice($index, 1)", ng-show="$prjct.show === 'EditProject'")
+                  span.icon.ti-trash
+                  .item-description Remove
+                .move(ng-show="$prjct.show === 'EditProject'"): i.ti-arrows-vertical
+                div.edit
+                  input.form-control(rows=1,
+                    placeholder="Select persona...",
+                    ng-model="persona_search[$index]",
+                    ng-value="$prjct.project.personas[$index].name",
+                    uib-typeahead="persona as persona.name for persona in personas | filter: persona_search[$index] | limitTo: 8",
+                    typeahead-on-select="$prjct.project.personas[$index] = persona_search[$index]._id",
+                    ng-required="$index <= 0",
+                    typeahead-min-length="0",
+                    typeahead-show-hint="true")
+              li.add(ng-show="$prjct.show === 'EditProject'", ng-click="$prjct.project.personas.push({})")
+                .item-label: span.ti-plus
+                small ADD PERSONA
+        .page-fade(style="bottom: 0")
 
   //-
     - Sidebar
@@ -330,7 +311,8 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             ng-disabled="$prjct.show != 'EditProject'",
             ng-value="$prjct.project.researcher.name",
             uib-typeahead="researcher as researcher.name for researcher in $users | filter: researcher | limitTo: 8",
-            typeahead-on-select="$prjct.project.researcher = researcher._id")
+            typeahead-on-select="$prjct.project.researcher = researcher._id",
+            typeahead-min-length=0)
     .sidebar_section
       h4 Resources / Files
       .sc_row
@@ -363,7 +345,8 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
           ng-disabled="$prjct.show != 'EditProject'",
           ng-value="$prjct.project.taxonomy.category.pretty",
           uib-typeahead="category as category.pretty for category in $categories | filter: category_search | limitTo: 8",
-          typeahead-on-select="$prjct.project.taxonomy.category = category_search._id")
+          typeahead-on-select="$prjct.project.taxonomy.category = category_search._id",
+          typeahead-min-length=0)
       .sc_row
         p.label SUBCATEGORY
         input(type="text",
@@ -372,7 +355,8 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
           ng-disabled="$prjct.show != 'EditProject'",
           ng-value="$prjct.project.taxonomy.subcategory.pretty",
           uib-typeahead="subcategory as subcategory.pretty for subcategory in $subcategories | filter: subcategory_search | limitTo: 8",
-          typeahead-on-select="$prjct.project.taxonomy.subcategory = subcategory_search._id")
+          typeahead-on-select="$prjct.project.taxonomy.subcategory = subcategory_search._id",
+          typeahead-min-length=0)
       .sc_row
         p.label PRODUCT
         input(type="text",
@@ -381,7 +365,8 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
           ng-disabled="$prjct.show != 'EditProject'",
           ng-value="$prjct.project.taxonomy.products[0].title",
           uib-typeahead="product as product.title for product in $products | filter: product_search | limitTo: 8",
-          typeahead-on-select="$prjct.project.taxonomy.products[0] = product_search._id")
+          typeahead-on-select="$prjct.project.taxonomy.products[0] = product_search._id",
+          typeahead-min-length=0)
       .sc_row
         p.label TAGS
         .tags-row(ng-show="$prjct.show === 'EditProject'")
@@ -393,7 +378,7 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
             novalidate)
             auto-complete(source="loadTags($query)"
               min-length=1,
-              max-results-to-show="4")
+              max-results-to-show="6")
         .tags-row(style='margin-left: -5px; margin-right: -5px', ng-hide="$prjct.show === 'EditProject'")
           span.tag(ng-repeat="tag in $prjct.project.taxonomy.tags") {{tag.pretty}}
           span(ng-show="$prjct.project.taxonomy.tags.length <= 0"): small(style="display: block; padding: 0 5px") No tags to show.
@@ -412,7 +397,8 @@ ui-view(autoscroll="true", ng-class="{edit: $prjct.show === 'EditProject'}")
               ng-disabled="$prjct.show != 'EditProject'",
               ng-value="$prjct.project.researchMethod[$index].title",
               uib-typeahead="method as method.title for method in $methods | filter: method_search[$index] | limitTo: 8",
-              typeahead-on-select="$prjct.project.researchMethod[$index] = method_search[$index]._id")
+              typeahead-on-select="$prjct.project.researchMethod[$index] = method_search[$index]._id",
+              typeahead-min-length=0)
             //- span.icon.ti-close(ng-click="$prjct.project.researchMethod.splice($index, 1)")
           li(style="padding: 0", ng-click="$prjct.project.researchMethod.push({})", ng-show="$prjct.project.researchMethod.length <= 1"): span.add(style="display: block;")
             i.ti-plus

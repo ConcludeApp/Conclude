@@ -13,70 +13,74 @@ header.header.filter#nav
         ng-options="o.value as o.label for o in $fltr.filterOptions")
         option(value="") Filter projects by...
       span.icon.ti-angle-down
-    .input-group-horizontal: .filter-track(ng-class="{applied: $fltr.appliedFilters.length}", filter:track): .group: form(name="filterBy", ng-submit="$fltr.filterProjects()")
+    .input-group-horizontal: form.group(name="filterBy", ng-submit="$fltr.filterProjects()")
       .tags-row.pull-left(ng-class="{applied: $fltr.appliedFilters.length}")
         .tag(ng-repeat="fltr in $fltr.appliedFilters",
           ng-class="{exists: filterIndex == $index}",
           ng-click="$fltr.removeFilter($index)") <span class="namespace">{{fltr.namespace.indexOf('.') >= 0 ? fltr.namespace.split('.')[1] : fltr.namespace}}:</span> {{fltr.query.pretty ? fltr.query.pretty : (fltr.query.name ? fltr.query.name : (fltr.query.title ? fltr.query.title : fltr.query))}}
           span.ti-close
-      input.pull-left(type="search",
-        placeholder="Filter projects by researcher..."
-        ng-model="$fltr.filterValue",
-        uib-typeahead="key as key.name for key in users | filter: $viewValue | limitTo: 8",
-        typeahead-on-select="$fltr.filterProjects()",
-        pu-elastic-input,
-        ng-disabled="!$fltr.filterKey",
-        ng-show="$fltr.filterKey === 'researcher'")
-      input.pull-left(type="search",
-        placeholder="Filter projects by category..."
-        ng-model="$fltr.filterValue",
-        uib-typeahead="key as key.pretty for key in categories | filter: $fltr.filterValue | limitTo: 8",
-        typeahead-on-select="$fltr.filterProjects()",
-        pu-elastic-input,
-        ng-disabled="!$fltr.filterKey",
-        ng-show="$fltr.filterKey === 'taxonomy.category'")
-      input.pull-left(type="search",
-        placeholder="Filter projects by subcategory..."
-        ng-model="$fltr.filterValue",
-        uib-typeahead="key as key.pretty for key in subcategories | filter: $fltr.filterValue | limitTo: 8",
-        typeahead-on-select="$fltr.filterProjects()",
-        pu-elastic-input,
-        ng-show="$fltr.filterKey === 'taxonomy.subcategory'")
-      input.pull-left(type="search",
-        placeholder="Filter projects by tag..."
-        ng-model="$fltr.filterValue",
-        uib-typeahead="key as key.pretty for key in tags | filter: $fltr.filterValue | limitTo: 8",
-        typeahead-on-select="$fltr.filterProjects()",
-        pu-elastic-input,
-        ng-show="$fltr.filterKey === 'taxonomy.tags'")
-
-      input.pull-left(type="search",
-        placeholder="Filter projects by persona..."
-        ng-model="$fltr.filterValue",
-        uib-typeahead="key as key.name for key in personas | filter: $fltr.filterValue | limitTo: 8",
-        typeahead-on-select="$fltr.filterProjects()",
-        pu-elastic-input,
-        ng-show="$fltr.filterKey === 'personas'")
-
-      input.pull-left(type="search",
-        placeholder="Filter projects by product..."
-        ng-model="$fltr.filterValue",
-        uib-typeahead="key as key.title for key in products | filter: $fltr.filterValue | limitTo: 8",
-        typeahead-on-select="$fltr.filterProjects()",
-        pu-elastic-input,
-        ng-show="$fltr.filterKey === 'taxonomy.products'")
+      .pull-left(ng-show="$fltr.filterKey.length", ng-class="{applied: $fltr.appliedFilters.length}")
+        input.filter(type="search",
+          placeholder="Filter projects by researcher...",
+          ng-model="$fltr.filterValue",
+          uib-typeahead="key as key.name for key in users | filter: $viewValue | limitTo: 8",
+          ng-show="$fltr.filterKey === 'researcher'",
+          typeahead-min-length="0",
+          typeahead-show-hint="true",
+          typeahead-on-select="$fltr.filterProjects()")
+        input.filter(type="search",
+          placeholder="Filter projects by category...",
+          ng-model="$fltr.filterValue",
+          uib-typeahead="key as key.pretty for key in categories | filter: $fltr.filterValue | limitTo: 8",
+          ng-show="$fltr.filterKey === 'taxonomy.category'",
+          typeahead-min-length="0",
+          typeahead-show-hint="true",
+          typeahead-on-select="$fltr.filterProjects()")
+        //- input.pull-left(type="search",
+          placeholder="Filter projects by subcategory..."
+          ng-model="$fltr.filterValue",
+          uib-typeahead="key as key.pretty for key in subcategories | filter: $fltr.filterValue | limitTo: 8",
+          ng-show="$fltr.filterKey === 'taxonomy.subcategory'",
+          ng-show="$fltr.filterKey === 'taxonomy.category'",
+          typeahead-min-length="0",
+          typeahead-show-hint="true")
+        input.filter(type="search",
+          placeholder="Filter projects by tag...",
+          ng-model="$fltr.filterValue",
+          uib-typeahead="key as key.pretty for key in tags | filter: $fltr.filterValue | limitTo: 8",
+          ng-show="$fltr.filterKey === 'taxonomy.tags'",
+          typeahead-min-length="0",
+          typeahead-show-hint="true",
+          typeahead-on-select="$fltr.filterProjects()")
+        input.filter(type="search",
+          placeholder="Filter projects by persona...",
+          ng-model="$fltr.filterValue",
+          uib-typeahead="key as key.name for key in personas | filter: $fltr.filterValue | limitTo: 8",
+          ng-show="$fltr.filterKey === 'personas'",
+          typeahead-min-length="0",
+          typeahead-show-hint="true",
+          typeahead-on-select="$fltr.filterProjects()")
+        input.filter(type="search",
+          placeholder="Filter projects by product...",
+          ng-model="$fltr.filterValue",
+          uib-typeahead="key as key.title for key in products | filter: $fltr.filterValue | limitTo: 8",
+          ng-show="$fltr.filterKey === 'taxonomy.products'",
+          typeahead-min-length="0",
+          typeahead-show-hint="true",
+          typeahead-on-select="$fltr.filterProjects()")
 
     button(type="submit", style="display: none")
 .loading(ng-class="{active: loading}")
-.container(style="padding-top: 60px")
+.container.md(style="padding-top: 60px")
   p.text-center(ng-hide="$fltr.projects.length") No projects found that match the selected filters.
   .grid.group(masonry)
     .grid-item(ng-repeat="prjct in $fltr.projects")
       figure.project-card(ui-sref="project({id: prjct._id})")
         .pc_content
-          span {{prjct.category}}
-          strong {{prjct.title ? prjct.title : 'Untitled'}}
-          span LAST UPDATED: {{prjct.updatedAt | date: 'MM/dd/yyyy'}}
+          span.cat {{prjct.taxonomy.category.pretty}}
+          strong.title {{prjct.title ? prjct.title : 'Untitled'}}
+        //- .pc_meta.group
+          .avatar(data-initials='DP', ng-class='{"has-photo": me.photo}', style="background-image: url({{me.photo}})")
+          span.lead Daniel Price
         .pc_meta.group
-          span.status STATUS
-            span In Progress 
+          span.time Updated {{prjct.updatedAt | date: 'MMMM d, yyyy'}}
